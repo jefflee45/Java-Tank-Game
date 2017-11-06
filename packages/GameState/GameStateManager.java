@@ -34,10 +34,10 @@ public class GameStateManager
   }
   
   public void keyPressed(int k) {
-    gameStates.get(currentState).keyPressed();
+    gameStates.get(currentState).keyPressed(k);
   }
   
   public void keyReleased(int k) {
-    gameStates.get(currentState).keyReleased();
+    gameStates.get(currentState).keyReleased(k);
   }
 }

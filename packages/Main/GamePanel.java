@@ -60,8 +60,8 @@ public class GamePanel extends JPanel implements Runnable {
     gameEvent1 = new GameEvents();
     KeyControlled key1 = new KeyControlled(gameEvent1);
     KeyControlled key2 = new KeyControlled(gameEvent2);
-    
-    
+    addKeyListener(key1);
+    addKeyListener(key2);
   }
   
   @Override

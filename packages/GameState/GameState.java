@@ -2,33 +2,18 @@ package GameState;
 
 import java.awt.Graphics2D;
 
-/**
- *
- * @author K
- */
-public class GameState
+public abstract class GameState
 {
-   public GameState() {
-     
-   }
+  protected GameStateManager gsm;
+ 
    
-   public void init() {
-     
-   }
+   public abstract void init();
    
-   public void update() {
-     
-   }
+   public abstract void update();
    
-   public void draw(Graphics2D g) {
-     
-   }
+   public abstract void draw(Graphics2D g);
    
-   public void keyPressed() {
-     
-   }
+   public abstract void keyPressed(int k);
    
-   public void keyReleased() {
-     
-   }
+   public abstract void keyReleased(int k);
 }
