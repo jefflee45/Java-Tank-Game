@@ -44,10 +44,6 @@ public class LevelState extends GameState
   @Override
   public void draw(Graphics2D g)
   {
-    //clear screen
-    g.setColor(Color.WHITE);
-    g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
-    
     bg.draw(g);
     blockMap.draw(g);
   }

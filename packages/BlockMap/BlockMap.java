@@ -55,7 +55,6 @@ public class BlockMap
       //for loop to draw the blocks
       for (int i = 0; i < rows; i++) {
         line = br.readLine();
-        System.out.println("Here's the line:\n " + line);
         int xPos = 0;
         for (int j = 0; j < line.length(); j++) {
           switch (line.charAt(j)) {

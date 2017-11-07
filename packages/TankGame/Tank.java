@@ -1,5 +1,6 @@
 package TankGame;
 
+import GameObjects.GameObject;
 import java.awt.*;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;

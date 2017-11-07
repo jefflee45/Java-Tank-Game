@@ -1,4 +1,4 @@
-package TankGame;
+package GameObjects;
 
 import java.awt.*;
 import java.awt.image.ImageObserver;
