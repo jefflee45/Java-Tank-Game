@@ -8,7 +8,7 @@ public class MenuState extends GameState
 {
   private Background bg;
   
-  private String[] options = { "Start", "Help", "Quit" };
+  private String[] options = { "  Start", "Controls", "   Quit" };
   private int currentChoice;
   private Color titleColor;
   private Font titleFont;
@@ -21,8 +21,8 @@ public class MenuState extends GameState
        bg = new Background("Resources/TankGameMenuLarge.jpg");
        
        titleColor = new Color(128, 0, 0);
-       titleFont = new Font("Century Gothic", Font.PLAIN, 28);
-       font = new Font("Arial", Font.PLAIN, 12);
+       titleFont = new Font("Century Gothic", Font.PLAIN, 36);
+       font = new Font("Arial", Font.PLAIN, 28);
      } 
      catch (Exception e) {
        e.printStackTrace();
@@ -48,7 +48,7 @@ public class MenuState extends GameState
     //draw title
     g.setColor(titleColor);
     g.setFont(titleFont);
-    g.drawString("Tank Game", 80, 50);
+    g.drawString("Tank Game", 240, 100);
     
     //draw menu options
     g.setFont(font);
@@ -59,7 +59,7 @@ public class MenuState extends GameState
       {
         g.setColor(Color.GREEN);
       }
-      g.drawString (options[i], 145, 140 + i * 15);
+      g.drawString (options[i], 280, 160 + i * 35);
     }
   }
   

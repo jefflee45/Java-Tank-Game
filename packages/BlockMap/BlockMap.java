@@ -25,9 +25,7 @@ public class BlockMap
 
   public BlockMap () {
     init();
-    loadBlocks();
-    //numRowsToDraw = GamePanel.HEIGHT/tileSize + 2;
-  
+    loadBlocks();  
   }
   
   private void init() {
@@ -73,6 +71,7 @@ public class BlockMap
       //for loop to draw the blocks
       for (int i = 0; i < rows; i++) {
         int xPos = 0;
+        
         for (int j = 0; j < columns; j++) {
  
           switch (blockMap[i][j]) {
@@ -97,5 +96,14 @@ public class BlockMap
   
   public int[][] getBlockMap() {
     return blockMap;
+  }
+  
+  public void changeBlock(int value, int row, int col) {
+    try {
+    blockMap[row][col] = value;
+    } 
+    catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }
