@@ -1,15 +1,20 @@
 package GameState;
 
-import TileMap.Background;
+import Main.GamePanel;
+import TankGame.Background;
+import BlockMap.BlockMap;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 public class LevelState extends GameState
 {
   private Background bg;
   
-  //private TileMap tileMap;
+  private int x;
+  private int y;
+  
+  private BlockMap blockMap;
   
   public LevelState(GameStateManager gsm) {
     this.gsm = gsm;
@@ -28,8 +33,8 @@ public class LevelState extends GameState
   @Override
   public void init()
   {
-    //tileMap = new tileMap(30);
-  }
+    blockMap = new BlockMap();
+  } 
 
   @Override
   public void update()
@@ -39,7 +44,12 @@ public class LevelState extends GameState
   @Override
   public void draw(Graphics2D g)
   {
+    //clear screen
+    g.setColor(Color.WHITE);
+    g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
+    
     bg.draw(g);
+    blockMap.draw(g);
   }
 
   @Override

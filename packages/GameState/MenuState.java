@@ -1,6 +1,6 @@
 package GameState;
 
-import TileMap.Background;
+import TankGame.Background;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 

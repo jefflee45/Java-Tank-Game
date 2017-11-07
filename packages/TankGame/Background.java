@@ -1,4 +1,4 @@
-package TileMap;
+package TankGame;
 
 import java.awt.*;
 import java.awt.image.*;
