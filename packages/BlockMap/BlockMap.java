@@ -1,6 +1,5 @@
 package BlockMap;
 
-import Main.GamePanel;
 import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
@@ -18,6 +17,9 @@ public class BlockMap
   private int blockSize;
   private int rows;
   private int columns;
+  private int[][] blockMap;
+  
+  //in pixels
   private int width;
   private int height;
 
@@ -34,12 +36,30 @@ public class BlockMap
     height = 480;
     rows = 15;
     columns = 20;
+    blockMap = new int[rows][columns];
   }
   
   private void loadBlocks() {
     try {
       breakableBlock = ImageIO.read(new File("Resources/Wall2.gif"));
       unbreakableBlock = ImageIO.read(new File("Resources/Wall1.gif"));
+      
+      InputStream in = new FileInputStream("Resources/level.txt");
+      BufferedReader br = new BufferedReader(new InputStreamReader(in));
+      String line;
+      
+      //for loop to load the blocks into blockMap
+      for (int i = 0; i < rows; i++) {
+        line = br.readLine();
+        
+        for (int j = 0; j < columns; j++) {
+          if (line.charAt(j) != '.') {
+            blockMap[i][j] = Integer.parseInt(Character.toString(line.charAt(j)));
+          } else {
+            blockMap[i][j] = 0;
+          }
+        }
+      }
     }
     catch (Exception e) {
       e.printStackTrace();
@@ -48,20 +68,18 @@ public class BlockMap
  
   public void draw(Graphics2D g) {
     try {
-      InputStream in = new FileInputStream("Resources/level.txt");
-      BufferedReader br = new BufferedReader(new InputStreamReader(in));
-      String line;
       int yPos = 0;
+      
       //for loop to draw the blocks
       for (int i = 0; i < rows; i++) {
-        line = br.readLine();
         int xPos = 0;
-        for (int j = 0; j < line.length(); j++) {
-          switch (line.charAt(j)) {
-            case '0':
+        for (int j = 0; j < columns; j++) {
+ 
+          switch (blockMap[i][j]) {
+            case 1:
               g.drawImage(breakableBlock, xPos, yPos, null);
               break;
-            case '1':
+            case 2:
               g.drawImage(unbreakableBlock, xPos, yPos, null);
               break;
             default:
@@ -75,5 +93,9 @@ public class BlockMap
     catch (Exception e) {
       e.printStackTrace();
     }
+  }
+  
+  public int[][] getBlockMap() {
+    return blockMap;
   }
 }

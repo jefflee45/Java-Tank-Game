@@ -1,16 +1,29 @@
 package GameObjects;
 
 import BlockMap.BlockMap;
+import GameObjects.GameObject;
 import java.awt.*;
-import java.awt.image.ImageObserver;
-import java.util.Random;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
+import java.awt.image.ImageObserver;
+import java.io.File;
+import java.util.Observer;
+import java.util.Observable;
+import javax.imageio.ImageIO;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 
-public class PowerUp extends GameObject {
+public class Tank extends GameObject implements Observer{
 
-  public PowerUp(BlockMap bm)
+  public Tank(BlockMap bm)
   {
     super(bm);
+  }
+
+  @Override
+  public void update(Observable o, Object arg)
+  {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 
   @Override
