@@ -3,6 +3,9 @@ package GameState;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+/*
+Switches between different Game States
+*/
 public class GameStateManager
 {
   private ArrayList<GameState> gameStates;
@@ -18,6 +21,7 @@ public class GameStateManager
     currentState = MENUSTATE;
     
     gameStates.add(new MenuState(this));
+    gameStates.add(new LevelState(this));
   }
   
   public void setState(int state) {

@@ -66,6 +66,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     */
   }
   
+  //game loop
   @Override
   public void run() {
     init();
