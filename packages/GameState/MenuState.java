@@ -18,7 +18,7 @@ public class MenuState extends GameState
      this.gsm = gsm;
      
      try {
-       bg = new Background("Resources/TankGameMenu.jpg");
+       bg = new Background("Resources/TankGameMenuLarge.jpg");
        
        titleColor = new Color(128, 0, 0);
        titleFont = new Font("Century Gothic", Font.PLAIN, 28);

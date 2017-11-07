@@ -30,16 +30,16 @@ public class BlockMap
   
   private void init() {
     blockSize = 32;
-    width = 320;
-    height = 240;
-    rows = 10;
-    columns = 10;
+    width = 640;
+    height = 480;
+    rows = 15;
+    columns = 20;
   }
   
   private void loadBlocks() {
     try {
-      breakableBlock = ImageIO.read(new File("Resources/Wall1.gif"));
-      unbreakableBlock = ImageIO.read(new File("Resources/Wall2.gif"));
+      breakableBlock = ImageIO.read(new File("Resources/Wall2.gif"));
+      unbreakableBlock = ImageIO.read(new File("Resources/Wall1.gif"));
     }
     catch (Exception e) {
       e.printStackTrace();
@@ -53,11 +53,12 @@ public class BlockMap
       String line;
       int yPos = 0;
       //for loop to draw the blocks
-      for (int i = 0; i < columns; i++) {
+      for (int i = 0; i < rows; i++) {
         line = br.readLine();
+        System.out.println("Here's the line:\n " + line);
         int xPos = 0;
         for (int j = 0; j < line.length(); j++) {
-          switch (line.charAt(i)) {
+          switch (line.charAt(j)) {
             case '0':
               g.drawImage(breakableBlock, xPos, yPos, null);
               break;

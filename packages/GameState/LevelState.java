@@ -23,7 +23,7 @@ public class LevelState extends GameState
     this.gsm = gsm;
      
      try {
-       bg = new Background("Resources/Background.bmp");
+       bg = new Background("Resources/BackgroundLarge.bmp");
      }
      catch (Exception e) {
        e.printStackTrace();
