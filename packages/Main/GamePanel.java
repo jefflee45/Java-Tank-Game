@@ -2,14 +2,13 @@ package Main;
 
 import GameState.GameStateManager;
 import TankGame.GameEvents;
-import TankGame.KeyControlled;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
 import java.awt.event.*;
 
-public class GamePanel extends JPanel implements Runnable {
+public class GamePanel extends JPanel implements Runnable, KeyListener {
 
   //dimensions
   public static final int WIDTH = 320;
@@ -44,7 +43,7 @@ public class GamePanel extends JPanel implements Runnable {
     
     if(thread == null) {
       thread = new Thread(this);
-      //addKeyListener(this)
+      addKeyListener(this);
       thread.start();
     }
   }
@@ -56,12 +55,15 @@ public class GamePanel extends JPanel implements Runnable {
     
     gsm = new GameStateManager();
     
+    
+    /* will have to see where this becomes useful
     gameEvent1 = new GameEvents();
     gameEvent1 = new GameEvents();
     KeyControlled key1 = new KeyControlled(gameEvent1);
     KeyControlled key2 = new KeyControlled(gameEvent2);
     addKeyListener(key1);
     addKeyListener(key2);
+    */
   }
   
   @Override
@@ -80,6 +82,7 @@ public class GamePanel extends JPanel implements Runnable {
       drawToScreen();
       
       elapsed = System.nanoTime() - start;
+      //TODO add targetTime
       wait = targetTime - elapsed/1000000;
       
       try {
@@ -101,31 +104,26 @@ public class GamePanel extends JPanel implements Runnable {
   
   private void drawToScreen() {
     Graphics g2 = getGraphics();
-    g2.drawImage(image, 0, 0, null);
+    g2.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
     g2.dispose();
   }
-  
-  public void keyTyped(GameEvents event) {
+
+
+  @Override
+  public void keyTyped(KeyEvent key)
+  {
     
   }
-  
-  public void keyPressed(GameEvents event) {
-    try {
-    KeyEvent key = (KeyEvent)(event.getEvent());
+
+  @Override
+  public void keyPressed(KeyEvent key)
+  {
     gsm.keyPressed(key.getKeyCode());
-    } catch (Exception e)
-    {
-      e.printStackTrace();
-    }
   }
-  
-  public void keyReleased(GameEvents event) {
-    try {
-    KeyEvent key = (KeyEvent)(event.getEvent());
+
+  @Override
+  public void keyReleased(KeyEvent key)
+  {
     gsm.keyReleased(key.getKeyCode());
-    } catch (Exception e)
-    {
-      e.printStackTrace();
-    }
   }
 }
