@@ -18,7 +18,7 @@ public class MenuState extends GameState
      this.gsm = gsm;
      
      try {
-       bg = new Background("Resources/testbackground.jpg");
+       bg = new Background("Resources/TankGameMenu.jpg");
        
        titleColor = new Color(128, 0, 0);
        titleFont = new Font("Century Gothic", Font.PLAIN, 28);
@@ -48,7 +48,7 @@ public class MenuState extends GameState
     //draw title
     g.setColor(titleColor);
     g.setFont(titleFont);
-    g.drawString("Tank Game", 80, 70);
+    g.drawString("Tank Game", 80, 50);
     
     //draw menu options
     g.setFont(font);
