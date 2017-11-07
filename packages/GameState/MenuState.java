@@ -18,7 +18,7 @@ public class MenuState extends GameState
      this.gsm = gsm;
      
      try {
-       bg = new Background("Resources/Background.bmp");
+       bg = new Background("Resources/testbackground.jpg");
        
        titleColor = new Color(128, 0, 0);
        titleFont = new Font("Century Gothic", Font.PLAIN, 28);
@@ -57,7 +57,7 @@ public class MenuState extends GameState
         g.setColor(Color.RED);
       } else
       {
-        g.setColor(Color.BLACK);
+        g.setColor(Color.GREEN);
       }
       g.drawString (options[i], 145, 140 + i * 15);
     }

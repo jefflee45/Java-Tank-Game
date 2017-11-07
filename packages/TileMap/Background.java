@@ -16,7 +16,6 @@ public class Background
   public Background(String s) {
     try {
       image = ImageIO.read(new File(s));
-
     } 
     catch (Exception e) {
       e.printStackTrace();
