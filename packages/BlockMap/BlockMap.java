@@ -17,7 +17,9 @@ public class BlockMap
   private int blockSize;
   private int rows;
   private int columns;
-  private int[][] blockMap;
+  //private int[][] blockMap;
+  private Block[][] blockMap;
+  private Block block;
   
   //in pixels
   private int width;
@@ -34,13 +36,12 @@ public class BlockMap
     height = 480;
     rows = 15;
     columns = 20;
-    blockMap = new int[rows][columns];
+    //blockMap = new int[rows][columns];
+    blockMap = new Block[rows][columns];
   }
   
   private void loadBlocks() {
     try {
-      breakableBlock = ImageIO.read(new File("Resources/Wall2.gif"));
-      unbreakableBlock = ImageIO.read(new File("Resources/Wall1.gif"));
       
       InputStream in = new FileInputStream("Resources/level.txt");
       BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -52,9 +53,15 @@ public class BlockMap
         
         for (int j = 0; j < columns; j++) {
           if (line.charAt(j) != '.') {
-            blockMap[i][j] = Integer.parseInt(Character.toString(line.charAt(j)));
+            //blockMap[i][j] = Integer.parseInt(Character.toString(line.charAt(j)));
+            try {
+              blockMap[i][j] = new Block(Integer.parseInt(Character.toString(line.charAt(j))));
+            }
+            catch (Exception e) {
+              e.printStackTrace();
+            } 
           } else {
-            blockMap[i][j] = 0;
+            blockMap[i][j] = new Block(Block.EMPTY_TILE);
           }
         }
       }
@@ -73,16 +80,8 @@ public class BlockMap
         int xPos = 0;
         
         for (int j = 0; j < columns; j++) {
- 
-          switch (blockMap[i][j]) {
-            case 1:
-              g.drawImage(breakableBlock, xPos, yPos, null);
-              break;
-            case 2:
-              g.drawImage(unbreakableBlock, xPos, yPos, null);
-              break;
-            default:
-              break;
+          if (blockMap[i][j].getType() != Block.EMPTY_TILE) {
+              g.drawImage(blockMap[i][j].getImage(), xPos, yPos, null);
           }
           xPos += blockSize;
         }
@@ -94,16 +93,16 @@ public class BlockMap
     }
   }
   
-  public int[][] getBlockMap() {
+  public Block[][] getBlockMap() {
     return blockMap;
   }
   
-  public void changeBlock(int value, int row, int col) {
-    try {
-    blockMap[row][col] = value;
-    } 
-    catch (Exception e) {
-      e.printStackTrace();
-    }
+  
+  public int getBlockSize() {
+    return blockSize;
+  }
+  
+  public int getType(int row, int col) {
+    return blockMap[row][col].getType();
   }
 }

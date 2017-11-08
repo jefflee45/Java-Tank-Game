@@ -9,6 +9,7 @@ public abstract class GameObject
   
   protected Image image;
   protected BlockMap bm;
+  protected int blockSize;
   
   //dimensions
   protected int width, height;
@@ -37,19 +38,32 @@ public abstract class GameObject
   
   public GameObject (BlockMap bm) {
     this.bm = bm;
+    blockSize = bm.getBlockSize();
   }
   
-  public abstract int getX();
+  public boolean intersects (GameObject obj) {
+    Rectangle r1 = getRectangle();
+    Rectangle r2 = obj.getRectangle();
+    return r1.intersects(r2);
+  }
   
-  public abstract int getY();
+  public Rectangle getRectangle() {
+    return new Rectangle((int)x-cWidth, (int)y-cHeight, cWidth, cHeight);
+  }
   
-  public abstract int getWidth();
+  public void caluculateCorners(double x, double y) {
+    
+  }
   
-  public  abstract int getHeight();
-  
-  public abstract  void setX(double x);
-  
-  public abstract void setY (double y);
+  public void checkBlockMapCollision() {
+    curCol = (int)x / blockSize;
+    curRow = (int)y / blockSize;
+    
+    xDest = x + xSpeed;
+    yDest = y + ySpeed;
+    
+    //calculateCorners(x, yDest);
+  }
   
   public void draw (Graphics2D g, ImageObserver obs) {
     g.drawImage(image, (int)x, (int)y, obs);
