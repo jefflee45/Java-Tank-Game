@@ -13,6 +13,7 @@ public class GameStateManager
   
   public static final int MENUSTATE = 0;
   public static final int LEVELSTATE = 1;
+  public static final int CONTROLSTATE = 2;
   
   public GameStateManager() {
     
@@ -22,6 +23,7 @@ public class GameStateManager
     
     gameStates.add(new MenuState(this));
     gameStates.add(new LevelState(this));
+    gameStates.add(new ControlState(this));
   }
   
   public void setState(int state) {

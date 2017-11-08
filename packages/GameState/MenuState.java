@@ -67,7 +67,9 @@ public class MenuState extends GameState
     switch(currentChoice) {
       case 0:
         gsm.setState(GameStateManager.LEVELSTATE);
+        break;
       case 1:
+        gsm.setState(GameStateManager.CONTROLSTATE);
         break;
       case 2:
         System.exit(0);
