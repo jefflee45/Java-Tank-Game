@@ -30,7 +30,7 @@ public abstract class GameObject
   protected boolean topLeft, topRight, bottomLeft, bottomRight;
   
   //animation
-  //protected Animation animation;
+  protected Animation animation;
   protected int curAction, prevAction;
   
   //movement
