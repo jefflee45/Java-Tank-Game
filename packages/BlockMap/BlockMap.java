@@ -17,9 +17,7 @@ public class BlockMap
   private int blockSize;
   private int rows;
   private int columns;
-  //private int[][] blockMap;
   private Block[][] blockMap;
-  private Block block;
   
   //in pixels
   private int width;
@@ -36,7 +34,6 @@ public class BlockMap
     height = 480;
     rows = 15;
     columns = 20;
-    //blockMap = new int[rows][columns];
     blockMap = new Block[rows][columns];
   }
   
@@ -53,7 +50,6 @@ public class BlockMap
         
         for (int j = 0; j < columns; j++) {
           if (line.charAt(j) != '.') {
-            //blockMap[i][j] = Integer.parseInt(Character.toString(line.charAt(j)));
             try {
               blockMap[i][j] = new Block(Integer.parseInt(Character.toString(line.charAt(j))));
             }
