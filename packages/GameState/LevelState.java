@@ -3,6 +3,7 @@ package GameState;
 import Main.GamePanel;
 import TankGame.Background;
 import BlockMap.BlockMap;
+import GameObjects.Player;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -10,6 +11,7 @@ import java.awt.image.BufferedImage;
 public class LevelState extends GameState
 {
   private Background bg;
+  private Player p1;
   
   private int x;
   private int y;
@@ -34,6 +36,7 @@ public class LevelState extends GameState
   public void init()
   {
     blockMap = new BlockMap();
+    p1 = new Player(blockMap);
   } 
 
   @Override
