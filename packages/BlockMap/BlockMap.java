@@ -43,13 +43,17 @@ public class BlockMap
   
   private void init() {
     blockSize = 32;
-    rows = 15;
-    columns = 20;
+    rows = 30;
+    columns = 40;
     width = columns * blockSize;
     height = rows * blockSize;
     blockMap = new Block[rows][columns];
     numRowsToDraw = GamePanel.HEIGHT / blockSize + 2;
     numColsToDraw = GamePanel.WIDTH / blockSize + 2;
+    xMin = 0;
+    yMin = 0;
+    xMax = columns * blockSize;
+    yMax = rows * blockSize;
     tween = 0.07;
   }
   
@@ -63,16 +67,19 @@ public class BlockMap
       //for loop to load the blocks into blockMap
       for (int i = 0; i < rows; i++) {
         line = br.readLine();
+        //System.out.print("\n");
         for (int j = 0; j < columns; j++) {
           if (line.charAt(j) != '.') {
             try {
               blockMap[i][j] = new Block(Integer.parseInt(Character.toString(line.charAt(j))));
+              //System.out.print(blockMap[i][j].getType());
             }
             catch (Exception e) {
               e.printStackTrace();
             } 
           } else {
             blockMap[i][j] = new Block(Block.EMPTY_TILE);
+            //System.out.print(blockMap[i][j].getType());
           }
         }
       }
@@ -87,7 +94,7 @@ public class BlockMap
       
       //for loop to draw the blocks
       for (int row = rowOffset; row < (rowOffset + numRowsToDraw); row++) {
-        
+        //System.out.println("ROW: " + row + " ROWOFFSET + NUMROWTODRAW: " + (rowOffset + numRowsToDraw));
         if (row >= rows) {
           break;
         }
@@ -98,7 +105,7 @@ public class BlockMap
           }
           if (blockMap[row][col].getType() != Block.EMPTY_TILE) {
               g.drawImage(blockMap[row][col].getImage(), (int)x + col * blockSize, (int)y + row * blockSize, null);
-              System.out.println("Draw block of type: " + blockMap[row][col].getType() + " at x: " + ((int)x + col * blockSize) + " and y: " + ((int)y + row * blockSize));
+              //System.out.println("Draw block of type: " + blockMap[row][col].getType() + " at x: " + ((int)x + col * blockSize) + " and y: " + ((int)y + row * blockSize));
           }
         }
 
@@ -139,13 +146,23 @@ public class BlockMap
   }
   
   public void setPosition (double x, double y) {
-    this.x += (x - this.x) * tween;
-    this.y += (y - this.y) * tween;
+    //System.out.println("Starting value x: " + x + " y: " + y);
+    //this.x += (x - this.x) * tween;
+    //this.y += (y - this.y) * tween;
+    
+    this.x = x;
+    this.y = y;
+    
+    //System.out.println("this.x: " + this.x + " this.y: " + this.y);
     
     fixBounds();
     
-    colOffset = (int)-this.x / blockSize;
-    rowOffset = (int)-this.y / blockSize;
+    //System.out.println("After fixBounds()\nthis.x: " + this.x + " this.y: " + this.y);
+
+    
+    colOffset = (int)this.x / blockSize;
+    rowOffset = (int)this.y / blockSize;
+    //System.out.println("ROWOFFSET: " + rowOffset);
   }
   
   private void fixBounds() {
