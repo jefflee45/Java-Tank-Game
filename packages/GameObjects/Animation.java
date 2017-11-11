@@ -1,6 +1,9 @@
 package GameObjects;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FilenameFilter;
+import javax.imageio.ImageIO;
 
 public class Animation
 {
@@ -11,6 +14,9 @@ public class Animation
   private long delay;
 
   private boolean playedOnce;
+  
+
+      
 
   public Animation() {
     playedOnce = false;
@@ -22,6 +28,7 @@ public class Animation
     startTime = System.nanoTime();
     playedOnce = false;
   }
+  
   
   public void setDelay (long d) {
     delay = d;
