@@ -36,6 +36,7 @@ public class LevelState extends GameState
   public void init()
   {
     blockMap = new BlockMap();
+    blockMap.setPosition(0, 0);
     p1 = new Player(blockMap);
   } 
 

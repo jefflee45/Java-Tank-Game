@@ -119,5 +119,23 @@ public class Player extends GameObject {
       }
     }
   }
+  
+  public int getHealth() { 
+    return health;
+  }
+  
+  public int getMaxHealth() {
+    return maxHealth;
+  }
+  
+  public void setFiring() {
+    firing = true;
+  }
+  
+  public void update() {
+    
+  }
+  
+  
 
 }
