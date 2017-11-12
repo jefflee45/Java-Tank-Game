@@ -60,7 +60,7 @@ public abstract class GameObject
     int leftTile = (int)(x - cWidth/2) / blockSize;
     int rightTile = (int)(x + cWidth/2 - 1) / blockSize;
     int topTile = (int)(y - cHeight/2) / blockSize;
-    int bottomTile = (int)(y + cHeight/2) / blockSize;
+    int bottomTile = (int)(y + cHeight/2 - 1) / blockSize;
     
     //four corners
     int tL = blockMap.getType(topTile, leftTile);
@@ -124,7 +124,7 @@ public abstract class GameObject
     if (xSpeed < 0) {
       if (topLeft || bottomLeft) {
         xSpeed = 0;
-        xTemp = curCol * blockSize + cWidth;
+        xTemp = curCol * blockSize + cWidth/2;
       }
       else {
         xTemp += xSpeed;

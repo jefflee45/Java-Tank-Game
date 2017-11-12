@@ -98,10 +98,10 @@ public class Player extends GameObject {
   }
   
   private void init() {
-    width = 64;
+    width = 68;
     height = 64;
-    cWidth = 32;
-    cHeight = 32;
+    cWidth = 52;
+    cHeight = 44;
     
     moveSpeed = 0.3;
     maxSpeed = 1.6;
