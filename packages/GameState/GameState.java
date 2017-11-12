@@ -7,7 +7,7 @@ public abstract class GameState
   protected GameStateManager gsm;
  
    
-   public abstract void init();
+   protected abstract void init();
    
    public abstract void update();
    

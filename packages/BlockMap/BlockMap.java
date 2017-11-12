@@ -50,10 +50,10 @@ public class BlockMap
     blockMap = new Block[rows][columns];
     numRowsToDraw = GamePanel.HEIGHT / blockSize + 2;
     numColsToDraw = GamePanel.WIDTH / blockSize + 2;
-    xMin = 0;
-    yMin = 0;
-    xMax = columns * blockSize;
-    yMax = rows * blockSize;
+    xMin = GamePanel.WIDTH - width;
+    yMin = GamePanel.HEIGHT - height;
+    xMax = 0;
+    yMax = 0;
     tween = 0.07;
   }
   
@@ -94,7 +94,7 @@ public class BlockMap
       
       //for loop to draw the blocks
       for (int row = rowOffset; row < (rowOffset + numRowsToDraw); row++) {
-        //System.out.println("ROW: " + row + " ROWOFFSET + NUMROWTODRAW: " + (rowOffset + numRowsToDraw));
+        System.out.println("ROW: " + row + " ROWOFFSET + NUMROWTODRAW: " + (rowOffset + numRowsToDraw));
         if (row >= rows) {
           break;
         }
@@ -103,10 +103,11 @@ public class BlockMap
           if( col >= columns) {
             break;
           }
-          if (blockMap[row][col].getType() != Block.EMPTY_TILE) {
-              g.drawImage(blockMap[row][col].getImage(), (int)x + col * blockSize, (int)y + row * blockSize, null);
-              //System.out.println("Draw block of type: " + blockMap[row][col].getType() + " at x: " + ((int)x + col * blockSize) + " and y: " + ((int)y + row * blockSize));
+          if (blockMap[row][col].getType() == Block.EMPTY_TILE) {
+            continue;
           }
+          g.drawImage(blockMap[row][col].getImage(),
+              (int)x + col * blockSize, (int)y + row * blockSize, null);
         }
 
       }
@@ -145,13 +146,17 @@ public class BlockMap
     return height;
   }
   
+  public void setTween(double d) {
+    tween = d;
+  }
+  
   public void setPosition (double x, double y) {
     //System.out.println("Starting value x: " + x + " y: " + y);
-    //this.x += (x - this.x) * tween;
-    //this.y += (y - this.y) * tween;
+    this.x += (x - this.x) * tween;
+    this.y += (y - this.y) * tween;
     
-    this.x = x;
-    this.y = y;
+    //this.x = x;
+    //this.y = y;
     
     //System.out.println("this.x: " + this.x + " this.y: " + this.y);
     
@@ -160,8 +165,8 @@ public class BlockMap
     //System.out.println("After fixBounds()\nthis.x: " + this.x + " this.y: " + this.y);
 
     
-    colOffset = (int)this.x / blockSize;
-    rowOffset = (int)this.y / blockSize;
+    colOffset = (int)-this.x / blockSize;
+    rowOffset = (int)-this.y / blockSize;
     //System.out.println("ROWOFFSET: " + rowOffset);
   }
   

@@ -2,6 +2,7 @@ package GameObjects;
 
 import BlockMap.Block;
 import BlockMap.BlockMap;
+import Main.GamePanel;
 import java.awt.*;
 import java.awt.image.ImageObserver;
 
@@ -17,6 +18,7 @@ public abstract class GameObject
   
   //position
   protected double x, y;
+  protected double xMap, yMap;
   
   //speed
   protected double xSpeed, ySpeed;
@@ -31,10 +33,10 @@ public abstract class GameObject
   
   //animation
   protected Animation animation;
-  protected int curAction, prevAction;
+  protected int currentAction, prevAction;
   
   //movement
-  protected boolean left, right, up, down;
+  protected boolean north, east, south, west, northEast, northWest, southEast, southWest;
   protected double moveSpeed, maxSpeed, stopSpeed;
   
   public GameObject (BlockMap blockMap) {
@@ -86,6 +88,9 @@ public abstract class GameObject
     
     xDest = x + xSpeed;
     yDest = y + ySpeed;
+    
+    xTemp = x;
+    yTemp = y;
    
     //y direction movement
     calculateCorners(x, yDest);
@@ -93,6 +98,7 @@ public abstract class GameObject
     if (ySpeed < 0) {
       //if there is a block above, stop the speed and place
       //the object right below the block
+      
       if (topLeft || topRight) {
         ySpeed = 0;
         yTemp = curRow * blockSize + cHeight/2;
@@ -170,23 +176,47 @@ public abstract class GameObject
     this.ySpeed = ySpeed;
   }
   
-  public void setLeft (boolean b) {
-    left = b;
+  public void setMapPosition() {
+    xMap = blockMap.getX();
+    yMap = blockMap.getY();
+  }
+  
+  public boolean notOnScreen() {
+    return (x + xMap + width < 0)
+        || (x + xMap - width > GamePanel.WIDTH)
+        || (y + yMap + height < 0)
+        || (y + yMap - height > GamePanel.HEIGHT);
+  }
+  
+  public void setEast (boolean b) {
+    east = b;
   } 
   
-  public void setright (boolean b) {
-    right = b;
+  public void setWest (boolean b) {
+    west = b;
   }
   
-  public void setUp (boolean b) {
-    up = b;
+  public void setNorth (boolean b) {
+    north = b;
   }
   
-  public void setDown (boolean b) {
-    down = b;
+  public void setSouth (boolean b) {
+    south = b;
   }
   
-  public void draw (Graphics2D g, ImageObserver obs) {
-    g.drawImage(image, (int)x, (int)y, obs);
+  public void setNorthEast (boolean b) {
+    northEast = b;
+  }
+  
+  public void setNorthWest (boolean b) {
+    northWest = b;
+  }
+  
+  public void setSouthEast (boolean b) {
+    southEast = b;
+  }
+  
+  public void setSouthWest (boolean b) {
+    southWest = b;
   }
 }
