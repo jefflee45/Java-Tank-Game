@@ -94,7 +94,7 @@ public class BlockMap
       
       //for loop to draw the blocks
       for (int row = rowOffset; row < (rowOffset + numRowsToDraw); row++) {
-        System.out.println("ROW: " + row + " ROWOFFSET + NUMROWTODRAW: " + (rowOffset + numRowsToDraw));
+        //System.out.println("ROW: " + row + " ROWOFFSET + NUMROWTODRAW: " + (rowOffset + numRowsToDraw));
         if (row >= rows) {
           break;
         }
