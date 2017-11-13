@@ -252,4 +252,13 @@ public abstract class GameObject
   public void setSouthWest (boolean b) {
     southWest = b;
   }
+  
+  public void setCurrentAction(int k) {
+    currentAction = k;
+  }
+  
+  public void setPrivousAction(int k) {
+    prevAction = k;
+  }
 }
+

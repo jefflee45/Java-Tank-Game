@@ -25,6 +25,8 @@ public class Player extends GameObject {
   private int health, maxHealth;
   private int score;
   
+  private int oldKey, newKey;
+  
   private boolean dead;
   
   //attacking
@@ -39,45 +41,46 @@ public class Player extends GameObject {
   //animation action index for sprites ArrayList and booleans
   //relative to counter clockwise motion
   //EAST = pointing in positive x axis
-  private static final int TURN_EAST_TO_NORTHEAST = 0;
-  private static final int TURN_NORTHEAST_TO_EAST = 1;
-  private static final int TURN_NORTHEAST_TO_NORTH = 2;
-  private static final int TURN_NORTH_TO_NORTHEAST = 3;
-  private static final int TURN_NORTH_TO_NORTHWEST = 4;
-  private static final int TURN_NORTHWEST_TO_NORTH = 5;
-  private static final int TURN_NORTHWEST_TO_WEST = 6;
-  private static final int TURN_WEST_TO_NORTHWEST = 7;
-  private static final int TURN_WEST_TO_SOUTHWEST = 8;
-  private static final int TURN_SOUTHWEST_TO_WEST = 9;
-  private static final int TURN_SOUTHWEST_TO_SOUTH = 10;
-  private static final int TURN_SOUTH_TO_SOUTHWEST = 11;
-  private static final int TURN_SOUTH_TO_SOUTHEAST = 12;
-  private static final int TURN_SOUTHEAST_TO_SOUTH = 13;
-  private static final int TURN_SOUTHEAST_TO_EAST = 14;
-  private static final int TURN_EAST_TO_SOUTHEAST = 15;
+  public static final int END_ANIMATION = -1;
+  public static final int TURN_EAST_TO_NORTHEAST = 0;
+  public static final int TURN_NORTHEAST_TO_EAST = 1;
+  public static final int TURN_NORTHEAST_TO_NORTH = 2;
+  public static final int TURN_NORTH_TO_NORTHEAST = 3;
+  public static final int TURN_NORTH_TO_NORTHWEST = 4;
+  public static final int TURN_NORTHWEST_TO_NORTH = 5;
+  public static final int TURN_NORTHWEST_TO_WEST = 6;
+  public static final int TURN_WEST_TO_NORTHWEST = 7;
+  public static final int TURN_WEST_TO_SOUTHWEST = 8;
+  public static final int TURN_SOUTHWEST_TO_WEST = 9;
+  public static final int TURN_SOUTHWEST_TO_SOUTH = 10;
+  public static final int TURN_SOUTH_TO_SOUTHWEST = 11;
+  public static final int TURN_SOUTH_TO_SOUTHEAST = 12;
+  public static final int TURN_SOUTHEAST_TO_SOUTH = 13;
+  public static final int TURN_SOUTHEAST_TO_EAST = 14;
+  public static final int TURN_EAST_TO_SOUTHEAST = 15;
   
-  private static final int MOVING_EAST = 16;
-  private static final int MOVING_NORTHEAST = 17;
-  private static final int MOVING_NORTH = 18;
-  private static final int MOVING_NORTHWEST = 19;
-  private static final int MOVING_WEST = 20;
-  private static final int MOVING_SOUTHWEST = 21;
-  private static final int MOVING_SOUTH = 22;
-  private static final int MOVING_SOUTHEAST = 23;
+  public static final int MOVING_EAST = 16;
+  public static final int MOVING_NORTHEAST = 17;
+  public static final int MOVING_NORTH = 18;
+  public static final int MOVING_NORTHWEST = 19;
+  public static final int MOVING_WEST = 20;
+  public static final int MOVING_SOUTHWEST = 21;
+  public static final int MOVING_SOUTH = 22;
+  public static final int MOVING_SOUTHEAST = 23;
   
-  private static final int TURN_EAST_TO_NORTH = 24;
-  private static final int TURN_NORTH_TO_EAST = 25;
-  private static final int TURN_NORTH_TO_WEST = 26;
-  private static final int TURN_WEST_TO_NORTH = 27;
-  private static final int TURN_WEST_TO_SOUTH = 28;
-  private static final int TURN_SOUTH_TO_WEST = 29;
-  private static final int TURN_SOUTH_TO_EAST = 30;
-  private static final int TURN_EAST_TO_SOUTH = 31;
+  public static final int TURN_EAST_TO_NORTH = 24;
+  public static final int TURN_NORTH_TO_EAST = 25;
+  public static final int TURN_NORTH_TO_WEST = 26;
+  public static final int TURN_WEST_TO_NORTH = 27;
+  public static final int TURN_WEST_TO_SOUTH = 28;
+  public static final int TURN_SOUTH_TO_WEST = 29;
+  public static final int TURN_SOUTH_TO_EAST = 30;
+  public static final int TURN_EAST_TO_SOUTH = 31;
   
-  private static final int TURN_EAST_TO_WEST = 32;
-  private static final int TURN_WEST_TO_EAST = 33;
-  private static final int TURN_NORTH_TO_SOUTH = 34;
-  private static final int TURN_SOUTH_TO_NORTH = 35;
+  public static final int TURN_EAST_TO_WEST = 32;
+  public static final int TURN_WEST_TO_EAST = 33;
+  public static final int TURN_NORTH_TO_SOUTH = 34;
+  public static final int TURN_SOUTH_TO_NORTH = 35;
   
   private static final int[] animationFrames = {7, 8, 7, 8, 7, 8, 7, 8};
 
@@ -326,27 +329,25 @@ public class Player extends GameObject {
           
           //turn 45 degrees
           if (i < 16) {
-            prevAction = currentAction;
             currentAction = i;
             animation.setFrames(sprites.get(i));
             animation.setDelay(10);
-            width = 30;
+            animations[i] = false;
+            prevAction = currentAction;
             break;
           }
           
           //moving in a direction
           if (i > 15 && i < 24) {
-            prevAction = currentAction;
             currentAction = i;
-            animation.setFrames(sprites.get(i));
             animation.setDelay(-1);
-            width = 30;
+            animation.setFrames(sprites.get(i));
+            prevAction = currentAction;
             break; 
           }
           
           //turn 180 degrees
           if (i > 23 && i < 32) {
-            prevAction = currentAction;
             currentAction = i;
             temp = (i - 16) * 2;
             temp2 = (temp - 16) * 2;
@@ -356,7 +357,6 @@ public class Player extends GameObject {
             temp2 += 2;
             animation.setFrames(sprites.get(temp2));
             animation.setDelay(2);
-            width = 30;
             
             temp += 2;
             temp2 = (temp - 16) * 2;
@@ -366,13 +366,13 @@ public class Player extends GameObject {
             temp2 += 2;
             animation.setFrames(sprites.get(temp2));
             animation.setDelay(2);
-            width = 30;
+            animations[i] = false;
+            prevAction = currentAction;
             break;
           }
           
           //turn 90 degrees
           if (i > 31) {
-            prevAction = currentAction;
             currentAction = i;
             temp = (i - 16) * 2;
             
@@ -381,7 +381,8 @@ public class Player extends GameObject {
             temp += 2;
             animation.setFrames(sprites.get(temp));
             animation.setDelay(5);
-            width = 30;
+            animations[i] = false;
+            prevAction = currentAction;
             break;
           }
         }
@@ -408,6 +409,35 @@ public class Player extends GameObject {
     
   }
   
-  
+  public void playAnimation(int k) {
+    int temp = k;
+    
+    
+    if (k == END_ANIMATION) {
+      animations[prevAction] = false;
+      newKey = oldKey;
+      update();
+    }
+    else if (newKey == k && animations[prevAction] == false) {
+      animations[k] = true;
+    }
+    else if (newKey != k && animations[prevAction] == true) {
+      if ((prevAction + 2) == k)  {
+        temp = (prevAction % 16) * 2;
+        animations[temp] = true;
+        update();
+        animations[temp] = false;
+        
+        animations[k-1] = true;
+      }
+    }
+    else {
+      animations[k] = true;
+    }
+    update();
+    
+    oldKey = newKey;
+    newKey = k;
 
+  }
 }
