@@ -56,24 +56,57 @@ public abstract class GameObject
   
   public void calculateCorners(double x, double y) {
     
-    //surrounding tiles
+      //surrounding tiles for 64pxl
     int leftTile = (int)(x - cWidth/2) / blockSize;
     int rightTile = (int)(x + cWidth/2 - 1) / blockSize;
     int topTile = (int)(y - cHeight/2) / blockSize;
     int bottomTile = (int)(y + cHeight/2 - 1) / blockSize;
     
-    //four corners
+    //four corners for 64pxl
     int tL = blockMap.getType(topTile, leftTile);
     int tR = blockMap.getType(topTile, rightTile);
     int bL = blockMap.getType(bottomTile, leftTile);
     int bR = blockMap.getType(bottomTile, rightTile);
     
-    //set booleans
-    topLeft = tL != Block.EMPTY_TILE;
-    topRight = tR != Block.EMPTY_TILE;
-    bottomLeft = bL != Block.EMPTY_TILE;
-    bottomRight = bR != Block.EMPTY_TILE;
+    //handles objects larger than 32pxl
+    if (cWidth > 32 && height > 32) { 
+    int cWidthX = 32;
+    int cHeightX = 32;
+    int xBuffer = 10;
+    int leftTileX = (int)(x - xBuffer - blockSize + cWidthX/2) / blockSize;
+    int rightTileX = (int)(x + xBuffer + cWidthX/2 - 1) / blockSize;
+    int topTileX = (int)(y - cHeightX/2) / blockSize;
+    int bottomTileX = (int)(y + cHeightX/2 - 1) / blockSize;
+    int tLX = blockMap.getType(topTileX, leftTileX);
+    int tRX = blockMap.getType(topTileX, rightTileX);
+    int bLX = blockMap.getType(bottomTileX, leftTileX);
+    int bRX = blockMap.getType(bottomTileX, rightTileX);
     
+    int cWidthY = 32;
+    int cHeightY = 44;
+    int yBuffer = 10;
+    int leftTileY = (int)(x - yBuffer + cWidthY/2) / blockSize;
+    int rightTileY = (int)(x + yBuffer + cWidthY/2 - 1) / blockSize;
+    int topTileY = (int)(y - cHeightY/2) / blockSize;
+    int bottomTileY = (int)(y + cHeightY/2 - 1) / blockSize;
+    int tLY = blockMap.getType(topTileY, leftTileY);
+    int tRY = blockMap.getType(topTileY, rightTileY);
+    int bLY = blockMap.getType(bottomTileY, leftTileY);
+    int bRY = blockMap.getType(bottomTileY, rightTileY);
+    
+    
+    //set booleans
+    topLeft = (tL != Block.EMPTY_TILE) || (tLX != Block.EMPTY_TILE) || (tLY != Block.EMPTY_TILE);
+    topRight = (tR != Block.EMPTY_TILE) || (tRX != Block.EMPTY_TILE) || (tRY != Block.EMPTY_TILE);
+    bottomLeft = (bL != Block.EMPTY_TILE) || (bLX != Block.EMPTY_TILE) || (bLY != Block.EMPTY_TILE);
+    bottomRight = (bR != Block.EMPTY_TILE) || (bRX != Block.EMPTY_TILE) || (bRY != Block.EMPTY_TILE);
+    }
+    else {
+    topLeft = (tL != Block.EMPTY_TILE);
+    topRight = (tR != Block.EMPTY_TILE);
+    bottomLeft = (bL != Block.EMPTY_TILE);
+    bottomRight = (bR != Block.EMPTY_TILE);
+    }
   }
   
   /*
