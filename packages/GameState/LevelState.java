@@ -65,19 +65,15 @@ public class LevelState extends GameState
     switch (k)
     {
       case KeyEvent.VK_LEFT:
-        p1.playAnimation(Player.MOVING_WEST);
         p1.setWest(true);
         break;
       case KeyEvent.VK_RIGHT:
-        p1.playAnimation(Player.MOVING_EAST);
         p1.setEast(true);
         break;
       case KeyEvent.VK_UP:
-        p1.playAnimation(Player.MOVING_NORTH);
         p1.setNorth(true);
         break;
       case KeyEvent.VK_DOWN:
-        p1.playAnimation(Player.MOVING_SOUTH);
         p1.setSouth(true);
         break;
     }
@@ -89,19 +85,15 @@ public class LevelState extends GameState
     switch (k)
     {
       case KeyEvent.VK_LEFT:
-        p1.playAnimation(Player.END_ANIMATION);
         p1.setWest(false);
         break;
       case KeyEvent.VK_RIGHT:
-        p1.playAnimation(Player.END_ANIMATION);
         p1.setEast(false);
         break;
       case KeyEvent.VK_UP:
-        p1.playAnimation(Player.END_ANIMATION);
         p1.setNorth(false);
         break;
       case KeyEvent.VK_DOWN:
-        p1.playAnimation(Player.END_ANIMATION);
         p1.setSouth(false);
         break;
     }

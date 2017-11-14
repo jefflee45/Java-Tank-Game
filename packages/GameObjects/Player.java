@@ -317,80 +317,147 @@ public class Player extends GameObject {
     getNextPosition();
     checkBlockMapCollision();
     setPosition(xTemp, yTemp);
+ 
+    int direction = getNewDirection();
     
-    int temp;
-    int temp2;
-    //set animation
+    prevAction = currentAction;
+    currentAction = direction;
     
-    for(int i = 0; i < animations.length; i++) {
+    playAnimation();
+    
+    
+    
+    animation.setDelay(-1);
+    animation.setFrames(sprites.get(direction));
       
-      if (animations[i] == true) {
-        if (currentAction != i) {
-          
-          //turn 45 degrees
-          if (i < 16) {
-            currentAction = i;
-            animation.setFrames(sprites.get(i));
-            animation.setDelay(10);
-            animations[i] = false;
-            prevAction = currentAction;
-            break;
-          }
-          
-          //moving in a direction
-          if (i > 15 && i < 24) {
-            currentAction = i;
-            animation.setDelay(-1);
-            animation.setFrames(sprites.get(i));
-            prevAction = currentAction;
-            break; 
-          }
-          
-          //turn 180 degrees
-          if (i > 23 && i < 32) {
-            currentAction = i;
-            temp = (i - 16) * 2;
-            temp2 = (temp - 16) * 2;
-            
-            animation.setFrames(sprites.get(temp2));
-            animation.setDelay(2);
-            temp2 += 2;
-            animation.setFrames(sprites.get(temp2));
-            animation.setDelay(2);
-            
-            temp += 2;
-            temp2 = (temp - 16) * 2;
-            
-            animation.setFrames(sprites.get(temp2));
-            animation.setDelay(2);
-            temp2 += 2;
-            animation.setFrames(sprites.get(temp2));
-            animation.setDelay(2);
-            animations[i] = false;
-            prevAction = currentAction;
-            break;
-          }
-          
-          //turn 90 degrees
-          if (i > 31) {
-            currentAction = i;
-            temp = (i - 16) * 2;
-            
-            animation.setFrames(sprites.get(temp));
-            animation.setDelay(5);
-            temp += 2;
-            animation.setFrames(sprites.get(temp));
-            animation.setDelay(5);
-            animations[i] = false;
-            prevAction = currentAction;
-            break;
-          }
-        }
-      }
-    }
     animation.update();
   }
   
+    //set animation for loop for update - work in progress
+    
+//    for(int i = 0; i < animations.length; i++) {
+//      
+//      if (animations[i] == true) {
+//        if (currentAction != i) {
+//          
+//          //turn 45 degrees
+//          if (i < 16) {
+//            currentAction = i;
+//            animation.setFrames(sprites.get(i));
+//            animation.setDelay(10);
+//            animations[i] = false;
+//            prevAction = currentAction;
+//            break;
+//          }
+//          
+//          //moving in a direction
+//          if (i > 15 && i < 24) {
+//            currentAction = i;
+//            animation.setDelay(-1);
+//            animation.setFrames(sprites.get(i));
+//            prevAction = currentAction;
+//            break; 
+//          }
+//          
+//          //turn 180 degrees
+//          if (i > 23 && i < 32) {
+//            currentAction = i;
+//            temp = (i - 16) * 2;
+//            temp2 = (temp - 16) * 2;
+//            
+//            animation.setFrames(sprites.get(temp2));
+//            animation.setDelay(2);
+//            temp2 += 2;
+//            animation.setFrames(sprites.get(temp2));
+//            animation.setDelay(2);
+//            
+//            temp += 2;
+//            temp2 = (temp - 16) * 2;
+//            
+//            animation.setFrames(sprites.get(temp2));
+//            animation.setDelay(2);
+//            temp2 += 2;
+//            animation.setFrames(sprites.get(temp2));
+//            animation.setDelay(2);
+//            animations[i] = false;
+//            prevAction = currentAction;
+//            break;
+//          }
+//          
+//          //turn 90 degrees
+//          if (i > 31) {
+//            currentAction = i;
+//            temp = (i - 16) * 2;
+//            
+//            animation.setFrames(sprites.get(temp));
+//            animation.setDelay(5);
+//            temp += 2;
+//            animation.setFrames(sprites.get(temp));
+//            animation.setDelay(5);
+//            animations[i] = false;
+//            prevAction = currentAction;
+//            break;
+//          }
+//        }
+//      }
+//    }
+//    animation.update();
+//  }
+  
+  public void playAnimation() {
+    
+  }
+  
+  public int getNewDirection() {
+    int direction = 0;
+    
+    if (north) {
+      direction = MOVING_NORTH;
+      if (east) {
+        direction = MOVING_NORTHEAST;
+      }
+      if (south) {
+        direction = currentAction;
+      }
+      if (west) {
+        direction = MOVING_NORTHWEST;
+      }
+    } else if (east) {
+      direction = MOVING_EAST;
+      if (north) {
+        direction = MOVING_NORTHEAST;
+      }
+      if (south) {
+        direction = MOVING_SOUTHEAST;
+      }
+      if (west) {
+        direction = currentAction;
+      }
+    } else if (south) {
+      direction = MOVING_SOUTH;
+      if (east) {
+        direction = MOVING_SOUTHEAST;
+      }
+      if (north) {
+        direction = currentAction;
+      }
+      if (west) {
+        direction = MOVING_SOUTHWEST;
+      }
+    } else if (west) {
+      direction = MOVING_WEST;
+      if (east) {
+        direction = currentAction;
+      }
+      if (south) {
+        direction = MOVING_SOUTHWEST;
+      }
+      if (north) {
+        direction = MOVING_NORTHWEST;
+      }
+    }
+    return direction;
+  }
   public void draw(Graphics2D g) {
     setMapPosition();
     
@@ -407,37 +474,5 @@ public class Player extends GameObject {
         (int)(y + yMap - height / 2),
         null);
     
-  }
-  
-  public void playAnimation(int k) {
-    int temp = k;
-    
-    
-    if (k == END_ANIMATION) {
-      animations[prevAction] = false;
-      newKey = oldKey;
-      update();
-    }
-    else if (newKey == k && animations[prevAction] == false) {
-      animations[k] = true;
-    }
-    else if (newKey != k && animations[prevAction] == true) {
-      if ((prevAction + 2) == k)  {
-        temp = (prevAction % 16) * 2;
-        animations[temp] = true;
-        update();
-        animations[temp] = false;
-        
-        animations[k-1] = true;
-      }
-    }
-    else {
-      animations[k] = true;
-    }
-    update();
-    
-    oldKey = newKey;
-    newKey = k;
-
   }
 }
