@@ -38,7 +38,7 @@ public class LevelState extends GameState
     blockMap.setPosition(0, 0);
     blockMap.setTween(1);
     p1 = new Player(blockMap);
-    p1.setPosition(64, 64);
+    p1.setPosition(184, 234);
   } 
 
   @Override
@@ -65,16 +65,16 @@ public class LevelState extends GameState
     switch (k)
     {
       case KeyEvent.VK_LEFT:
-        p1.setWest(true);
+        p1.setTurnLeft(true);
         break;
       case KeyEvent.VK_RIGHT:
-        p1.setEast(true);
+        p1.setTurnRight(true);
         break;
       case KeyEvent.VK_UP:
-        p1.setNorth(true);
+        p1.setForward(true);
         break;
       case KeyEvent.VK_DOWN:
-        p1.setSouth(true);
+        p1.setBackwards(true);
         break;
     }
   }
@@ -85,16 +85,16 @@ public class LevelState extends GameState
     switch (k)
     {
       case KeyEvent.VK_LEFT:
-        p1.setWest(false);
+        p1.setTurnLeft(false);
         break;
       case KeyEvent.VK_RIGHT:
-        p1.setEast(false);
+        p1.setTurnRight(false);
         break;
       case KeyEvent.VK_UP:
-        p1.setNorth(false);
+        p1.setForward(false);
         break;
       case KeyEvent.VK_DOWN:
-        p1.setSouth(false);
+        p1.setBackwards(false);
         break;
     }
   }

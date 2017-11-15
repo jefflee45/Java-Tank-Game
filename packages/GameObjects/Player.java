@@ -36,55 +36,8 @@ public class Player extends GameObject {
   private long flinchTimer;
   
   //animations
-  ArrayList<BufferedImage[]> sprites;
+  BufferedImage[] frames;
   
-  //animation action index for sprites ArrayList and booleans
-  //relative to counter clockwise motion
-  //EAST = pointing in positive x axis
-  public static final int END_ANIMATION = -1;
-  public static final int TURN_EAST_TO_NORTHEAST = 0;
-  public static final int TURN_NORTHEAST_TO_EAST = 1;
-  public static final int TURN_NORTHEAST_TO_NORTH = 2;
-  public static final int TURN_NORTH_TO_NORTHEAST = 3;
-  public static final int TURN_NORTH_TO_NORTHWEST = 4;
-  public static final int TURN_NORTHWEST_TO_NORTH = 5;
-  public static final int TURN_NORTHWEST_TO_WEST = 6;
-  public static final int TURN_WEST_TO_NORTHWEST = 7;
-  public static final int TURN_WEST_TO_SOUTHWEST = 8;
-  public static final int TURN_SOUTHWEST_TO_WEST = 9;
-  public static final int TURN_SOUTHWEST_TO_SOUTH = 10;
-  public static final int TURN_SOUTH_TO_SOUTHWEST = 11;
-  public static final int TURN_SOUTH_TO_SOUTHEAST = 12;
-  public static final int TURN_SOUTHEAST_TO_SOUTH = 13;
-  public static final int TURN_SOUTHEAST_TO_EAST = 14;
-  public static final int TURN_EAST_TO_SOUTHEAST = 15;
-  
-  public static final int MOVING_EAST = 16;
-  public static final int MOVING_NORTHEAST = 17;
-  public static final int MOVING_NORTH = 18;
-  public static final int MOVING_NORTHWEST = 19;
-  public static final int MOVING_WEST = 20;
-  public static final int MOVING_SOUTHWEST = 21;
-  public static final int MOVING_SOUTH = 22;
-  public static final int MOVING_SOUTHEAST = 23;
-  
-  public static final int TURN_EAST_TO_NORTH = 24;
-  public static final int TURN_NORTH_TO_EAST = 25;
-  public static final int TURN_NORTH_TO_WEST = 26;
-  public static final int TURN_WEST_TO_NORTH = 27;
-  public static final int TURN_WEST_TO_SOUTH = 28;
-  public static final int TURN_SOUTH_TO_WEST = 29;
-  public static final int TURN_SOUTH_TO_EAST = 30;
-  public static final int TURN_EAST_TO_SOUTH = 31;
-  
-  public static final int TURN_EAST_TO_WEST = 32;
-  public static final int TURN_WEST_TO_EAST = 33;
-  public static final int TURN_NORTH_TO_SOUTH = 34;
-  public static final int TURN_SOUTH_TO_NORTH = 35;
-  
-  private static final int[] animationFrames = {7, 8, 7, 8, 7, 8, 7, 8};
-
-  private static final int TURN45_NUM_FRAMES = 8;
   public boolean[] animations;
   private BufferedImage[] movingDirection;
   
@@ -96,8 +49,6 @@ public class Player extends GameObject {
     loadSprites();
     
     currentAction = 16;
-    animation.setFrames(sprites.get(16));
-    animation.setDelay(-1);
   }
   
   private void init() {
@@ -106,15 +57,21 @@ public class Player extends GameObject {
     cWidth = 52;
     cHeight = 44;
     
+    speed = 0;
+    angleSpeed = 0;
     moveSpeed = 0.3;
+    angleMoveSpeed = 1;
+    
+    angle = 180;
+    
     maxSpeed = 1.6;
+    maxAngleSpeed = 3;
     stopSpeed = 0.4;
     flinchTimer = 100000;
     
     health = maxHealth = 5;
     bulletDamage = 1;
     
-    sprites = new ArrayList<>();
     animations = new boolean[28];
     movingDirection = new BufferedImage[8];
     Arrays.fill(animations, Boolean.FALSE);
@@ -187,14 +144,8 @@ public class Player extends GameObject {
     };
     
     //frames rotating 45 degrees counter clockwise
-    BufferedImage[] frames = new BufferedImage[TURN45_NUM_FRAMES];
-    int frameCounter = 0;
+    frames = new BufferedImage[60];
     int count = 0;
-    int mvCount = 0;
-    
-    //frames rotating 45 degrees clockwise
-    BufferedImage[] reverseFrames = new BufferedImage[TURN45_NUM_FRAMES];
-    int reverseCount = TURN45_NUM_FRAMES;
     
     if (dir.isDirectory())
     { 
@@ -204,34 +155,12 @@ public class Player extends GameObject {
           BufferedImage image = ImageIO.read(f);
           image = makeBackgroundTransparent(image);
           
-          if (count == 0) {
-            movingDirection[mvCount++] = image;
-          }
-          
           frames[count++] = image;
-          reverseFrames[--reverseCount] = image;
-          
-          //adds frames and reverseFrames to sprites ArrayList
-          if (count == animationFrames[frameCounter]) {
-            sprites.add(frames);
-            sprites.add(reverseFrames);
-            frames = new BufferedImage[TURN45_NUM_FRAMES];
-            reverseFrames = new BufferedImage[TURN45_NUM_FRAMES];
-            count = 0;
-            reverseCount = TURN45_NUM_FRAMES;
-            frameCounter++;
-          }
 
         } catch (Exception e) {
           e.printStackTrace();
         }
-        
       }
-    }
-    for (int i = 0; i < mvCount; i++) {
-      BufferedImage[] img = new BufferedImage[1];
-      img[0] = movingDirection[i];
-      sprites.add(img);
     }
   }
   
@@ -249,215 +178,110 @@ public class Player extends GameObject {
   
   private void getNextPosition() {
     //moving in positive x direction
-    if (east || northEast || southEast) {
-      xSpeed += moveSpeed;
-      if (xSpeed > maxSpeed) {
-        xSpeed = maxSpeed;
+    
+     if (turnLeft) {
+      angleSpeed += angleMoveSpeed;
+      if (angleSpeed > maxAngleSpeed) {
+        angleSpeed = maxAngleSpeed;
+      }
+      angle += angleSpeed;
+      
+      if (angle > 360) {
+        angle = angle - 360 + angleSpeed;
+      }
+      
+      
+      speed += moveSpeed;
+      if (speed > maxSpeed) {
+        speed = maxSpeed;
       }
     }
     //moving in negative x direction
-    if (west || northWest || southWest) {
-      xSpeed -= moveSpeed;
-      if (xSpeed < -maxSpeed) {
-        xSpeed = -maxSpeed;
+     if (turnRight) {
+      angleSpeed -= angleMoveSpeed;
+      if (angleSpeed < -maxAngleSpeed) {
+        angleSpeed = -maxAngleSpeed;
+      }
+      angle += angleSpeed;
+
+      
+      if (angle < -360) {
+        angle = angle + 360 - angleSpeed;
+      }
+      
+      speed -= moveSpeed;
+      if (speed < -maxSpeed) {
+        speed = -maxSpeed;
       }
     }
+    
     //moving in positive y direction
-    if (south || southWest || southEast) {
-      ySpeed += moveSpeed;
-      if (ySpeed > maxSpeed) {
-        ySpeed = maxSpeed;
+    if (forward) {
+      speed += moveSpeed;
+      if (speed > maxSpeed) {
+        speed = maxSpeed;
       }
     }
     //moving in negative y direction
-    if (north || northWest || northEast) {
-      ySpeed -= moveSpeed;
-      if (ySpeed < -maxSpeed) {
-        ySpeed = -maxSpeed;
+    if (backwards) {
+      speed -= moveSpeed;
+      if (speed < -maxSpeed) {
+        speed = -maxSpeed;
       }
     }
-    //not moving in any direction
+    
+    //not moving forward or backwards direction
     if (isNotMoving()) {
       //stop moving in the x direction
-      if (xSpeed > 0) {
-        xSpeed -= stopSpeed;
-        if (xSpeed < 0) {
-          xSpeed = 0;
+      if (speed > 0) {
+        speed -= stopSpeed;
+        if (speed < 0) {
+          speed = 0;
         }
       }
-      else if (xSpeed < 0) {
-        xSpeed += stopSpeed;
-        if (xSpeed > 0) {
-          xSpeed = 0;
+      else if (speed < 0) {
+        speed += stopSpeed;
+        if (speed > 0) {
+          speed = 0;
         }
       }
-      //stop moving in the y direction
-      if (ySpeed > 0) {
-        ySpeed -= stopSpeed;
-        if (ySpeed < 0) {
-          ySpeed = 0;
+      
+     if (isNotTurning()) {
+        //stop moving in the y direction
+      if (angleSpeed > 0) {
+        angleSpeed -= stopSpeed;
+        if (angleSpeed < 0) {
+          angleSpeed = 0;
         }
       }
-      else if (ySpeed < 0) {
-        ySpeed += stopSpeed;
-        if (ySpeed > 0) {
-          ySpeed = 0;
+      else if (angleSpeed < 0) {
+        angleSpeed += stopSpeed;
+        if (angleSpeed > 0) {
+          angleSpeed = 0;
         }
       }
+     }     
     }
   }
   
   private boolean isNotMoving() {
-    return !north && !northEast
-        && !east && !southEast && !south
-        && !southWest && !west && !northWest;
+    return !forward && !backwards;
+  }
+  
+  private boolean isNotTurning() {
+    return !turnLeft && !turnRight;
   }
   
   public void update() {
     getNextPosition();
-    checkBlockMapCollision();
-    setPosition(xTemp, yTemp);
+    //checkBlockMapCollision();
+    //setPosition(xTemp, yTemp);
+    
+    x += speed * Math.sin(Math.toRadians(angle));
+    y += speed * Math.cos(Math.toRadians(angle));
+  }
  
-    int direction = getNewDirection();
-    
-    prevAction = currentAction;
-    currentAction = direction;
-    
-    playAnimation();
-    
-    
-    
-    animation.setDelay(-1);
-    animation.setFrames(sprites.get(direction));
-      
-    animation.update();
-  }
   
-    //set animation for loop for update - work in progress
-    
-//    for(int i = 0; i < animations.length; i++) {
-//      
-//      if (animations[i] == true) {
-//        if (currentAction != i) {
-//          
-//          //turn 45 degrees
-//          if (i < 16) {
-//            currentAction = i;
-//            animation.setFrames(sprites.get(i));
-//            animation.setDelay(10);
-//            animations[i] = false;
-//            prevAction = currentAction;
-//            break;
-//          }
-//          
-//          //moving in a direction
-//          if (i > 15 && i < 24) {
-//            currentAction = i;
-//            animation.setDelay(-1);
-//            animation.setFrames(sprites.get(i));
-//            prevAction = currentAction;
-//            break; 
-//          }
-//          
-//          //turn 180 degrees
-//          if (i > 23 && i < 32) {
-//            currentAction = i;
-//            temp = (i - 16) * 2;
-//            temp2 = (temp - 16) * 2;
-//            
-//            animation.setFrames(sprites.get(temp2));
-//            animation.setDelay(2);
-//            temp2 += 2;
-//            animation.setFrames(sprites.get(temp2));
-//            animation.setDelay(2);
-//            
-//            temp += 2;
-//            temp2 = (temp - 16) * 2;
-//            
-//            animation.setFrames(sprites.get(temp2));
-//            animation.setDelay(2);
-//            temp2 += 2;
-//            animation.setFrames(sprites.get(temp2));
-//            animation.setDelay(2);
-//            animations[i] = false;
-//            prevAction = currentAction;
-//            break;
-//          }
-//          
-//          //turn 90 degrees
-//          if (i > 31) {
-//            currentAction = i;
-//            temp = (i - 16) * 2;
-//            
-//            animation.setFrames(sprites.get(temp));
-//            animation.setDelay(5);
-//            temp += 2;
-//            animation.setFrames(sprites.get(temp));
-//            animation.setDelay(5);
-//            animations[i] = false;
-//            prevAction = currentAction;
-//            break;
-//          }
-//        }
-//      }
-//    }
-//    animation.update();
-//  }
-  
-  public void playAnimation() {
-    
-  }
-  
-  public int getNewDirection() {
-    int direction = 0;
-    
-    if (north) {
-      direction = MOVING_NORTH;
-      if (east) {
-        direction = MOVING_NORTHEAST;
-      }
-      if (south) {
-        direction = currentAction;
-      }
-      if (west) {
-        direction = MOVING_NORTHWEST;
-      }
-    } else if (east) {
-      direction = MOVING_EAST;
-      if (north) {
-        direction = MOVING_NORTHEAST;
-      }
-      if (south) {
-        direction = MOVING_SOUTHEAST;
-      }
-      if (west) {
-        direction = currentAction;
-      }
-    } else if (south) {
-      direction = MOVING_SOUTH;
-      if (east) {
-        direction = MOVING_SOUTHEAST;
-      }
-      if (north) {
-        direction = currentAction;
-      }
-      if (west) {
-        direction = MOVING_SOUTHWEST;
-      }
-    } else if (west) {
-      direction = MOVING_WEST;
-      if (east) {
-        direction = currentAction;
-      }
-      if (south) {
-        direction = MOVING_SOUTHWEST;
-      }
-      if (north) {
-        direction = MOVING_NORTHWEST;
-      }
-    }
-    return direction;
-  }
   public void draw(Graphics2D g) {
     setMapPosition();
     
@@ -468,8 +292,20 @@ public class Player extends GameObject {
         return;
       }
     }
+    if (angle  < 0) {
+      angle += 360;
+    }
     
-    g.drawImage(animation.getImage(),
+    int frame = (int)angle/6 - 1;
+    
+    if (frame < 0 || frame > 59) {
+      frame = 0;
+    }
+    
+    //accounts for the frame displacement in regards to the moving direction
+    frame = (frame + 45) % 59;
+    
+    g.drawImage(frames[frame],
         (int)(x + xMap - width / 2),
         (int)(y + yMap - height / 2),
         null);

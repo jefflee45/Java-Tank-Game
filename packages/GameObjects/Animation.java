@@ -41,8 +41,8 @@ public class Animation
       return;
     }
     
-    
-    long elapsed = (System.nanoTime() - startTime) / 1000000;
+    long elapsed = (System.nanoTime() - startTime) /100;
+
     if (elapsed > delay) {
       currentFrame++;
       startTime = System.nanoTime();

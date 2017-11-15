@@ -26,6 +26,14 @@ public abstract class GameObject
   //collision box
   protected int cWidth, cHeight;
   
+    
+  protected double angle;
+  protected double angleMoveSpeed;
+  protected double angleSpeed;
+  protected double maxAngleSpeed;
+  
+  protected double speed;
+  
   //collision
   protected int curRow, curCol;
   protected double xDest, yDest, xTemp, yTemp;
@@ -36,7 +44,7 @@ public abstract class GameObject
   protected int currentAction, prevAction;
   
   //movement
-  protected boolean north, east, south, west, northEast, northWest, southEast, southWest;
+  protected boolean forward, turnLeft, backwards, turnRight;
   protected double moveSpeed, maxSpeed, stopSpeed;
   
   public GameObject (BlockMap blockMap) {
@@ -154,23 +162,23 @@ public abstract class GameObject
     //x direction movement
     calculateCorners(xDest, y);
     //moving left
-    if (xSpeed < 0) {
+    if (speed < 0) {
       if (topLeft || bottomLeft) {
-        xSpeed = 0;
+        speed = 0;
         xTemp = curCol * blockSize + cWidth/2;
       }
       else {
-        xTemp += xSpeed;
+        xTemp += speed;
       }
     }
     //moving right
-    if (xSpeed > 0) {
+    if (speed > 0) {
       if (topRight || bottomRight) {
-        xSpeed = 0;
+        speed = 0;
         xTemp = (curCol + 1) * blockSize - cWidth/2;
       }
       else {
-        xTemp += xSpeed;
+        xTemp += speed;
       }
     }   
   }
@@ -221,36 +229,20 @@ public abstract class GameObject
         || (y + yMap - height > GamePanel.HEIGHT);
   }
   
-  public void setEast (boolean b) {
-    east = b;
+  public void setTurnRight (boolean b) {
+    turnRight = b;
   } 
   
-  public void setWest (boolean b) {
-    west = b;
+  public void setTurnLeft (boolean b) {
+    turnLeft = b;
   }
   
-  public void setNorth (boolean b) {
-    north = b;
+  public void setForward (boolean b) {
+    forward = b;
   }
   
-  public void setSouth (boolean b) {
-    south = b;
-  }
-  
-  public void setNorthEast (boolean b) {
-    northEast = b;
-  }
-  
-  public void setNorthWest (boolean b) {
-    northWest = b;
-  }
-  
-  public void setSouthEast (boolean b) {
-    southEast = b;
-  }
-  
-  public void setSouthWest (boolean b) {
-    southWest = b;
+  public void setBackwards (boolean b) {
+    backwards = b;
   }
   
   public void setCurrentAction(int k) {
