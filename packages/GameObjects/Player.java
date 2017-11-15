@@ -4,6 +4,7 @@ import BlockMap.*;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -52,6 +53,7 @@ public class Player extends GameObject {
   }
   
   private void init() {
+    //tested values
     width = 68;
     height = 64;
     cWidth = 52;
@@ -76,7 +78,7 @@ public class Player extends GameObject {
     movingDirection = new BufferedImage[8];
     Arrays.fill(animations, Boolean.FALSE);
     animation = new Animation();
-    
+    rect = new Rectangle(0, 0, width, height);
   }
   
   public static Image makeColorTransparent(BufferedImage im, final Color color) {
@@ -216,14 +218,14 @@ public class Player extends GameObject {
     }
     
     //moving in positive y direction
-    if (forward) {
+    if (backwards) {
       speed += moveSpeed;
       if (speed > maxSpeed) {
         speed = maxSpeed;
       }
     }
     //moving in negative y direction
-    if (backwards) {
+    if (forward) {
       speed -= moveSpeed;
       if (speed < -maxSpeed) {
         speed = -maxSpeed;
@@ -273,12 +275,14 @@ public class Player extends GameObject {
   }
   
   public void update() {
+    rect.setLocation((int)x, (int)y);
     getNextPosition();
-    //checkBlockMapCollision();
-    //setPosition(xTemp, yTemp);
+    checkBlockMapCollision();
+    setPosition(xTemp, yTemp);
+    rect.setLocation((int)x, (int)y);
     
-    x += speed * Math.sin(Math.toRadians(angle));
-    y += speed * Math.cos(Math.toRadians(angle));
+//    x += speed * Math.sin(Math.toRadians(angle));
+//    y += speed * Math.cos(Math.toRadians(angle));
   }
  
   
@@ -303,7 +307,7 @@ public class Player extends GameObject {
     }
     
     //accounts for the frame displacement in regards to the moving direction
-    frame = (frame + 45) % 59;
+    frame = (frame + 15) % 59;
     
     g.drawImage(frames[frame],
         (int)(x + xMap - width / 2),

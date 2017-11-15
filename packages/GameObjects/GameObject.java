@@ -47,6 +47,8 @@ public abstract class GameObject
   protected boolean forward, turnLeft, backwards, turnRight;
   protected double moveSpeed, maxSpeed, stopSpeed;
   
+  protected Rectangle rect;
+  
   public GameObject (BlockMap blockMap) {
     this.blockMap = blockMap;
     blockSize = blockMap.getBlockSize();
@@ -64,7 +66,8 @@ public abstract class GameObject
   
   public void calculateCorners(double x, double y) {
     
-      //surrounding tiles for 64pxl
+        
+    //surrounding tiles for 64pxl
     int leftTile = (int)(x - cWidth/2) / blockSize;
     int rightTile = (int)(x + cWidth/2 - 1) / blockSize;
     int topTile = (int)(y - cHeight/2) / blockSize;
@@ -75,8 +78,8 @@ public abstract class GameObject
     int tR = blockMap.getType(topTile, rightTile);
     int bL = blockMap.getType(bottomTile, leftTile);
     int bR = blockMap.getType(bottomTile, rightTile);
-    
-    //handles objects larger than 32pxl
+   
+   //handles objects larger than 32pxl
     if (cWidth > 32 && height > 32) { 
     int cWidthX = 32;
     int cHeightX = 32;
@@ -115,6 +118,7 @@ public abstract class GameObject
     bottomLeft = (bL != Block.EMPTY_TILE);
     bottomRight = (bR != Block.EMPTY_TILE);
     }
+    
   }
   
   /*
@@ -124,43 +128,64 @@ public abstract class GameObject
   else continue moving
   */
   public void checkBlockMapCollision() {
+    
+    boolean speedBoosted = false;
     curCol = (int)x / blockSize;
     curRow = (int)y / blockSize;
     
-    xDest = x + xSpeed;
-    yDest = y + ySpeed;
+    xDest = x + speed * Math.sin(Math.toRadians(angle));
+    yDest = y + speed * Math.cos(Math.toRadians(angle));
     
     xTemp = x;
     yTemp = y;
    
     //y direction movement
     calculateCorners(x, yDest);
+    System.out.println("x, yDest: ");
+    System.out.println("Top Left: " + topLeft);
+    System.out.println("Top Right: " + topRight);
+    System.out.println("Bottom Left: " + bottomLeft);
+    System.out.println("Bottom Right: " + bottomRight);
+    
     //moving upwards (ySpeed is negative for upwards direction)
-    if (ySpeed < 0) {
+    if (speed < 0) {
       //if there is a block above, stop the speed and place
       //the object right below the block
       
       if (topLeft || topRight) {
-        ySpeed = 0;
+        speed = 0;
         yTemp = curRow * blockSize + cHeight/2;
       }
       else {
-        yTemp += ySpeed;
+        if (!speedBoosted) {
+        xTemp += speed * Math.sin(Math.toRadians(angle));
+        yTemp += speed * Math.cos(Math.toRadians(angle));
+        speedBoosted = true;
+        }
       }
     }
     //moving downwards
-    if (ySpeed > 0) {
+    if (speed > 0) {
       if (bottomLeft || bottomRight) {
-        ySpeed = 0;
+        speed = 0;
         yTemp = (curRow + 1) * blockSize - cHeight/2;
       }
       else {
-        yTemp += ySpeed;
+        if (!speedBoosted) {
+        xTemp += speed * Math.sin(Math.toRadians(angle));
+        yTemp += speed * Math.cos(Math.toRadians(angle));
+        speedBoosted = true;
+        }
       }
     }
     
-    //x direction movement
+//    //x direction movement
     calculateCorners(xDest, y);
+    System.out.println("xDest, y: ");
+    System.out.println("Top Left: " + topLeft);
+    System.out.println("Top Right: " + topRight);
+    System.out.println("Bottom Left: " + bottomLeft);
+    System.out.println("Bottom Right: " + bottomRight);
     //moving left
     if (speed < 0) {
       if (topLeft || bottomLeft) {
@@ -168,7 +193,11 @@ public abstract class GameObject
         xTemp = curCol * blockSize + cWidth/2;
       }
       else {
-        xTemp += speed;
+        if (!speedBoosted) {
+        xTemp += speed * Math.sin(Math.toRadians(angle));
+        yTemp += speed * Math.cos(Math.toRadians(angle));
+        speedBoosted = true;
+        }
       }
     }
     //moving right
@@ -178,7 +207,11 @@ public abstract class GameObject
         xTemp = (curCol + 1) * blockSize - cWidth/2;
       }
       else {
-        xTemp += speed;
+        if (!speedBoosted) {
+        xTemp += speed * Math.sin(Math.toRadians(angle));
+        yTemp += speed * Math.cos(Math.toRadians(angle));
+        speedBoosted = true;
+        }
       }
     }   
   }

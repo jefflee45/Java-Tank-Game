@@ -63,25 +63,28 @@ public class BlockMap
       InputStream in = new FileInputStream("Resources/level.txt");
       BufferedReader br = new BufferedReader(new InputStreamReader(in));
       String line;
+      int xBlock = 0;
+      int yBlock = 0;
       
       //for loop to load the blocks into blockMap
       for (int i = 0; i < rows; i++) {
         line = br.readLine();
-        //System.out.print("\n");
         for (int j = 0; j < columns; j++) {
           if (line.charAt(j) != '.') {
             try {
-              blockMap[i][j] = new Block(Integer.parseInt(Character.toString(line.charAt(j))));
-              //System.out.print(blockMap[i][j].getType());
+              blockMap[i][j] = new Block(Integer.parseInt(Character.toString(line.charAt(j))),
+                                        xBlock, yBlock, blockSize, blockSize);
             }
             catch (Exception e) {
               e.printStackTrace();
             } 
           } else {
-            blockMap[i][j] = new Block(Block.EMPTY_TILE);
-            //System.out.print(blockMap[i][j].getType());
+            blockMap[i][j] = new Block(Block.EMPTY_TILE,
+                                      xBlock, yBlock, blockSize, blockSize);
           }
+          yBlock += blockSize;
         }
+        xBlock += blockSize;
       }
     }
     catch (Exception e) {
@@ -94,7 +97,6 @@ public class BlockMap
       
       //for loop to draw the blocks
       for (int row = rowOffset; row < (rowOffset + numRowsToDraw); row++) {
-        //System.out.println("ROW: " + row + " ROWOFFSET + NUMROWTODRAW: " + (rowOffset + numRowsToDraw));
         if (row >= rows) {
           break;
         }
@@ -151,23 +153,13 @@ public class BlockMap
   }
   
   public void setPosition (double x, double y) {
-    //System.out.println("Starting value x: " + x + " y: " + y);
     this.x += (x - this.x) * tween;
     this.y += (y - this.y) * tween;
     
-    //this.x = x;
-    //this.y = y;
-    
-    //System.out.println("this.x: " + this.x + " this.y: " + this.y);
-    
     fixBounds();
-    
-    //System.out.println("After fixBounds()\nthis.x: " + this.x + " this.y: " + this.y);
-
     
     colOffset = (int)-this.x / blockSize;
     rowOffset = (int)-this.y / blockSize;
-    //System.out.println("ROWOFFSET: " + rowOffset);
   }
   
   private void fixBounds() {
