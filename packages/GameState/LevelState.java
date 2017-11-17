@@ -48,6 +48,7 @@ public class LevelState extends GameState
 
     blockMap.setPosition(GamePanel.WIDTH / 2 - p1.getX(),
         GamePanel.HEIGHT / 2 - p1.getY());
+    bg.setPosition(blockMap.getX(), blockMap.getY());
   }
 
   @Override
