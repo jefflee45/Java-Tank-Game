@@ -272,7 +272,15 @@ public class Player extends GameObject {
     setPosition(xTemp, yTemp);
     rect.setLocation((int)x, (int)y);
   }
- 
+  
+  public void setBlockMap(BlockMap bm) {
+    blockMap = bm;
+  }
+  
+  public BlockMap getBlockMap() {
+    return blockMap;
+  }
+  
   
   public void draw(Graphics2D g) {
     setMapPosition();

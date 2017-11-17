@@ -11,9 +11,11 @@ import java.awt.event.*;
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 
   //dimensions
-  public static final int WIDTH = 640;
+  public static final int WIDTH = 540;
   public static final int HEIGHT = 480;
   public static final int SCALE = 2;
+  public static final int FULL_WIDTH = 1080;
+  public static final int FULL_HEIGHT = 480;
 
   //game thread
   private Thread thread;
@@ -23,7 +25,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
   //image
   private BufferedImage image;
+  private BufferedImage screen2;
   private Graphics2D g;
+  private Graphics2D gScreen2;
   
   //game state manager
   private GameStateManager gsm;
@@ -32,7 +36,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
   public GamePanel() {
     super();
-    setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+    setPreferredSize(new Dimension(FULL_WIDTH * SCALE, FULL_HEIGHT * SCALE));
     setFocusable(true);
     requestFocus();
   }
@@ -50,7 +54,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
   
   private void init() {
     image = new BufferedImage (WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+    screen2 = new BufferedImage (WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     g = (Graphics2D) image.getGraphics();
+    gScreen2 = (Graphics2D) image.getGraphics();
     running = true;
     
     gsm = new GameStateManager();
@@ -93,12 +99,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
   }
   
   private void draw() {
-    gsm.draw(g);
+    gsm.draw(g, gScreen2);
+    //gsm.draw(gScreen2);
    }
   
   private void drawToScreen() {
     Graphics g2 = getGraphics();
     g2.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
+    g2.drawImage(image, FULL_WIDTH - 1, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
     g2.dispose();
   }
 

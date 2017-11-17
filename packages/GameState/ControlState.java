@@ -42,7 +42,7 @@ public class ControlState extends GameState {
     }
 
     @Override
-    public void draw(Graphics2D g) {
+    public void draw(Graphics2D g, Graphics2D gScreen2) {
         bg.draw(g);
         g.setColor(Color.WHITE);
         g.drawString("Player 1", 125, 65);
