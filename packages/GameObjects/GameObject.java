@@ -4,13 +4,14 @@ import BlockMap.Block;
 import BlockMap.BlockMap;
 import Main.GamePanel;
 import java.awt.*;
-import java.awt.image.ImageObserver;
+import java.awt.geom.AffineTransform;
 
 public abstract class GameObject
 {
   
   protected Image image;
   protected BlockMap blockMap;
+  protected Rectangle rect;
   protected int blockSize;
   
   //dimensions
@@ -39,15 +40,11 @@ public abstract class GameObject
   protected double xDest, yDest, xTemp, yTemp;
   protected boolean topLeft, topRight, bottomLeft, bottomRight;
   
-  //animation
-  protected Animation animation;
   protected int currentAction, prevAction;
   
   //movement
   protected boolean forward, turnLeft, backwards, turnRight;
   protected double moveSpeed, maxSpeed, stopSpeed;
-  
-  protected Rectangle rect;
   
   public GameObject (BlockMap blockMap) {
     this.blockMap = blockMap;
@@ -66,7 +63,6 @@ public abstract class GameObject
   
   public void calculateCorners(double x, double y) {
     
-        
     //surrounding tiles for 64pxl
     int leftTile = (int)(x - cWidth/2) / blockSize;
     int rightTile = (int)(x + cWidth/2 - 1) / blockSize;
@@ -118,7 +114,7 @@ public abstract class GameObject
     bottomLeft = (bL != Block.EMPTY_TILE);
     bottomRight = (bR != Block.EMPTY_TILE);
     }
-    
+  
   }
   
   /*
@@ -127,6 +123,7 @@ public abstract class GameObject
   if it is not an EMPTY_TILE, then stop moving in that direction,
   else continue moving
   */
+  
   public void checkBlockMapCollision() {
     
     boolean speedBoosted = false;
@@ -138,14 +135,9 @@ public abstract class GameObject
     
     xTemp = x;
     yTemp = y;
-   
+    
     //y direction movement
     calculateCorners(x, yDest);
-    System.out.println("x, yDest: ");
-    System.out.println("Top Left: " + topLeft);
-    System.out.println("Top Right: " + topRight);
-    System.out.println("Bottom Left: " + bottomLeft);
-    System.out.println("Bottom Right: " + bottomRight);
     
     //moving upwards (ySpeed is negative for upwards direction)
     if (speed < 0) {
@@ -154,7 +146,11 @@ public abstract class GameObject
       
       if (topLeft || topRight) {
         speed = 0;
-        yTemp = curRow * blockSize + cHeight/2;
+        yTemp = curRow * blockSize + cHeight/2 + 1;
+      } 
+      else if (bottomLeft || bottomRight) {
+        speed = 0;
+        yTemp = (curRow + 1) * blockSize - cHeight/2;
       }
       else {
         if (!speedBoosted) {
@@ -169,6 +165,10 @@ public abstract class GameObject
       if (bottomLeft || bottomRight) {
         speed = 0;
         yTemp = (curRow + 1) * blockSize - cHeight/2;
+      } 
+      else if (topLeft || topRight) {
+        speed = 0;
+        yTemp = curRow * blockSize + cHeight/2 + 1;
       }
       else {
         if (!speedBoosted) {
@@ -181,16 +181,15 @@ public abstract class GameObject
     
 //    //x direction movement
     calculateCorners(xDest, y);
-    System.out.println("xDest, y: ");
-    System.out.println("Top Left: " + topLeft);
-    System.out.println("Top Right: " + topRight);
-    System.out.println("Bottom Left: " + bottomLeft);
-    System.out.println("Bottom Right: " + bottomRight);
     //moving left
     if (speed < 0) {
       if (topLeft || bottomLeft) {
         speed = 0;
         xTemp = curCol * blockSize + cWidth/2;
+      }
+      else if (topRight || bottomRight) {
+        speed = 0;
+        xTemp = (curCol + 1) * blockSize - cWidth/2;
       }
       else {
         if (!speedBoosted) {
@@ -205,6 +204,10 @@ public abstract class GameObject
       if (topRight || bottomRight) {
         speed = 0;
         xTemp = (curCol + 1) * blockSize - cWidth/2;
+      }
+      else if (topLeft || bottomLeft) {
+        speed = 0;
+        xTemp = curCol * blockSize + cWidth/2;
       }
       else {
         if (!speedBoosted) {

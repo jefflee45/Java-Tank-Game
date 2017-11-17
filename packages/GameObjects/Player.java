@@ -14,7 +14,6 @@ import java.awt.image.ImageProducer;
 import java.awt.image.RGBImageFilter;
 import java.io.File;
 import java.io.FilenameFilter;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Player extends GameObject {
@@ -29,7 +28,7 @@ public class Player extends GameObject {
   private int oldKey, newKey;
   
   private boolean dead;
-  
+    
   //attacking
   private boolean firing;
   private boolean flinching;
@@ -77,7 +76,6 @@ public class Player extends GameObject {
     animations = new boolean[28];
     movingDirection = new BufferedImage[8];
     Arrays.fill(animations, Boolean.FALSE);
-    animation = new Animation();
     rect = new Rectangle(0, 0, width, height);
   }
   
@@ -275,14 +273,10 @@ public class Player extends GameObject {
   }
   
   public void update() {
-    rect.setLocation((int)x, (int)y);
     getNextPosition();
     checkBlockMapCollision();
     setPosition(xTemp, yTemp);
     rect.setLocation((int)x, (int)y);
-    
-//    x += speed * Math.sin(Math.toRadians(angle));
-//    y += speed * Math.cos(Math.toRadians(angle));
   }
  
   
