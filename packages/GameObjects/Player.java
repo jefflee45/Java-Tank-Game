@@ -14,18 +14,16 @@ import java.awt.image.ImageProducer;
 import java.awt.image.RGBImageFilter;
 import java.io.File;
 import java.io.FilenameFilter;
-import java.util.Arrays;
 
 public class Player extends GameObject {
 
+  //For removing green background
   private File dir;
   private String[] EXTENSIONS;
   private FilenameFilter IMAGE_FILTER;
   
   private int health, maxHealth;
   private int score;
-  
-  private int oldKey, newKey;
   
   private boolean dead;
     
@@ -35,10 +33,8 @@ public class Player extends GameObject {
   private int bulletDamage;
   private long flinchTimer;
   
-  //animations
-  BufferedImage[] frames;
-  
-  public boolean[] animations;
+  //animation
+  private BufferedImage[] frames;
   private BufferedImage[] movingDirection;
   
   public Player(BlockMap blockMap)
@@ -73,9 +69,7 @@ public class Player extends GameObject {
     health = maxHealth = 5;
     bulletDamage = 1;
     
-    animations = new boolean[28];
     movingDirection = new BufferedImage[8];
-    Arrays.fill(animations, Boolean.FALSE);
     rect = new Rectangle(0, 0, width, height);
   }
   

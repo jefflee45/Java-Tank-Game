@@ -54,16 +54,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     running = true;
     
     gsm = new GameStateManager();
-    
-    
-    /* will have to see where this becomes useful
-    gameEvent1 = new GameEvents();
-    gameEvent1 = new GameEvents();
-    KeyControlled key1 = new KeyControlled(gameEvent1);
-    KeyControlled key2 = new KeyControlled(gameEvent2);
-    addKeyListener(key1);
-    addKeyListener(key2);
-    */
   }
   
   //game loop
