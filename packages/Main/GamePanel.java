@@ -26,8 +26,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
   //image
   private BufferedImage leftScreen;
   private BufferedImage rightScreen;
+  private BufferedImage menuScreen;
   private Graphics2D gLeftScreen;
   private Graphics2D gRightScreen;
+  private Graphics2D gMenuScreen;
   
   //game state manager
   private GameStateManager gsm;
@@ -55,8 +57,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
   private void init() {
     leftScreen = new BufferedImage (WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     rightScreen = new BufferedImage (WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+    menuScreen = new BufferedImage (FULL_WIDTH, FULL_HEIGHT, BufferedImage.TYPE_INT_RGB);
     gLeftScreen = (Graphics2D) leftScreen.getGraphics();
     gRightScreen = (Graphics2D) rightScreen.getGraphics();
+    gMenuScreen = (Graphics2D) menuScreen.getGraphics();
     running = true;
     
     gsm = new GameStateManager();
@@ -99,14 +103,24 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
   }
   
   private void draw() {
-    gsm.draw(gLeftScreen, gRightScreen);
-   }
+    if (gsm.getCurrentState() != GameStateManager.MENUSTATE) {
+      gsm.draw(gLeftScreen, gRightScreen);
+    } else {
+      gsm.draw(gMenuScreen, null);
+    }
+  }
   
   private void drawToScreen() {
     Graphics g2 = getGraphics();
-    g2.drawImage(leftScreen, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
-    g2.drawImage(rightScreen, FULL_WIDTH - 1, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
+
+    if (gsm.getCurrentState() != GameStateManager.MENUSTATE) {
+      g2.drawImage(leftScreen, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
+      g2.drawImage(rightScreen, FULL_WIDTH - 1, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
+    } else {
+      g2.drawImage(menuScreen, 0, 0, FULL_WIDTH * SCALE, FULL_HEIGHT * SCALE, null);
+    }
     g2.dispose();
+
   }
 
 

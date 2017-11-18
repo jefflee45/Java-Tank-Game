@@ -18,11 +18,11 @@ public class MenuState extends GameState
      this.gsm = gsm;
      
      try {
-       bg = new Background("Resources/TankGameMenuLarge.jpg");
+       bg = new Background("Resources/TankGameMenu1080x480.jpg");
        
        titleColor = new Color(128, 0, 0);
-       titleFont = new Font("Century Gothic", Font.PLAIN, 36);
-       font = new Font("Arial", Font.PLAIN, 28);
+       titleFont = new Font("Century Gothic", Font.BOLD, 72);
+       font = new Font("Arial", Font.BOLD, 36);
      } 
      catch (Exception e) {
        e.printStackTrace();
@@ -40,26 +40,26 @@ public class MenuState extends GameState
   }
 
   @Override
-  public void draw(Graphics2D gLeftScreen, Graphics2D gRightScreen)
+  public void draw(Graphics2D gMenuScreen, Graphics2D nullValue)
   {
     //draw background
-    bg.draw(gLeftScreen);
+    bg.draw(gMenuScreen);
     
     //draw title
-    gLeftScreen.setColor(titleColor);
-    gLeftScreen.setFont(titleFont);
-    gLeftScreen.drawString("Tank Game", 240, 100);
+    gMenuScreen.setColor(titleColor);
+    gMenuScreen.setFont(titleFont);
+    gMenuScreen.drawString("Tank Game", 320, 100);
     
     //draw menu options
-    gLeftScreen.setFont(font);
+    gMenuScreen.setFont(font);
     for (int i = 0; i < options.length; i++) {
       if(i == currentChoice) {
-        gLeftScreen.setColor(Color.RED);
+        gMenuScreen.setColor(Color.RED);
       } else
       {
-        gLeftScreen.setColor(Color.GREEN);
+        gMenuScreen.setColor(Color.GREEN);
       }
-      gLeftScreen.drawString (options[i], 280, 160 + i * 35);
+      gMenuScreen.drawString (options[i], 450, 220 + i * 55);
     }
   }
   
