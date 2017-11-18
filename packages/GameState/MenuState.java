@@ -40,26 +40,26 @@ public class MenuState extends GameState
   }
 
   @Override
-  public void draw(Graphics2D g, Graphics2D gScreen2)
+  public void draw(Graphics2D gLeftScreen, Graphics2D gRightScreen)
   {
     //draw background
-    bg.draw(g);
+    bg.draw(gLeftScreen);
     
     //draw title
-    g.setColor(titleColor);
-    g.setFont(titleFont);
-    g.drawString("Tank Game", 240, 100);
+    gLeftScreen.setColor(titleColor);
+    gLeftScreen.setFont(titleFont);
+    gLeftScreen.drawString("Tank Game", 240, 100);
     
     //draw menu options
-    g.setFont(font);
+    gLeftScreen.setFont(font);
     for (int i = 0; i < options.length; i++) {
       if(i == currentChoice) {
-        g.setColor(Color.RED);
+        gLeftScreen.setColor(Color.RED);
       } else
       {
-        g.setColor(Color.GREEN);
+        gLeftScreen.setColor(Color.GREEN);
       }
-      g.drawString (options[i], 280, 160 + i * 35);
+      gLeftScreen.drawString (options[i], 280, 160 + i * 35);
     }
   }
   

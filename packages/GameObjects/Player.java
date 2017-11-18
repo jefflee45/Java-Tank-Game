@@ -22,9 +22,12 @@ public class Player extends GameObject {
   private String[] EXTENSIONS;
   private FilenameFilter IMAGE_FILTER;
   
+  private int player;
+  public final static int FIRST_PLAYER = 1;
+  public final static int SECOND_PLAYER = 2;
+  
   private int health, maxHealth;
   private int score;
-  
   private boolean dead;
     
   //attacking
@@ -37,9 +40,10 @@ public class Player extends GameObject {
   private BufferedImage[] frames;
   private BufferedImage[] movingDirection;
   
-  public Player(BlockMap blockMap)
+  public Player(BlockMap blockMap, int player)
   {
     super(blockMap);
+    this.player = player;
     init();
 
     loadSprites();
@@ -281,6 +285,9 @@ public class Player extends GameObject {
     return blockMap;
   }
   
+  public int getPlayerNumber() {
+    return player;
+  }
   
   public void draw(Graphics2D g) {
     setMapPosition();

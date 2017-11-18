@@ -35,8 +35,8 @@ public class GameStateManager
     gameStates.get(currentState).update();
   }
   
-  public void draw(Graphics2D g, Graphics2D gScreen2) {
-    gameStates.get(currentState).draw(g, gScreen2);
+  public void draw(Graphics2D gLeftScreen, Graphics2D gRightScreen) {
+    gameStates.get(currentState).draw(gLeftScreen, gRightScreen);
   }
   
   public void keyPressed(int k) {

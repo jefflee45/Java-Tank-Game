@@ -18,7 +18,8 @@ public class ControlState extends GameState {
     private Background bg;
     private Font font;
     private String[] controls = {"Up", "Down", "Left", "Right", "Shoot"};
-    private String[] player1Controls = {"Up Arrow Key", "Down Arrow Key", "Left Arrow Key", "Right Arrow Key", "Enter"};
+    private String[] player2Controls = {"Up Arrow Key", "Down Arrow Key", "Left Arrow Key", "Right Arrow Key", "Space"};
+    private String[] player1Controls = {"W Key", "S Key", "A Key", "D Key", "V Key"};
 
     public ControlState(GameStateManager gsm) {
         this.gsm = gsm;
@@ -42,22 +43,33 @@ public class ControlState extends GameState {
     }
 
     @Override
-    public void draw(Graphics2D g, Graphics2D gScreen2) {
-        bg.draw(g);
-        g.setColor(Color.WHITE);
-        g.drawString("Player 1", 125, 65);
-        g.setFont(new Font("Arial", Font.PLAIN, 20));
+    public void draw(Graphics2D gLeftScreen, Graphics2D gRightScreen) {
+        bg.draw(gLeftScreen);
+        gLeftScreen.setColor(Color.WHITE);
+        gLeftScreen.drawString("Player 1", 125, 65);
+        gLeftScreen.setFont(new Font("Arial", Font.PLAIN, 20));
+        
+        bg.draw(gRightScreen);
+        gRightScreen.setColor(Color.WHITE);
+        gRightScreen.drawString("Player 2", 125, 65);
+        gRightScreen.setFont(new Font("Arial", Font.PLAIN, 20));
 
         //player one
         for (int i = 0; i < 5; i++) {
-            g.drawString(controls[i] + ": ", 100, 100 + i * 35);
-            g.drawString(player1Controls[i], 170, 100 + i * 35);
+            gLeftScreen.drawString(controls[i] + ": ", 100, 100 + i * 35);
+            gLeftScreen.drawString(player2Controls[i], 170, 100 + i * 35);
+            gRightScreen.drawString(controls[i] + ": ", 100, 100 + i * 35);
+            gRightScreen.drawString(player1Controls[i], 170, 100 + i * 35);
         }
         
         //back button settings
-        g.setFont(font);
-        g.setColor(Color.RED);
-        g.drawString("Back", 320, 300);
+        gLeftScreen.setFont(font);
+        gLeftScreen.setColor(Color.RED);
+        gLeftScreen.drawString("Back", 320, 300);
+        
+        gRightScreen.setFont(font);
+        gRightScreen.setColor(Color.RED);
+        gRightScreen.drawString("Back", 320, 300);
         
     }
 

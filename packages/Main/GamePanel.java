@@ -24,10 +24,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
   private final long targetTime = 1000/FPS;
 
   //image
-  private BufferedImage image;
-  private BufferedImage screen2;
-  private Graphics2D g;
-  private Graphics2D gScreen2;
+  private BufferedImage leftScreen;
+  private BufferedImage rightScreen;
+  private Graphics2D gLeftScreen;
+  private Graphics2D gRightScreen;
   
   //game state manager
   private GameStateManager gsm;
@@ -53,10 +53,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
   }
   
   private void init() {
-    image = new BufferedImage (WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-    screen2 = new BufferedImage (WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-    g = (Graphics2D) image.getGraphics();
-    gScreen2 = (Graphics2D) image.getGraphics();
+    leftScreen = new BufferedImage (WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+    rightScreen = new BufferedImage (WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+    gLeftScreen = (Graphics2D) leftScreen.getGraphics();
+    gRightScreen = (Graphics2D) rightScreen.getGraphics();
     running = true;
     
     gsm = new GameStateManager();
@@ -99,14 +99,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
   }
   
   private void draw() {
-    gsm.draw(g, gScreen2);
-    //gsm.draw(gScreen2);
+    gsm.draw(gLeftScreen, gRightScreen);
    }
   
   private void drawToScreen() {
     Graphics g2 = getGraphics();
-    g2.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
-    g2.drawImage(image, FULL_WIDTH - 1, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
+    g2.drawImage(leftScreen, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
+    g2.drawImage(rightScreen, FULL_WIDTH - 1, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
     g2.dispose();
   }
 

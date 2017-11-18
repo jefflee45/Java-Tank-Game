@@ -44,8 +44,8 @@ public class LevelState extends GameState
     blockMap = new BlockMap();
     blockMap.setPosition(0, 0);
     blockMap.setTween(1);
-    p1 = new Player(blockMap);
-    p2 = new Player(blockMap);
+    p1 = new Player(blockMap, Player.FIRST_PLAYER);
+    p2 = new Player(blockMap, Player.SECOND_PLAYER);
     p1.setPosition(184, 234);
     p2.setPosition(200, 260);
   } 
@@ -54,7 +54,7 @@ public class LevelState extends GameState
   public void update()
   {
     updatePlayer1();
-    //updatePlayer2();
+    updatePlayer2();
 //    p1.update();
 //
 //    blockMap.setPosition(GamePanel.WIDTH / 2 - p1.getX(),
@@ -84,25 +84,21 @@ public class LevelState extends GameState
     blockMap = p2.getBlockMap();
     p2BlockMap = blockMap;
     
-    p2BlockMap.setPosition(GamePanel.WIDTH - p2.getX(),
+    p2BlockMap.setPosition(GamePanel.WIDTH/2 - p2.getX(),
         GamePanel.HEIGHT/2 - p2.getY());
     p2Bg.setPosition(p2BlockMap.getX(), p2BlockMap.getY());
   }
 
   @Override
-  public void draw(Graphics2D g, Graphics2D gScreen2)
+  public void draw(Graphics2D gLeftScreen, Graphics2D gRightScreen)
   {
-    p1Bg.draw(g);
-    //p2Bg.draw(g);
-    p1BlockMap.draw(g);
-    //p2BlockMap.draw(g);
+    p1Bg.draw(gLeftScreen);
+    p2Bg.draw(gRightScreen);
+    p1BlockMap.draw(gLeftScreen);
+    p2BlockMap.draw(gRightScreen);
 
-    p1.draw(g);
-    //p2.draw(g);
-//    bg.draw(g);
-//    blockMap.draw(g);
-//
-//    p1.draw(g);
+    p1.draw(gLeftScreen);
+    p2.draw(gRightScreen);
   }
 
   @Override
@@ -111,15 +107,27 @@ public class LevelState extends GameState
     switch (k)
     {
       case KeyEvent.VK_LEFT:
-        p1.setTurnLeft(true);
+        p2.setTurnLeft(true);
         break;
       case KeyEvent.VK_RIGHT:
-        p1.setTurnRight(true);
+        p2.setTurnRight(true);
         break;
       case KeyEvent.VK_UP:
-        p1.setForward(true);
+        p2.setForward(true);
         break;
       case KeyEvent.VK_DOWN:
+        p2.setBackwards(true);
+        break;
+      case KeyEvent.VK_A:
+        p1.setTurnLeft(true);
+        break;
+      case KeyEvent.VK_D:
+        p1.setTurnRight(true);
+        break;
+      case KeyEvent.VK_W:
+        p1.setForward(true);
+        break;
+      case KeyEvent.VK_S:
         p1.setBackwards(true);
         break;
     }
@@ -131,15 +139,27 @@ public class LevelState extends GameState
     switch (k)
     {
       case KeyEvent.VK_LEFT:
-        p1.setTurnLeft(false);
+        p2.setTurnLeft(false);
         break;
       case KeyEvent.VK_RIGHT:
-        p1.setTurnRight(false);
+        p2.setTurnRight(false);
         break;
       case KeyEvent.VK_UP:
-        p1.setForward(false);
+        p2.setForward(false);
         break;
       case KeyEvent.VK_DOWN:
+        p2.setBackwards(false);
+        break;
+      case KeyEvent.VK_A:
+        p1.setTurnLeft(false);
+        break;
+      case KeyEvent.VK_D:
+        p1.setTurnRight(false);
+        break;
+      case KeyEvent.VK_W:
+        p1.setForward(false);
+        break;
+      case KeyEvent.VK_S:
         p1.setBackwards(false);
         break;
     }
