@@ -54,9 +54,7 @@ public abstract class GameObject
   }
   
   public boolean intersects (GameObject obj) {
-    Rectangle r1 = getRectangle();
-    Rectangle r2 = obj.getRectangle();
-    return r1.intersects(r2);
+     return collisionBox.intersects(obj.getCollisionBox().getBounds2D());
   }
   
   public Rectangle getRectangle() {
@@ -65,8 +63,7 @@ public abstract class GameObject
   
   public void setTransformation(int x, int y) {
     AffineTransform at = new AffineTransform();
-    rect.setLocation(x-cWidth/2, y-cHeight/2);
-    //at.translate(, );
+    rect.setBounds(x-cWidth/2, y-cHeight/2, cWidth, cHeight);
     at.rotate(Math.toRadians(-angle + 6), rect.getCenterX(), rect.getCenterY());
     
 
@@ -318,6 +315,10 @@ public abstract class GameObject
   
   public int getCWidth() {
     return cWidth;
+  }
+  
+   public Shape getCollisionBox() {
+    return collisionBox;
   }
   
   public void setOtherPlayer(Player otherPlayer) {

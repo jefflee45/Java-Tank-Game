@@ -4,25 +4,21 @@ import Main.GamePanel;
 import TankGame.Background;
 import BlockMap.BlockMap;
 import GameObjects.Player;
+import TankGame.CollisionDetector;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 
 public class LevelState extends GameState
 {
-  private Background bg;
   private Background p1Bg;
   private Background p2Bg;
+  
+  private CollisionDetector collisionDetector;
   private Player p1;
   private Player p2;
   
-  private int x;
-  private int y;
-  
   private BlockMap blockMap;
-  private BlockMap p1BlockMap;
-  private BlockMap p2BlockMap;
   
   public LevelState(GameStateManager gsm) {
     this.gsm = gsm;
@@ -39,6 +35,8 @@ public class LevelState extends GameState
      catch (Exception e) {
        e.printStackTrace();
      }
+    
+    collisionDetector = new CollisionDetector();
     blockMap = new BlockMap();
     blockMap.setPosition(0, 0);
     blockMap.setTween(1);
@@ -51,6 +49,7 @@ public class LevelState extends GameState
   @Override
   public void update()
   {
+    collisionDetector.checkCollision(p1, p2);
     updatePlayer1();
     updatePlayer2();
   }
@@ -100,13 +99,13 @@ public class LevelState extends GameState
     gLeftScreen.draw(p1.getCollisionBox());
     gLeftScreen.draw(p2.getCollisionBox());
     
-    System.out.println("-----------------------------");
-    System.out.println("Tank1:");
-    System.out.println("X position: " + p1.getX() +" Shape X Position: " + p1.getCollisionBox().getBounds().getCenterX());
-    System.out.println("Y position: " + p1.getY() +" Shape Y Position: " + p1.getCollisionBox().getBounds().getCenterY());
-    System.out.println("Tank 2:");
-    System.out.println("X position: " + p2.getX() +" Shape X Position: " + p2.getCollisionBox().getBounds().getCenterX());
-    System.out.println("Y position: " + p2.getY() +" Shape Y Position: " + p2.getCollisionBox().getBounds().getCenterY());
+//    System.out.println("-----------------------------");
+//    System.out.println("Tank1:");
+//    System.out.println("X position: " + p1.getX() +" Shape X Position: " + p1.getCollisionBox().getBounds().getCenterX());
+//    System.out.println("Y position: " + p1.getY() +" Shape Y Position: " + p1.getCollisionBox().getBounds().getCenterY());
+//    System.out.println("Tank 2:");
+//    System.out.println("X position: " + p2.getX() +" Shape X Position: " + p2.getCollisionBox().getBounds().getCenterX());
+//    System.out.println("Y position: " + p2.getY() +" Shape Y Position: " + p2.getCollisionBox().getBounds().getCenterY());
 
   }
 

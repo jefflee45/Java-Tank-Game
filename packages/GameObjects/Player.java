@@ -75,7 +75,7 @@ public class Player extends GameObject {
     bulletDamage = 1;
     
     movingDirection = new BufferedImage[8];
-    rect = new Rectangle(0, 0, cWidth, cHeight);
+    rect = new Rectangle(0, 0, cWidth-4, cHeight);
     collisionBox = rect;
   }
   
@@ -279,7 +279,6 @@ public class Player extends GameObject {
     //checkObjectCollision();
     
     setPosition(xTemp, yTemp);
-    //rect.setLocation((int)xTemp, (int)yTemp);
     setTransformation((int)xTemp, (int)yTemp);
   }
   
@@ -305,10 +304,6 @@ public class Player extends GameObject {
   
   public int getPlayerNumber() {
     return player;
-  }
-  
-  public Shape getCollisionBox() {
-    return collisionBox;
   }
   
   public void draw(Graphics2D g) {
