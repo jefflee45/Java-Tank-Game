@@ -98,6 +98,8 @@ public class LevelState extends GameState
     p2BlockMap.draw(gRightScreen);
 
     p1.draw(gLeftScreen);
+    p2.draw(gLeftScreen);
+    p1.draw(gRightScreen);
     p2.draw(gRightScreen);
   }
 
