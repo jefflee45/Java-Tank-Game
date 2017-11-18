@@ -4,7 +4,6 @@ import BlockMap.Block;
 import BlockMap.BlockMap;
 import Main.GamePanel;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 
 public abstract class GameObject
 {
@@ -12,6 +11,7 @@ public abstract class GameObject
   protected Image image;
   protected BlockMap blockMap;
   protected Rectangle rect;
+    private Player otherPlayer;
   protected int blockSize;
   
   //dimensions
@@ -123,6 +123,70 @@ public abstract class GameObject
   if it is not an EMPTY_TILE, then stop moving in that direction,
   else continue moving
   */
+  public void checkObjectCollision() {
+    if (intersects(otherPlayer)) {
+      Rectangle r1 = getRectangle();
+      Rectangle r2 = otherPlayer.getRectangle();
+      double xDif = r1.getX() - r2.getX();
+      double yDif = r1.getY() - r2.getY();
+      
+      if (speed < 0)
+      {
+
+        //moving up
+        if (yDif > 0)
+        {
+          speed = 0;
+          yTemp = curRow * blockSize + cHeight / 2 + 1;
+        } //moving down
+        else if (yDif < 0)
+        {
+          speed = 0;
+          yTemp = (curRow + 1) * blockSize - cHeight / 2;
+        }
+
+        //moving left
+        if (xDif < 0)
+        {
+          speed = 0;
+          xTemp = curCol * blockSize + cWidth / 2;
+        } //moving right
+        else if (xDif > 0)
+        {
+          speed = 0;
+          xTemp = (curCol + 1) * blockSize - cWidth / 2;
+        }
+        //consider adding else case for speed and adjusting the +1/-1 values for the displacement
+      }
+
+      if (speed > 0)
+      {
+        
+
+        if (yDif > 0)
+        {
+          speed = 0;
+          yTemp = curRow * blockSize + cHeight / 2 + 1;
+        } else if (yDif <= 0)
+        {
+          speed = 0;
+          yTemp = (curRow + 1) * blockSize - cHeight / 2;
+        }
+
+        if (xDif < 0)
+        {
+          speed = 0;
+          xTemp = curCol * blockSize + cWidth / 2;
+
+        } else if (xDif >= 0)
+        {
+          speed = 0;
+          xTemp = (curCol + 1) * blockSize - cWidth / 2;
+        }
+      }
+
+    }
+  }
   
   public void checkBlockMapCollision() {
     
@@ -241,6 +305,10 @@ public abstract class GameObject
   
   public int getCWidth() {
     return cWidth;
+  }
+  
+  public void setOtherPlayer(Player otherPlayer) {
+    this.otherPlayer = otherPlayer;
   }
   
   public void setPosition (double x, double y) {

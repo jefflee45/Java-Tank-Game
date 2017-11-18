@@ -33,7 +33,6 @@ public class LevelState extends GameState
   protected void init()
   {
     try {
-       //bg = new Background("Resources/BackgroundLarge.bmp");
        p1Bg = new Background("Resources/BackgroundLarge.bmp");
        p2Bg = new Background("Resources/BackgroundLarge.bmp");
      }
@@ -46,21 +45,19 @@ public class LevelState extends GameState
     p1 = new Player(blockMap, Player.FIRST_PLAYER);
     p2 = new Player(blockMap, Player.SECOND_PLAYER);
     p1.setPosition(184, 234);
-    p2.setPosition(200, 260);
+    p2.setPosition(300, 260);
   } 
 
   @Override
   public void update()
   {
-
     updatePlayer1();
-
     updatePlayer2();
-
   }
   
   public void updatePlayer1() {
     p1.setBlockMapArray(blockMap.getBlockMapArray());
+    p1.setOtherPlayer(p2);
     p1.update();
     
     blockMap.setBlockMapArray(p1.getBlockMapArray());
@@ -72,6 +69,7 @@ public class LevelState extends GameState
   
   public void updatePlayer2() {
     p2.setBlockMapArray(blockMap.getBlockMapArray());
+    p2.setOtherPlayer(p1);
     p2.update();
     blockMap.setBlockMapArray(p2.getBlockMapArray());
     
