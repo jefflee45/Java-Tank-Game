@@ -111,7 +111,6 @@ public class BlockMap
           g.drawImage(blockMap[row][col].getImage(),
               (int)x + col * blockSize, (int)y + row * blockSize, null);
         }
-
       }
     }
     catch (Exception e) {
@@ -119,10 +118,13 @@ public class BlockMap
     }
   }
   
-  public Block[][] getBlockMap() {
+  public Block[][] getBlockMapArray() {
     return blockMap;
   }
   
+  public void setBlockMapArray(Block[][] bm) {
+    blockMap = bm;
+  }
   
   public int getBlockSize() {
     return blockSize;
@@ -155,7 +157,7 @@ public class BlockMap
   public void setPosition (double x, double y) {
     this.x += (x - this.x) * tween;
     this.y += (y - this.y) * tween;
-    
+
     fixBounds();
     
     colOffset = (int)-this.x / blockSize;

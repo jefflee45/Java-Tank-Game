@@ -277,12 +277,24 @@ public class Player extends GameObject {
     rect.setLocation((int)x, (int)y);
   }
   
-  public void setBlockMap(BlockMap bm) {
-    blockMap = bm;
+  public void setBlockMapPosition(double x, double y) {
+    blockMap.setPosition(x, y);
   }
   
-  public BlockMap getBlockMap() {
+  public void setBlockMapArray(Block[][] bm) {
+    blockMap.setBlockMapArray(bm);
+  }
+  
+  public Block[][] getBlockMapArray() {
+    return blockMap.getBlockMapArray();
+  }
+  
+  public BlockMap getBlockMapObject() {
     return blockMap;
+  }
+  
+  public void setBlockMapObject(BlockMap bm) {
+    blockMap = bm;
   }
   
   public int getPlayerNumber() {

@@ -27,20 +27,19 @@ public class LevelState extends GameState
   public LevelState(GameStateManager gsm) {
     this.gsm = gsm;
     init();
-         
-     try {
-       bg = new Background("Resources/BackgroundLarge.bmp");
+  }
+
+  @Override
+  protected void init()
+  {
+    try {
+       //bg = new Background("Resources/BackgroundLarge.bmp");
        p1Bg = new Background("Resources/BackgroundLarge.bmp");
        p2Bg = new Background("Resources/BackgroundLarge.bmp");
      }
      catch (Exception e) {
        e.printStackTrace();
      }
-  }
-
-  @Override
-  protected void init()
-  {
     blockMap = new BlockMap();
     blockMap.setPosition(0, 0);
     blockMap.setTween(1);
@@ -53,54 +52,50 @@ public class LevelState extends GameState
   @Override
   public void update()
   {
+
     updatePlayer1();
+
     updatePlayer2();
-//    p1.update();
-//
-//    blockMap.setPosition(GamePanel.WIDTH / 2 - p1.getX(),
-//        GamePanel.HEIGHT / 2 - p1.getY());
-//    bg.setPosition(blockMap.getX(), blockMap.getY());
-    
+
   }
   
   public void updatePlayer1() {
-    p1.setBlockMap(blockMap);
+    p1.setBlockMapArray(blockMap.getBlockMapArray());
     p1.update();
-    blockMap = p1.getBlockMap();
-    p1BlockMap = blockMap;
     
-    p1BlockMap.setPosition(GamePanel.WIDTH / 2 - p1.getX(),
-        GamePanel.HEIGHT / 2 - p1.getY());
-    p1Bg.setPosition(p1BlockMap.getX(), p1BlockMap.getY());
+    blockMap.setBlockMapArray(p1.getBlockMapArray());
 
-//    blockMap.setPosition(GamePanel.WIDTH / 2 - p1.getX(),
-//        GamePanel.HEIGHT / 2 - p1.getY());
-//    bg.setPosition(blockMap.getX(), blockMap.getY());
+    p1.setBlockMapPosition(GamePanel.WIDTH/2 - p1.getX(),
+        GamePanel.HEIGHT/2 - p1.getY());
+    p1Bg.setPosition(p1.getBlockMapObject().getX(), p1.getBlockMapObject().getY());
   }
   
   public void updatePlayer2() {
-    p2.setBlockMap(blockMap);
+    p2.setBlockMapArray(blockMap.getBlockMapArray());
     p2.update();
-    blockMap = p2.getBlockMap();
-    p2BlockMap = blockMap;
+    blockMap.setBlockMapArray(p2.getBlockMapArray());
     
-    p2BlockMap.setPosition(GamePanel.WIDTH/2 - p2.getX(),
+    p2.setBlockMapPosition(GamePanel.WIDTH/2 - p2.getX(),
         GamePanel.HEIGHT/2 - p2.getY());
-    p2Bg.setPosition(p2BlockMap.getX(), p2BlockMap.getY());
+    p2Bg.setPosition(p2.getBlockMapObject().getX(), p2.getBlockMapObject().getY());
   }
 
   @Override
   public void draw(Graphics2D gLeftScreen, Graphics2D gRightScreen)
   {
-    p1Bg.draw(gLeftScreen);
     p2Bg.draw(gRightScreen);
-    p1BlockMap.draw(gLeftScreen);
-    p2BlockMap.draw(gRightScreen);
-
-    p1.draw(gLeftScreen);
-    p2.draw(gLeftScreen);
+    p2.getBlockMapObject().draw(gRightScreen);
     p1.draw(gRightScreen);
     p2.draw(gRightScreen);
+    
+
+    p1.setBlockMapPosition(GamePanel.WIDTH / 2 - p1.getX(),
+        GamePanel.HEIGHT / 2 - p1.getY());
+    p1Bg.draw(gLeftScreen);
+    p1.getBlockMapObject().draw(gLeftScreen);
+    p1.draw(gLeftScreen);
+    p2.draw(gLeftScreen);
+
   }
 
   @Override
