@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.Toolkit;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -74,7 +75,8 @@ public class Player extends GameObject {
     bulletDamage = 1;
     
     movingDirection = new BufferedImage[8];
-    rect = new Rectangle(0, 0, width, height);
+    rect = new Rectangle(0, 0, cWidth, cHeight);
+    collisionBox = rect;
   }
   
   public static Image makeColorTransparent(BufferedImage im, final Color color) {
@@ -274,10 +276,11 @@ public class Player extends GameObject {
     getNextPosition();
     checkBlockMapCollision();
     
-    checkObjectCollision();
+    //checkObjectCollision();
     
     setPosition(xTemp, yTemp);
-    rect.setLocation((int)x, (int)y);
+    //rect.setLocation((int)xTemp, (int)yTemp);
+    setTransformation((int)xTemp, (int)yTemp);
   }
   
   public void setBlockMapPosition(double x, double y) {
@@ -302,6 +305,10 @@ public class Player extends GameObject {
   
   public int getPlayerNumber() {
     return player;
+  }
+  
+  public Shape getCollisionBox() {
+    return collisionBox;
   }
   
   public void draw(Graphics2D g) {
@@ -331,6 +338,5 @@ public class Player extends GameObject {
         (int)(x + xMap - width / 2),
         (int)(y + yMap - height / 2),
         null);
-    
   }
 }

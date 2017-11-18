@@ -84,7 +84,10 @@ public class LevelState extends GameState
     p2Bg.draw(gRightScreen);
     p2.getBlockMapObject().draw(gRightScreen);
     p1.draw(gRightScreen);
-    p2.draw(gRightScreen);
+    p2.draw(gRightScreen);  
+    gRightScreen.setColor(Color.RED);
+    gRightScreen.draw(p1.getCollisionBox());
+    gRightScreen.draw(p2.getCollisionBox());
     
 
     p1.setBlockMapPosition(GamePanel.WIDTH / 2 - p1.getX(),
@@ -93,6 +96,17 @@ public class LevelState extends GameState
     p1.getBlockMapObject().draw(gLeftScreen);
     p1.draw(gLeftScreen);
     p2.draw(gLeftScreen);
+    gLeftScreen.setColor(Color.RED);
+    gLeftScreen.draw(p1.getCollisionBox());
+    gLeftScreen.draw(p2.getCollisionBox());
+    
+    System.out.println("-----------------------------");
+    System.out.println("Tank1:");
+    System.out.println("X position: " + p1.getX() +" Shape X Position: " + p1.getCollisionBox().getBounds().getCenterX());
+    System.out.println("Y position: " + p1.getY() +" Shape Y Position: " + p1.getCollisionBox().getBounds().getCenterY());
+    System.out.println("Tank 2:");
+    System.out.println("X position: " + p2.getX() +" Shape X Position: " + p2.getCollisionBox().getBounds().getCenterX());
+    System.out.println("Y position: " + p2.getY() +" Shape Y Position: " + p2.getCollisionBox().getBounds().getCenterY());
 
   }
 

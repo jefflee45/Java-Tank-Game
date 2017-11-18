@@ -4,6 +4,7 @@ import BlockMap.Block;
 import BlockMap.BlockMap;
 import Main.GamePanel;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 public abstract class GameObject
 {
@@ -11,6 +12,7 @@ public abstract class GameObject
   protected Image image;
   protected BlockMap blockMap;
   protected Rectangle rect;
+  protected Shape collisionBox;
     private Player otherPlayer;
   protected int blockSize;
   
@@ -59,6 +61,17 @@ public abstract class GameObject
   
   public Rectangle getRectangle() {
     return new Rectangle((int)x-cWidth, (int)y-cHeight, cWidth, cHeight);
+  }
+  
+  public void setTransformation(int x, int y) {
+    AffineTransform at = new AffineTransform();
+    rect.setLocation(x-cWidth/2, y-cHeight/2);
+    //at.translate(, );
+    at.rotate(Math.toRadians(-angle + 6), rect.getCenterX(), rect.getCenterY());
+    
+
+    //AffineTransform at = AffineTransform.getRotateInstance(Math.toRadians(angle), rect.getCenterX() , rect.getCenterY());
+    collisionBox = at.createTransformedShape(rect);
   }
   
   public void calculateCorners(double x, double y) {
