@@ -141,7 +141,7 @@ public abstract class GameObject
   else continue moving
   */
   public void checkObjectCollision() {
-
+    
     if (intersects(otherPlayer))
     {
       double xDif = getX() - otherPlayer.getX();
@@ -149,8 +149,8 @@ public abstract class GameObject
 
       //locate sides of intersection
       //moving forward
-        if (speed < 0)
-//        if (forward)
+//        if (speed < 0)
+        if (forward)
         {
           //other player is below them
           if (yDif < 0)
@@ -172,8 +172,8 @@ public abstract class GameObject
           }
         }
 
-        if (speed > 0)
-//          if (backwards)
+//        if (speed > 0)
+          if (backwards)
         {
           //other player is below them
           if (yDif < 0)
@@ -193,82 +193,8 @@ public abstract class GameObject
           else if (xDif > 0)
           {
             leftInter = true;
-          }
-        }
-        
-      //---------------------------------------
-      //handle cases of intersection
-      //moving forward
-      if (speed < 0)
-      {
-        if (botInter)
-        {
-          if (rightInter)
-          {
-            speed = 0;
-            xTemp = curCol * blockSize + cWidth / 2;
-          } else if (leftInter)
-          {
-            speed = 0;
-            xTemp = (curCol + 1) * blockSize - cWidth/2;
-          }
-          
-          speed = 0;
-          yTemp = curRow * blockSize + cHeight / 2 + 1;
-        } 
-
-        else if (topInter)
-        {
-          if (rightInter)
-          {
-            speed = 0;
-            xTemp = curCol * blockSize + cWidth / 2;
-          } else if (leftInter)
-          {
-            speed = 0;
-            xTemp = (curCol + 1) * blockSize - cWidth/2;
-          }
-          speed = 0;
-          yTemp = (curRow + 1) * blockSize - cHeight / 2 - 1;
         }
       }
-
-      //moving backwards
-      if (speed > 0)
-      {
-        if (botInter)
-        {
-          if (rightInter)
-          {
-            speed = 0;
-            xTemp = (curCol + 1) * blockSize - cWidth / 2;
-          } 
-          else if (leftInter)
-          {
-            speed = 0;
-            xTemp = curCol * blockSize + cWidth / 2;
-          }
-          
-          speed = 0;
-          yTemp = (curRow + 1) * blockSize - cHeight / 2;
-        }
-        else if (topInter)
-        {
-          if (rightInter)
-          {
-            speed = 0;
-            xTemp = (curCol + 1) * blockSize - cWidth / 2;
-          } 
-          else if (leftInter)
-          {
-            speed = 0;
-            xTemp = curCol * blockSize + cWidth / 2;
-          }
-          speed = 0;
-          yTemp = curRow * blockSize + cHeight / 2 + 1;
-          }
-        }
-      
     } else
     {
       botInter = topInter = rightInter = leftInter = false;
@@ -295,13 +221,28 @@ public abstract class GameObject
       //if there is a block above, stop the speed and place
       //the object right below the block
       
-      if (topLeft || topRight) {
+      if (topLeft || topRight || topInter) {
+        
+        if (leftInter && (angle > 0 && angle < 90)) {
+          System.out.println("1. top and left");
+        } else if (rightInter && angle > 270) {
+          System.out.println("1. top and right");
+
+        } else {
         speed = 0;
         yTemp = curRow * blockSize + cHeight/2 + 1;
+        }
       } 
-      else if (bottomLeft || bottomRight) {
+      else if (bottomLeft || bottomRight || botInter) {
+        
+        if (leftInter && (angle > 90 && angle < 180)) {
+          System.out.println("1. bot and left");
+        } else if (rightInter && (angle > 180 && angle < 270)) {
+          System.out.println("1. bot and right");
+        } else {
         speed = 0;
         yTemp = (curRow + 1) * blockSize - cHeight/2;
+        }
       }
       else {
         if (!speedBoosted) {
@@ -313,13 +254,27 @@ public abstract class GameObject
     }
     //moving downwards
     if (speed > 0) {
-      if (bottomLeft || bottomRight) {
+      if (bottomLeft || bottomRight || botInter) {
+        
+        if (leftInter && (angle > 90 && angle < 180)) {
+          System.out.println("2. bot and left");
+        } else if (rightInter && (angle > 180 && angle < 270)) {
+          System.out.println("2. bot and right");
+        } else {
         speed = 0;
         yTemp = (curRow + 1) * blockSize - cHeight/2;
+        }
       } 
-      else if (topLeft || topRight) {
+      else if (topLeft || topRight || topInter) {
+        
+        if (leftInter && (angle > 0 && angle < 90)) {
+          System.out.println("2. top and left");
+        } else if (rightInter && angle > 270) {
+          System.out.println("2. top and right");
+        } else {
         speed = 0;
         yTemp = curRow * blockSize + cHeight/2 + 1;
+        }
       }
       else {
         if (!speedBoosted) {
@@ -335,13 +290,27 @@ public abstract class GameObject
     calculateCorners(xDest, y);
     //moving left
     if (speed < 0) {
-      if (topLeft || bottomLeft) {
+      if (topLeft || bottomLeft || leftInter) {
+        
+        if (topInter && (angle > 0 && angle < 90)) {
+          System.out.println("3. left and top");
+        } else if (botInter && (angle > 90 && angle < 180)) {
+          System.out.println("3. left and bot");
+        } else {
         speed = 0;
         xTemp = curCol * blockSize + cWidth/2;
+        }
       }
-      else if (topRight || bottomRight) {
+      else if (topRight || bottomRight || rightInter) {
+        
+        if (topInter && angle > 270) {
+          System.out.println("3. right and top");
+        } else if (botInter && (angle > 180 && angle < 270)) {
+          System.out.println("3. right and bot");
+        } else {
         speed = 0;
         xTemp = (curCol + 1) * blockSize - cWidth/2;
+        }
       }
       else {
         if (!speedBoosted) {
@@ -354,13 +323,27 @@ public abstract class GameObject
     }
     //moving right
     if (speed > 0) {
-      if (topRight || bottomRight) {
+      if (topRight || bottomRight || rightInter) {
+        
+        if (topInter && angle > 270) {
+          System.out.println("4. right and top");
+        } else if (botInter && (angle > 180 && angle < 270)) {
+          System.out.println("4. right and bot");
+        } else {
         speed = 0;
         xTemp = (curCol + 1) * blockSize - cWidth/2;
+        }
       }
-      else if (topLeft || bottomLeft) {
+      else if (topLeft || bottomLeft || leftInter) {
+        
+        if (topInter && (angle > 0 && angle < 90)) {
+          System.out.println("4. left and top");
+        } else if (botInter && (angle > 90 && angle < 180)) {
+          System.out.println("4. left and bot");
+        } else {
         speed = 0;
         xTemp = curCol * blockSize + cWidth/2;
+        }
       }
       else {
         if (!speedBoosted) {
