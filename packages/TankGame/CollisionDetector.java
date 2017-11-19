@@ -16,14 +16,9 @@ public class CollisionDetector {
     //player on player collision
     if (obj1 instanceof Player && obj2 instanceof Player) {
       if (((Player)obj1).intersects((Player)obj2)) {
-        System.out.println("THEY INTERSECT");
               return true;
-
       }
-          System.out.println(".");
-
     }
-    
     return false;
   }
 }

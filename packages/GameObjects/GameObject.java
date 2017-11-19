@@ -5,6 +5,7 @@ import BlockMap.BlockMap;
 import Main.GamePanel;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 
 public abstract class GameObject
 {
@@ -65,9 +66,6 @@ public abstract class GameObject
     AffineTransform at = new AffineTransform();
     rect.setBounds(x-cWidth/2, y-cHeight/2, cWidth, cHeight);
     at.rotate(Math.toRadians(-angle + 6), rect.getCenterX(), rect.getCenterY());
-    
-
-    //AffineTransform at = AffineTransform.getRotateInstance(Math.toRadians(angle), rect.getCenterX() , rect.getCenterY());
     collisionBox = at.createTransformedShape(rect);
   }
   
@@ -134,67 +132,73 @@ public abstract class GameObject
   else continue moving
   */
   public void checkObjectCollision() {
+    Shape temp = collisionBox;
+    collisionBox = new Rectangle((int)xDest, (int)yDest,
+        (int)temp.getBounds().getWidth(), (int)temp.getBounds().getHeight());
+    
     if (intersects(otherPlayer)) {
-      Rectangle r1 = getRectangle();
-      Rectangle r2 = otherPlayer.getRectangle();
-      double xDif = r1.getX() - r2.getX();
-      double yDif = r1.getY() - r2.getY();
+      Rectangle2D r1 = collisionBox.getBounds2D();
+      Rectangle2D r2 = collisionBox.getBounds2D();
+      double xDif = getX() - otherPlayer.getX();
+      double yDif = getY() - otherPlayer.getY();
       
       if (speed < 0)
       {
-
-        //moving up
-        if (yDif > 0)
+        //other player is below them
+        if (yDif < 0)
         {
           speed = 0;
-          yTemp = curRow * blockSize + cHeight / 2 + 1;
+          yTemp = curRow * blockSize + cHeight / 2;
         } //moving down
-        else if (yDif < 0)
+        else if (yDif > 0)
         {
           speed = 0;
-          yTemp = (curRow + 1) * blockSize - cHeight / 2;
+          yTemp = (curRow + 1) * blockSize - cHeight / 2 + 1;
         }
 
-        //moving left
+        //other player is on the right
         if (xDif < 0)
         {
           speed = 0;
           xTemp = curCol * blockSize + cWidth / 2;
-        } //moving right
+        } //other player is on the left
         else if (xDif > 0)
         {
           speed = 0;
           xTemp = (curCol + 1) * blockSize - cWidth / 2;
         }
-        //consider adding else case for speed and adjusting the +1/-1 values for the displacement
       }
 
       if (speed > 0)
       {
-        
-
-        if (yDif > 0)
+        //other player is below them
+        if (yDif < 0)
         {
           speed = 0;
-          yTemp = curRow * blockSize + cHeight / 2 + 1;
-        } else if (yDif <= 0)
+          yTemp = curRow * blockSize + cHeight / 2;
+        }
+        //other player is above them
+        else if (yDif > 0)
         {
           speed = 0;
-          yTemp = (curRow + 1) * blockSize - cHeight / 2;
+          yTemp = (curRow + 1) * blockSize - cHeight / 2 + 1;
         }
 
+        //other player is on the right
         if (xDif < 0)
         {
           speed = 0;
           xTemp = curCol * blockSize + cWidth / 2;
-
-        } else if (xDif >= 0)
+        } 
+        //other player is on the left
+        else if (xDif > 0)
         {
           speed = 0;
           xTemp = (curCol + 1) * blockSize - cWidth / 2;
         }
       }
-
+    } else {
+      collisionBox = temp;
     }
   }
   
@@ -246,6 +250,7 @@ public abstract class GameObject
       }
       else {
         if (!speedBoosted) {
+
         xTemp += speed * Math.sin(Math.toRadians(angle));
         yTemp += speed * Math.cos(Math.toRadians(angle));
         speedBoosted = true;
@@ -267,6 +272,7 @@ public abstract class GameObject
       }
       else {
         if (!speedBoosted) {
+
         xTemp += speed * Math.sin(Math.toRadians(angle));
         yTemp += speed * Math.cos(Math.toRadians(angle));
         speedBoosted = true;
@@ -285,6 +291,7 @@ public abstract class GameObject
       }
       else {
         if (!speedBoosted) {
+
         xTemp += speed * Math.sin(Math.toRadians(angle));
         yTemp += speed * Math.cos(Math.toRadians(angle));
         speedBoosted = true;

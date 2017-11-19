@@ -49,8 +49,8 @@ public class LevelState extends GameState
   @Override
   public void update()
   {
-    collisionDetector.checkCollision(p1, p2);
     updatePlayer1();
+    //collisionDetector.checkCollision(p1, p2);
     updatePlayer2();
   }
   
@@ -85,19 +85,14 @@ public class LevelState extends GameState
     p1.draw(gRightScreen);
     p2.draw(gRightScreen);  
     gRightScreen.setColor(Color.RED);
-    gRightScreen.draw(p1.getCollisionBox());
-    gRightScreen.draw(p2.getCollisionBox());
-    
 
-    p1.setBlockMapPosition(GamePanel.WIDTH / 2 - p1.getX(),
+    p1.setBlockMapPosition(GamePanel.WIDTH / 2 - p1.getX(), 
         GamePanel.HEIGHT / 2 - p1.getY());
     p1Bg.draw(gLeftScreen);
     p1.getBlockMapObject().draw(gLeftScreen);
     p1.draw(gLeftScreen);
     p2.draw(gLeftScreen);
     gLeftScreen.setColor(Color.RED);
-    gLeftScreen.draw(p1.getCollisionBox());
-    gLeftScreen.draw(p2.getCollisionBox());
     
 //    System.out.println("-----------------------------");
 //    System.out.println("Tank1:");

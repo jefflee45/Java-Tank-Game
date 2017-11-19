@@ -275,9 +275,8 @@ public class Player extends GameObject {
   public void update() {
     getNextPosition();
     checkBlockMapCollision();
-    
-    //checkObjectCollision();
-    
+    checkObjectCollision();
+
     setPosition(xTemp, yTemp);
     setTransformation((int)xTemp, (int)yTemp);
   }
