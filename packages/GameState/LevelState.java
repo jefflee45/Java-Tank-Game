@@ -39,7 +39,7 @@ public class LevelState extends GameState
        e.printStackTrace();
      }
     
-    hud = new HUD("Resources/Digital-Camo.jpg");
+    hud = new HUD("Resources/Desert-Camo.jpg");
     collisionDetector = new CollisionDetector();
     blockMap = new BlockMap();
     blockMap.setPosition(0, 0);

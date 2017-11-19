@@ -20,7 +20,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
   public static final int WIDTH = 540;
   public static final int HEIGHT = 480;
   public static final int WIDTH_SCALE = 2;
-  public static final int HEIGHT_SCALE = 3;
+  public static final double HEIGHT_SCALE = 2.5;
   public static final int FULL_WIDTH = 1080;
   public static final int FULL_HEIGHT = 480;
 
@@ -50,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
   public GamePanel() {
     super();
-    setPreferredSize(new Dimension(FULL_WIDTH * WIDTH_SCALE, FULL_HEIGHT * HEIGHT_SCALE));
+    setPreferredSize(new Dimension(FULL_WIDTH * WIDTH_SCALE, (int)(FULL_HEIGHT * HEIGHT_SCALE)));
     setFocusable(true);
     requestFocus();
   }
@@ -70,7 +70,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     leftScreen = new BufferedImage (WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     rightScreen = new BufferedImage (WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     menuScreen = new BufferedImage (FULL_WIDTH, FULL_HEIGHT, BufferedImage.TYPE_INT_RGB);
-    HUDScreen = new BufferedImage (FULL_WIDTH, FULL_HEIGHT * HEIGHT_SCALE, BufferedImage.TYPE_INT_RGB);
+    HUDScreen = new BufferedImage (FULL_WIDTH, (int)(FULL_HEIGHT * HEIGHT_SCALE), BufferedImage.TYPE_INT_RGB);
     gLeftScreen = (Graphics2D) leftScreen.getGraphics();
     gRightScreen = (Graphics2D) rightScreen.getGraphics();
     gMenuScreen = (Graphics2D) menuScreen.getGraphics();
@@ -110,7 +110,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
       } catch (Exception e) {
         e.printStackTrace();
       }
-      
     }
   }
   
@@ -131,14 +130,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     if (gsm.getCurrentState() == GameStateManager.LEVELSTATE) {
       if (!alreadyDrawnBackground) {
-        g2.drawImage(HUDScreen, 0, 0, FULL_WIDTH * WIDTH_SCALE, FULL_HEIGHT * HEIGHT_SCALE, null);
+        g2.drawImage(HUDScreen, 0, 0, FULL_WIDTH * WIDTH_SCALE, (int)(FULL_HEIGHT * HEIGHT_SCALE), null);
         alreadyDrawnBackground = true;
       }
       
-      g2.drawImage(leftScreen, 20, 20, WIDTH * WIDTH_SCALE - 20, HEIGHT * WIDTH_SCALE, null);
-      g2.drawImage(rightScreen, FULL_WIDTH + 20, 20, WIDTH * WIDTH_SCALE - 40, HEIGHT * WIDTH_SCALE, null);
+      g2.drawImage(leftScreen, 20, 20, WIDTH * WIDTH_SCALE - 40, HEIGHT * WIDTH_SCALE - 20, null);
+      g2.drawImage(rightScreen, FULL_WIDTH +20, 20, WIDTH * WIDTH_SCALE - 40, HEIGHT * WIDTH_SCALE - 20, null);
     } else if (gsm.getCurrentState() == GameStateManager.MENUSTATE){
-      g2.drawImage(menuScreen, 0, 0, FULL_WIDTH * WIDTH_SCALE, FULL_HEIGHT * HEIGHT_SCALE, null);
+      g2.drawImage(menuScreen, 0, 0, FULL_WIDTH * WIDTH_SCALE, (int)(FULL_HEIGHT * HEIGHT_SCALE), null);
     }
     g2.dispose();
 
