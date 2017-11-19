@@ -38,7 +38,6 @@ public class Bullet extends GameObject{
       
       calculateCorners(x, y);
       if (bulletIntersects(otherPlayer)) {
-          System.out.println("Boom");
           show = false;
         }
       
