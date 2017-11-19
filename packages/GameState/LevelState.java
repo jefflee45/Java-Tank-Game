@@ -42,8 +42,8 @@ public class LevelState extends GameState
     blockMap.setTween(1);
     p1 = new Player(blockMap, Player.FIRST_PLAYER);
     p2 = new Player(blockMap, Player.SECOND_PLAYER);
-    p1.setPosition(184, 234);
-    p2.setPosition(300, 260);
+    p1.setPosition(184, 434);
+    p2.setPosition(300, 480);
   } 
 
   @Override

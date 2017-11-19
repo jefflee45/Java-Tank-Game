@@ -17,6 +17,9 @@ public abstract class GameObject
     private Player otherPlayer;
   protected int blockSize;
   
+  protected boolean intersected;
+  protected boolean topInter, botInter, rightInter, leftInter;
+  
   //dimensions
   protected int width, height;
   
@@ -132,73 +135,139 @@ public abstract class GameObject
   else continue moving
   */
   public void checkObjectCollision() {
-    Shape temp = collisionBox;
-    collisionBox = new Rectangle((int)xDest, (int)yDest,
-        (int)temp.getBounds().getWidth(), (int)temp.getBounds().getHeight());
-    
-    if (intersects(otherPlayer)) {
+
+    if (intersects(otherPlayer))
+    {
+      boolean speedBoosted = false;
       Rectangle2D r1 = collisionBox.getBounds2D();
       Rectangle2D r2 = collisionBox.getBounds2D();
       double xDif = getX() - otherPlayer.getX();
       double yDif = getY() - otherPlayer.getY();
-      
+
+      //locate sides of intersection
+        if (speed < 0)
+        {
+          //other player is below them
+          if (yDif < 0)
+          {
+            botInter = true;
+          } //other player is above them
+          else if (yDif > 0)
+          {
+            topInter = true;
+          }
+
+          //other player is on the right
+          if (xDif < 0)
+          {
+            rightInter = true;
+          } //other player is on the left
+          else if (xDif > 0)
+          {
+
+            leftInter = true;
+          }
+        }
+
+        if (speed > 0)
+        {
+          //other player is below them
+          if (yDif < 0)
+          {
+            botInter = true;
+          } //other player is above them
+          else if (yDif > 0)
+          {
+            topInter = true;
+          }
+
+          //other player is on the right
+          if (xDif < 0)
+          {
+            rightInter = true;
+          } //other player is on the left
+          else if (xDif > 0)
+          {
+            leftInter = true;
+          }
+        }
+        
+      //---------------------------------------
+      //handle cases of intersection
+      //moving forward
       if (speed < 0)
       {
-        //other player is below them
-        if (yDif < 0)
+        if (botInter)
         {
+          if (rightInter)
+          {
+            speed = 0;
+            xTemp = curCol * blockSize + cWidth / 2;
+          } else if (leftInter)
+          {
+            speed = 0;
+            xTemp = (curCol + 1) * blockSize - cWidth/2;
+          }
+          
           speed = 0;
-          yTemp = curRow * blockSize + cHeight / 2;
-        } //moving down
-        else if (yDif > 0)
-        {
-          speed = 0;
-          yTemp = (curRow + 1) * blockSize - cHeight / 2 + 1;
-        }
+          yTemp = curRow * blockSize + cHeight / 2 + 1;
+        } 
 
-        //other player is on the right
-        if (xDif < 0)
+        else if (topInter)
         {
+          if (rightInter)
+          {
+            speed = 0;
+            xTemp = curCol * blockSize + cWidth / 2;
+          } else if (leftInter)
+          {
+            speed = 0;
+            xTemp = (curCol + 1) * blockSize - cWidth/2;
+          }
           speed = 0;
-          xTemp = curCol * blockSize + cWidth / 2;
-        } //other player is on the left
-        else if (xDif > 0)
-        {
-          speed = 0;
-          xTemp = (curCol + 1) * blockSize - cWidth / 2;
-        }
+          yTemp = (curRow + 1) * blockSize - cHeight / 2 - 1;
+      }
       }
 
+      //moving backwards
       if (speed > 0)
       {
-        //other player is below them
-        if (yDif < 0)
+        if (botInter)
         {
+          if (rightInter)
+          {
+            speed = 0;
+            xTemp = (curCol + 1) * blockSize - cWidth / 2;
+          } 
+          else if (leftInter)
+          {
+            speed = 0;
+            xTemp = curCol * blockSize + cWidth / 2;
+          }
+          
           speed = 0;
-          yTemp = curRow * blockSize + cHeight / 2;
+          yTemp = (curRow + 1) * blockSize - cHeight / 2;
         }
-        //other player is above them
-        else if (yDif > 0)
+        else if (topInter)
         {
+          if (rightInter)
+          {
+            speed = 0;
+            xTemp = (curCol + 1) * blockSize - cWidth / 2;
+          } 
+          else if (leftInter)
+          {
+            speed = 0;
+            xTemp = curCol * blockSize + cWidth / 2;
+          }
           speed = 0;
-          yTemp = (curRow + 1) * blockSize - cHeight / 2 + 1;
+          yTemp = curRow * blockSize + cHeight / 2 + 1;
+          }
         }
-
-        //other player is on the right
-        if (xDif < 0)
-        {
-          speed = 0;
-          xTemp = curCol * blockSize + cWidth / 2;
-        } 
-        //other player is on the left
-        else if (xDif > 0)
-        {
-          speed = 0;
-          xTemp = (curCol + 1) * blockSize - cWidth / 2;
-        }
-      }
-    } else {
-      collisionBox = temp;
+      
+    } else
+    {
+      botInter = topInter = rightInter = leftInter = false;
     }
   }
   
