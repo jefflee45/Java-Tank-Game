@@ -15,6 +15,7 @@ import java.awt.image.ImageProducer;
 import java.awt.image.RGBImageFilter;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.ArrayList;
 
 public class Player extends GameObject {
 
@@ -32,6 +33,7 @@ public class Player extends GameObject {
   private boolean dead;
     
   //attacking
+  private ArrayList<Bullet> bulletList;
   private boolean firing;
   private boolean flinching;
   private int bulletDamage;
@@ -73,6 +75,7 @@ public class Player extends GameObject {
     
     health = maxHealth = 5;
     bulletDamage = 1;
+    bulletList = new ArrayList<Bullet>();
     
     movingDirection = new BufferedImage[8];
     rect = new Rectangle(0, 0, cWidth-4, cHeight);
@@ -295,8 +298,6 @@ public class Player extends GameObject {
     getNextPosition();
     checkObjectCollision();
     checkBlockMapCollision();
-
-    
     setPosition(xTemp, yTemp);
     setTransformation((int)xTemp, (int)yTemp);
   }
@@ -352,5 +353,15 @@ public class Player extends GameObject {
         (int)(x + xMap - width / 2),
         (int)(y + yMap - height / 2),
         null);
+  }
+  
+  public void fire() {
+      Bullet b = new Bullet(blockMap, angle, x, y);
+      bulletList.add(b);
+      
+  }
+  
+  public ArrayList<Bullet> getBulletList() {
+    return bulletList;
   }
 }

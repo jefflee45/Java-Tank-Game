@@ -8,11 +8,6 @@ import java.awt.image.BufferedImage;
 import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 

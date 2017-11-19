@@ -14,7 +14,7 @@ public abstract class GameObject
   protected BlockMap blockMap;
   protected Rectangle rect;
   protected Shape collisionBox;
-    private Player otherPlayer;
+  protected Player otherPlayer;
   protected int blockSize;
   
   protected boolean intersected;
@@ -55,6 +55,12 @@ public abstract class GameObject
   public GameObject (BlockMap blockMap) {
     this.blockMap = blockMap;
     blockSize = blockMap.getBlockSize();
+  }
+  
+  public boolean bulletIntersects (GameObject obj) {
+    Rectangle r1 = getRectangle();
+    Rectangle r2 = obj.getRectangle();
+    return r1.intersects(r2);
   }
   
   public boolean intersects (GameObject obj) {
@@ -138,9 +144,6 @@ public abstract class GameObject
 
     if (intersects(otherPlayer))
     {
-      boolean speedBoosted = false;
-      Rectangle2D r1 = collisionBox.getBounds2D();
-      Rectangle2D r2 = collisionBox.getBounds2D();
       double xDif = getX() - otherPlayer.getX();
       double yDif = getY() - otherPlayer.getY();
 
