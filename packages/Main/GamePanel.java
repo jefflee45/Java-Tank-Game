@@ -2,18 +2,25 @@ package Main;
 
 import GameState.GameStateManager;
 import TankGame.GameEvents;
+import TankGame.HUD;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 
   //dimensions
   public static final int WIDTH = 540;
   public static final int HEIGHT = 480;
-  public static final int SCALE = 2;
+  public static final int WIDTH_SCALE = 2;
+  public static final int HEIGHT_SCALE = 3;
   public static final int FULL_WIDTH = 1080;
   public static final int FULL_HEIGHT = 480;
 
@@ -27,9 +34,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
   private BufferedImage leftScreen;
   private BufferedImage rightScreen;
   private BufferedImage menuScreen;
+  private BufferedImage HUDScreen;
   private Graphics2D gLeftScreen;
   private Graphics2D gRightScreen;
   private Graphics2D gMenuScreen;
+  private Graphics2D gHUDScreen;
+  
+  private HUD hud;
+  private boolean alreadyDrawnBackground;
   
   //game state manager
   private GameStateManager gsm;
@@ -38,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
   public GamePanel() {
     super();
-    setPreferredSize(new Dimension(FULL_WIDTH * SCALE, FULL_HEIGHT * SCALE));
+    setPreferredSize(new Dimension(FULL_WIDTH * WIDTH_SCALE, FULL_HEIGHT * HEIGHT_SCALE));
     setFocusable(true);
     requestFocus();
   }
@@ -58,9 +70,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     leftScreen = new BufferedImage (WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     rightScreen = new BufferedImage (WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     menuScreen = new BufferedImage (FULL_WIDTH, FULL_HEIGHT, BufferedImage.TYPE_INT_RGB);
+    HUDScreen = new BufferedImage (FULL_WIDTH, FULL_HEIGHT * HEIGHT_SCALE, BufferedImage.TYPE_INT_RGB);
     gLeftScreen = (Graphics2D) leftScreen.getGraphics();
     gRightScreen = (Graphics2D) rightScreen.getGraphics();
     gMenuScreen = (Graphics2D) menuScreen.getGraphics();
+    gHUDScreen = (Graphics2D) HUDScreen.getGraphics();
+    
+    alreadyDrawnBackground = false;
     running = true;
     
     gsm = new GameStateManager();
@@ -104,20 +120,25 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
   
   private void draw() {
     if (gsm.getCurrentState() != GameStateManager.MENUSTATE) {
-      gsm.draw(gLeftScreen, gRightScreen);
+      gsm.draw(gLeftScreen, gRightScreen, gHUDScreen);
     } else {
-      gsm.draw(gMenuScreen, null);
+      gsm.draw(gMenuScreen, null , null);
     }
   }
   
   private void drawToScreen() {
     Graphics g2 = getGraphics();
 
-    if (gsm.getCurrentState() != GameStateManager.MENUSTATE) {
-      g2.drawImage(leftScreen, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
-      g2.drawImage(rightScreen, FULL_WIDTH - 1, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
-    } else {
-      g2.drawImage(menuScreen, 0, 0, FULL_WIDTH * SCALE, FULL_HEIGHT * SCALE, null);
+    if (gsm.getCurrentState() == GameStateManager.LEVELSTATE) {
+      if (!alreadyDrawnBackground) {
+        g2.drawImage(HUDScreen, 0, 0, FULL_WIDTH * WIDTH_SCALE, FULL_HEIGHT * HEIGHT_SCALE, null);
+        alreadyDrawnBackground = true;
+      }
+      
+      g2.drawImage(leftScreen, 20, 20, WIDTH * WIDTH_SCALE - 20, HEIGHT * WIDTH_SCALE, null);
+      g2.drawImage(rightScreen, FULL_WIDTH + 20, 20, WIDTH * WIDTH_SCALE - 40, HEIGHT * WIDTH_SCALE, null);
+    } else if (gsm.getCurrentState() == GameStateManager.MENUSTATE){
+      g2.drawImage(menuScreen, 0, 0, FULL_WIDTH * WIDTH_SCALE, FULL_HEIGHT * HEIGHT_SCALE, null);
     }
     g2.dispose();
 

@@ -5,6 +5,7 @@ import TankGame.Background;
 import BlockMap.BlockMap;
 import GameObjects.Player;
 import TankGame.CollisionDetector;
+import TankGame.HUD;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -17,6 +18,8 @@ public class LevelState extends GameState
   private CollisionDetector collisionDetector;
   private Player p1;
   private Player p2;
+  
+  private HUD hud;
   
   private BlockMap blockMap;
   
@@ -36,6 +39,7 @@ public class LevelState extends GameState
        e.printStackTrace();
      }
     
+    hud = new HUD("Resources/Digital-Camo.jpg");
     collisionDetector = new CollisionDetector();
     blockMap = new BlockMap();
     blockMap.setPosition(0, 0);
@@ -78,8 +82,9 @@ public class LevelState extends GameState
   }
 
   @Override
-  public void draw(Graphics2D gLeftScreen, Graphics2D gRightScreen)
+  public void draw(Graphics2D gLeftScreen, Graphics2D gRightScreen, Graphics2D gHUDScreen)
   {
+    hud.draw(gHUDScreen);
     p2Bg.draw(gRightScreen);
     p2.getBlockMapObject().draw(gRightScreen);
     p1.draw(gRightScreen);

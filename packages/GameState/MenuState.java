@@ -40,7 +40,7 @@ public class MenuState extends GameState
   }
 
   @Override
-  public void draw(Graphics2D gMenuScreen, Graphics2D nullValue)
+  public void draw(Graphics2D gMenuScreen, Graphics2D nullValue, Graphics2D nullValue2)
   {
     //draw background
     bg.draw(gMenuScreen);

@@ -2,9 +2,7 @@ package BlockMap;
 
 import Main.GamePanel;
 import java.awt.*;
-import java.awt.image.*;
 import java.io.*;
-import javax.imageio.ImageIO;
 
 public class BlockMap
 {
@@ -15,10 +13,6 @@ public class BlockMap
   
   //bounds
   private int xMin, yMin, xMax, yMax;
-  
-  //blockset
-  private BufferedImage breakableBlock;
-  private BufferedImage unbreakableBlock;
   
   //map
   private int blockSize;

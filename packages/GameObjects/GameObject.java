@@ -226,7 +226,7 @@ public abstract class GameObject
           }
           speed = 0;
           yTemp = (curRow + 1) * blockSize - cHeight / 2 - 1;
-      }
+        }
       }
 
       //moving backwards

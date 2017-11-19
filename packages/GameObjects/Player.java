@@ -61,14 +61,14 @@ public class Player extends GameObject {
     
     speed = 0;
     angleSpeed = 0;
-    moveSpeed = 0.3;
-    angleMoveSpeed = 1;
+    moveSpeed = 1;
+    angleMoveSpeed = 1.5;
     
     angle = 180;
     
-    maxSpeed = 1.6;
+    maxSpeed = 1.5;
     maxAngleSpeed = 3;
-    stopSpeed = 0.4;
+    stopSpeed = 0.5;
     flinchTimer = 100000;
     
     health = maxHealth = 5;
@@ -113,7 +113,6 @@ public class Player extends GameObject {
   
   public static BufferedImage makeBackgroundTransparent(BufferedImage image) {
     
-    int color = image.getRGB(0,0);
     Image pic = makeColorTransparent(image, Color.GREEN);
     return imageToBufferedImage(pic);
   }
@@ -190,11 +189,21 @@ public class Player extends GameObject {
         angle = angle - 360 + angleSpeed;
       }
       
-      
-      speed += moveSpeed;
-      if (speed > maxSpeed) {
-        speed = maxSpeed;
-      }
+       if (forward)
+       {
+         speed += moveSpeed;
+         if (speed > maxSpeed)
+         {
+           speed = maxSpeed;
+         }
+       } else if (backwards)
+       {
+         speed -= moveSpeed;
+         if (speed < -maxSpeed)
+         {
+           speed = -maxSpeed;
+         }
+       }
     }
     //moving in negative x direction
      if (turnRight) {
@@ -203,15 +212,25 @@ public class Player extends GameObject {
         angleSpeed = -maxAngleSpeed;
       }
       angle += angleSpeed;
-
       
       if (angle < -360) {
         angle = angle + 360 - angleSpeed;
       }
       
-      speed -= moveSpeed;
-      if (speed < -maxSpeed) {
-        speed = -maxSpeed;
+      if (backwards)
+      {
+        speed -= moveSpeed;
+        if (speed < -maxSpeed)
+        {
+          speed = -maxSpeed;
+        }
+      } else if (forward)
+      {
+        speed += moveSpeed;
+        if (speed > maxSpeed)
+        {
+          speed = maxSpeed;
+        }
       }
     }
     
@@ -275,7 +294,6 @@ public class Player extends GameObject {
   public void update() {
     getNextPosition();
     checkObjectCollision();
-
     checkBlockMapCollision();
 
     
