@@ -29,10 +29,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
   private BufferedImage leftScreen;
   private BufferedImage rightScreen;
   private BufferedImage menuScreen;
+  private BufferedImage controlScreen;
   private BufferedImage HUDScreen;
   private Graphics2D gLeftScreen;
   private Graphics2D gRightScreen;
   private Graphics2D gMenuScreen;
+  private Graphics2D gControlScreen;
   private Graphics2D gHUDScreen;
   
   private HUD hud;
@@ -65,10 +67,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     leftScreen = new BufferedImage (WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     rightScreen = new BufferedImage (WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     menuScreen = new BufferedImage (FULL_WIDTH, FULL_HEIGHT, BufferedImage.TYPE_INT_RGB);
+    controlScreen = new BufferedImage (FULL_WIDTH, FULL_HEIGHT, BufferedImage.TYPE_INT_RGB);
     HUDScreen = new BufferedImage (FULL_WIDTH, (int)(FULL_HEIGHT * HEIGHT_SCALE), BufferedImage.TYPE_INT_RGB);
     gLeftScreen = (Graphics2D) leftScreen.getGraphics();
     gRightScreen = (Graphics2D) rightScreen.getGraphics();
     gMenuScreen = (Graphics2D) menuScreen.getGraphics();
+    gControlScreen = (Graphics2D) controlScreen.getGraphics();
     gHUDScreen = (Graphics2D) HUDScreen.getGraphics();
     
     alreadyDrawnBackground = false;
@@ -113,10 +117,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
   }
   
   private void draw() {
-    if (gsm.getCurrentState() != GameStateManager.MENUSTATE) {
+    if (gsm.getCurrentState() == GameStateManager.LEVELSTATE) {
       gsm.draw(gLeftScreen, gRightScreen, gHUDScreen);
-    } else {
+    } 
+    else if (gsm.getCurrentState() == GameStateManager.MENUSTATE) {
       gsm.draw(gMenuScreen, null , null);
+    } 
+    else if (gsm.getCurrentState() == GameStateManager.CONTROLSTATE) {
+      gsm.draw(gControlScreen, null, null);
     }
   }
   
@@ -131,8 +139,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
       
       g2.drawImage(leftScreen, 20, 20, WIDTH * WIDTH_SCALE - 40, HEIGHT * WIDTH_SCALE - 20, null);
       g2.drawImage(rightScreen, FULL_WIDTH +20, 20, WIDTH * WIDTH_SCALE - 40, HEIGHT * WIDTH_SCALE - 20, null);
-    } else if (gsm.getCurrentState() == GameStateManager.MENUSTATE){
+    } 
+    else if (gsm.getCurrentState() == GameStateManager.MENUSTATE){
       g2.drawImage(menuScreen, 0, 0, FULL_WIDTH * WIDTH_SCALE, (int)(FULL_HEIGHT * HEIGHT_SCALE), null);
+    } 
+    else if (gsm.getCurrentState() == GameStateManager.CONTROLSTATE) {
+      g2.drawImage(controlScreen, 0, 0, FULL_WIDTH * WIDTH_SCALE, (int)(FULL_HEIGHT * HEIGHT_SCALE), null);
     }
     g2.dispose();
 

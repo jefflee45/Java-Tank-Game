@@ -1,11 +1,7 @@
 package GameObjects;
 
 import BlockMap.BlockMap;
-import Main.GamePanel;
 import java.awt.*;
-import java.awt.image.ImageObserver;
-import java.util.Random;
-import java.awt.Rectangle;
 
 public class Bullet extends GameObject{
   private final int BULLET_BOUNCE = 1;
@@ -64,10 +60,6 @@ public class Bullet extends GameObject{
         }
       }
     }
-
-    
-   
-  
   
   public boolean getShow() {
     return this.show;

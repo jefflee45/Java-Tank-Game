@@ -148,7 +148,9 @@ public abstract class GameObject
       double yDif = getY() - otherPlayer.getY();
 
       //locate sides of intersection
+      //moving forward
         if (speed < 0)
+//        if (forward)
         {
           //other player is below them
           if (yDif < 0)
@@ -159,7 +161,6 @@ public abstract class GameObject
           {
             topInter = true;
           }
-
           //other player is on the right
           if (xDif < 0)
           {
@@ -167,12 +168,12 @@ public abstract class GameObject
           } //other player is on the left
           else if (xDif > 0)
           {
-
             leftInter = true;
           }
         }
 
         if (speed > 0)
+//          if (backwards)
         {
           //other player is below them
           if (yDif < 0)
