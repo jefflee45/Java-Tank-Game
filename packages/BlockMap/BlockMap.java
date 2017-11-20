@@ -134,6 +134,26 @@ public class BlockMap
     return blockSize;
   }
   
+  public void printBlockMap() {
+    System.out.println(("-------------------------------------"));
+    for (int i = 0; i < rows; i++) {
+      System.out.print("\n");
+      for (int j = 0; j < columns; j++) {
+        System.out.print(blockMap[i][j].getType());
+      }
+    }
+  }
+  
+  public void setBlock(Block block, int row, int col) {
+    blockMap[row][col] = block;
+  }
+  
+  public void setBlockType(int type, int row, int col) {
+    Block temp = blockMap[row][col];
+    temp.setType(type);
+    blockMap[row][col] = temp;
+  }
+  
   public int getType(int row, int col) {
     return blockMap[row][col].getType();
   }

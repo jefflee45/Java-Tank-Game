@@ -49,15 +49,7 @@ public class PowerUp extends Block{
       e.printStackTrace();
     }
   }
-  
-  public int getType() {
-    return type;
-  }
-  
-  public Rectangle getRectangle() {
-    return rect;
-  }
-  
+
   public static Image makeColorTransparent(BufferedImage im, final Color color) {
         ImageFilter filter = new RGBImageFilter() {
 

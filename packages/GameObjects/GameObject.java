@@ -19,6 +19,7 @@ public abstract class GameObject
   
   protected boolean intersected;
   protected boolean topInter, botInter, rightInter, leftInter;
+  protected boolean useShield;
   
   //dimensions
   protected int width, height;
@@ -269,7 +270,13 @@ public abstract class GameObject
             yTemp += speed * Math.cos(Math.toRadians(angle));
             speedBoosted = true;
           }
-          //handle the shield
+          blockMap.setBlockType(Block.EMPTY_TILE,  (int)yTemp/blockSize-1, (int)xTemp/blockSize);
+          blockMap.printBlockMap();
+
+//          System.out.println("After:");
+//          blockMap.printBlockMap();
+          
+          useShield = true;
         }else {
         speed = 0;
         yTemp = curRow * blockSize + cHeight/2 + 1;
@@ -284,13 +291,14 @@ public abstract class GameObject
         //handles the shield
         } else if ((player == 1 && bRShield1) || (player == 1 && bLShield1) ||
                    (player == 2 && bRShield2) || (player == 2 && bLShield2)) {
-          //handle the shield
           if (!speedBoosted)
           {
             xTemp += speed * Math.sin(Math.toRadians(angle));
             yTemp += speed * Math.cos(Math.toRadians(angle));
             speedBoosted = true;
           }
+          blockMap.setBlockType(Block.EMPTY_TILE, (int)yTemp/blockSize+1, (int)xTemp/blockSize);
+          useShield = true;
         } else {
         speed = 0;
         yTemp = (curRow + 1) * blockSize - cHeight/2;
@@ -315,13 +323,14 @@ public abstract class GameObject
         //handles the shield
         } else if ((player == 1 && bRShield1) || (player == 1 && bLShield1) ||
                    (player == 2 && bRShield2) || (player == 2 && bLShield2)) {
-          //handle the shield
           if (!speedBoosted)
           {
             xTemp += speed * Math.sin(Math.toRadians(angle));
             yTemp += speed * Math.cos(Math.toRadians(angle));
             speedBoosted = true;
           }
+          blockMap.setBlockType(Block.EMPTY_TILE, (int)yTemp/blockSize+1, (int)xTemp/blockSize);
+          useShield = true;
         }else {
         speed = 0;
         yTemp = (curRow + 1) * blockSize - cHeight/2;
@@ -336,13 +345,14 @@ public abstract class GameObject
         //handles the shield
         } else if ((player == 1 && tRShield1) || (player == 1 && tLShield1) ||
                    (player == 2 && tRShield2) || (player == 2 && tLShield2)) {
-          //handle the shield
           if (!speedBoosted)
           {
             xTemp += speed * Math.sin(Math.toRadians(angle));
             yTemp += speed * Math.cos(Math.toRadians(angle));
             speedBoosted = true;
           }
+          blockMap.setBlockType(Block.EMPTY_TILE, (int)yTemp/blockSize-1, (int)xTemp/blockSize);
+          useShield = true;
         } else {
         speed = 0;
         yTemp = curRow * blockSize + cHeight/2 + 1;
@@ -372,13 +382,14 @@ public abstract class GameObject
         //handles the shields
         } else if ((player == 1 && tLShield1) || (player == 1 && bLShield1) ||
                    (player == 2 && tLShield2) || (player == 2 && bLShield2)) {
-          //handle the shield
           if (!speedBoosted)
           {
             xTemp += speed * Math.sin(Math.toRadians(angle));
             yTemp += speed * Math.cos(Math.toRadians(angle));
             speedBoosted = true;
           }
+          blockMap.setBlockType(Block.EMPTY_TILE, (int)yTemp/blockSize, (int)xTemp/blockSize-1);
+          useShield = true;
         } else {
         speed = 0;
         xTemp = curCol * blockSize + cWidth/2;
@@ -393,13 +404,14 @@ public abstract class GameObject
          //handles the shields
         } else if ((player == 1 && tRShield1) || (player == 1 && bRShield1) ||
                    (player == 2 && tRShield2) || (player == 2 && bRShield2)) {
-          //handle the shield
           if (!speedBoosted)
           {
             xTemp += speed * Math.sin(Math.toRadians(angle));
             yTemp += speed * Math.cos(Math.toRadians(angle));
             speedBoosted = true;
           }
+          blockMap.setBlockType(Block.EMPTY_TILE, (int)yTemp/blockSize, (int)xTemp/blockSize+1);
+          useShield = true;
         } else {
         speed = 0;
         xTemp = (curCol + 1) * blockSize - cWidth/2;
@@ -425,13 +437,14 @@ public abstract class GameObject
         //handles the shields
         } else if ((player == 1 && tRShield1) || (player == 1 && bRShield1) ||
                    (player == 2 && tRShield2) || (player == 2 && bRShield2)) {
-          //handle the shield
           if (!speedBoosted)
           {
             xTemp += speed * Math.sin(Math.toRadians(angle));
             yTemp += speed * Math.cos(Math.toRadians(angle));
             speedBoosted = true;
           }
+          blockMap.setBlockType(Block.EMPTY_TILE, (int)yTemp/blockSize, (int)xTemp/blockSize+1);
+          useShield = true;
         } else {
         speed = 0;
         xTemp = (curCol + 1) * blockSize - cWidth/2;
@@ -446,13 +459,14 @@ public abstract class GameObject
         //handles the shields
         } else if ((player == 1 && tLShield1) || (player == 1 && bLShield1) ||
                    (player == 2 && tLShield2) || (player == 2 && bLShield2)) {
-          //handle the shield
           if (!speedBoosted)
           {
             xTemp += speed * Math.sin(Math.toRadians(angle));
             yTemp += speed * Math.cos(Math.toRadians(angle));
             speedBoosted = true;
           }
+          blockMap.setBlockType(Block.EMPTY_TILE, (int)yTemp/blockSize, (int)xTemp/blockSize-1);
+          useShield = true;
         } else {
         speed = 0;
         xTemp = curCol * blockSize + cWidth/2;
@@ -460,7 +474,6 @@ public abstract class GameObject
       }
       else {
         if (!speedBoosted) {
-
         xTemp += speed * Math.sin(Math.toRadians(angle));
         yTemp += speed * Math.cos(Math.toRadians(angle));
         speedBoosted = true;
@@ -545,6 +558,10 @@ public abstract class GameObject
   
   public void setPrivousAction(int k) {
     prevAction = k;
+  }
+  
+  public void setUseShield(boolean b) {
+    useShield = b;
   }
 }
 

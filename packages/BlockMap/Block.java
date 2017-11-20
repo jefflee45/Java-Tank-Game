@@ -49,6 +49,10 @@ public class Block{
     return type;
   }
   
+   public void setType(int k) {
+    type = k;
+  }
+  
   public Rectangle getRectangle() {
     return rect;
   }
