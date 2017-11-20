@@ -40,32 +40,40 @@ public class Bullet extends GameObject{
       if(topLeft || topRight || bottomLeft || bottomRight) {//if bullet hits wall
         rect = getRectangle();
         
-        if(bounceCounter <= BULLET_BOUNCE) {
+        if(bounceCounter < BULLET_BOUNCE) {
           bounceCounter++;
           
           if(topLeft && topRight) {
-              if (blockMap.getBlock((int)y/blockSize-1, (int)x/blockSize).getType() == Block.BREAKABLE) {
+              if (blockMap.getBlock((int)y/blockSize-1, (int)x/blockSize).getType() == Block.BREAKABLE ||
+                  blockMap.getBlock((int)y/blockSize-1, (int)x/blockSize).getType() == PowerUp.P1_SHIELD ||
+                  blockMap.getBlock((int)y/blockSize-1, (int)x/blockSize).getType() == PowerUp.P2_SHIELD) {
               blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize - 1, (int) x / blockSize);
               show = false;
             }
             angle = 180 - angle; 
           }
           else if(bottomLeft && bottomRight) {
-            if (blockMap.getBlock((int)y/blockSize + 1, (int)x/blockSize).getType() == Block.BREAKABLE) {
+            if (blockMap.getBlock((int)y/blockSize + 1, (int)x/blockSize).getType() == Block.BREAKABLE ||
+                blockMap.getBlock((int)y/blockSize + 1, (int)x/blockSize).getType() == PowerUp.P1_SHIELD ||
+                blockMap.getBlock((int)y/blockSize + 1, (int)x/blockSize).getType() == PowerUp.P2_SHIELD) {
               blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize + 1, (int) x / blockSize);
               show = false;
             }
             angle = 180 - angle;
           }
           else if(topLeft && bottomLeft) {
-            if (blockMap.getBlock((int)y/blockSize, (int)x/blockSize - 1).getType() == Block.BREAKABLE) {
+            if (blockMap.getBlock((int)y/blockSize, (int)x/blockSize - 1).getType() == Block.BREAKABLE ||
+                blockMap.getBlock((int)y/blockSize, (int)x/blockSize - 1).getType() == PowerUp.P1_SHIELD ||
+                blockMap.getBlock((int)y/blockSize, (int)x/blockSize - 1).getType() == PowerUp.P2_SHIELD) {
               blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize, (int) x / blockSize - 1);
               show = false;
             }
               angle = 360 - angle;
           }
           else if(topRight && bottomRight) {
-            if (blockMap.getBlock((int)y/blockSize, (int)x/blockSize + 1).getType() == Block.BREAKABLE) {
+            if (blockMap.getBlock((int)y/blockSize, (int)x/blockSize + 1).getType() == Block.BREAKABLE ||
+                blockMap.getBlock((int)y/blockSize, (int)x/blockSize + 1).getType() == PowerUp.P1_SHIELD ||
+                blockMap.getBlock((int)y/blockSize, (int)x/blockSize + 1).getType() == PowerUp.P2_SHIELD) {
               blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize, (int) x / blockSize + 1);
               show = false;
             }
