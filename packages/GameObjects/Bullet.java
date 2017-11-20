@@ -1,5 +1,6 @@
 package GameObjects;
 
+import BlockMap.PowerUp;
 import BlockMap.Block;
 import BlockMap.BlockMap;
 import java.awt.*;
@@ -26,6 +27,7 @@ public class Bullet extends GameObject{
     speed = 5;
     this.angle = angle - 3;
     bounceCounter = 0;
+    loadSprites();
   }
   
   public void update() {
@@ -82,10 +84,14 @@ public class Bullet extends GameObject{
           
         }
         else {
-          show = false;
-        }
+        show = false;
       }
     }
+  }
+  
+  private void loadSprites() {
+    loadFramesFromFolder("Resources/Shell10x10");
+  }
   
   public boolean getShow() {
     return this.show;
@@ -93,9 +99,26 @@ public class Bullet extends GameObject{
   
   public void draw(Graphics2D g) {
     setMapPosition();
-    g.setColor(Color.black);
-    g.fillOval((int) (this.x + xMap),//xMap and yMap offsets
-             (int) (this.y + yMap),
-             10, 10);//bullet of 10 x 10 size
+//    g.setColor(Color.black);
+//    g.fillOval((int) (this.x + xMap),//xMap and yMap offsets
+//             (int) (this.y + yMap),
+//             10, 10);//bullet of 10 x 10 size
+  if (angle  < 0) {
+      angle += 360;
+    }
+    
+    int frame = (int)angle/6 - 1;
+    
+    if (frame < 0 || frame > 59) {
+      frame = 0;
+    }
+    
+    //accounts for the frame displacement in regards to the moving direction
+    frame = (frame + 15) % 59;
+    
+    g.drawImage(frames[frame],
+        (int)(x + xMap - width / 2),
+        (int)(y + yMap - height / 2),
+        null);
   }
 }

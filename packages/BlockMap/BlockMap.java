@@ -1,6 +1,5 @@
 package BlockMap;
 
-import GameObjects.PowerUp;
 import Main.GamePanel;
 import java.awt.*;
 import java.io.*;

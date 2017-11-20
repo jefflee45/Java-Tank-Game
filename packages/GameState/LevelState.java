@@ -4,7 +4,7 @@ import Main.GamePanel;
 import TankGame.Background;
 import BlockMap.BlockMap;
 import GameObjects.Player;
-import GameObjects.PowerUp;
+import BlockMap.PowerUp;
 import TankGame.CollisionDetector;
 import TankGame.HUD;
 import java.awt.Graphics2D;

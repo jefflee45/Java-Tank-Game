@@ -1,20 +1,13 @@
-package GameObjects;
+package BlockMap;
 
 import BlockMap.Block;
-import BlockMap.BlockMap;
-import static GameObjects.Player.makeBackgroundTransparent;
-import static GameObjects.Player.makeColorTransparent;
 import java.awt.*;
-import java.awt.image.ImageObserver;
-import java.util.Random;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.awt.image.FilteredImageSource;
 import java.awt.image.ImageFilter;
 import java.awt.image.ImageProducer;
 import java.awt.image.RGBImageFilter;
 import java.io.File;
-import java.io.FilenameFilter;
 import javax.imageio.ImageIO;
 
 public class PowerUp extends Block{

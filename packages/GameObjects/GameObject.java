@@ -1,14 +1,26 @@
 package GameObjects;
 
+import BlockMap.PowerUp;
 import BlockMap.Block;
 import BlockMap.BlockMap;
 import Main.GamePanel;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.FilteredImageSource;
+import java.awt.image.ImageFilter;
+import java.awt.image.ImageProducer;
+import java.awt.image.RGBImageFilter;
+import java.io.File;
+import java.io.FilenameFilter;
+import javax.imageio.ImageIO;
 
 public abstract class GameObject
 {
+  protected File dir;
+  protected String[] EXTENSIONS;
+  protected FilenameFilter IMAGE_FILTER;
   
   protected Image image;
   protected BlockMap blockMap;
@@ -54,6 +66,7 @@ public abstract class GameObject
   //movement
   protected boolean forward, turnLeft, backwards, turnRight;
   protected double moveSpeed, maxSpeed, stopSpeed;
+  protected BufferedImage[] frames;
   
   public GameObject (BlockMap blockMap) {
     this.blockMap = blockMap;
@@ -475,6 +488,95 @@ public abstract class GameObject
         }
       }
     }   
+  }
+  
+  
+  public static Image makeColorTransparent(BufferedImage im, final Color color) {
+        ImageFilter filter = new RGBImageFilter() {
+
+            // the color we are looking for... Alpha bits are set to opaque
+            public int markerRGB = color.getRGB() | 0xFF000000;
+
+            public final int filterRGB(int x, int y, int rgb) {
+                if ((rgb | 0xFF000000) == markerRGB) {
+                    // Mark the alpha bits as zero - transparent
+                    return 0x00FFFFFF & rgb;
+                } else {
+                    // nothing to do
+                    return rgb;
+                }
+            }
+        };
+
+        ImageProducer ip = new FilteredImageSource(im.getSource(), filter);
+        return Toolkit.getDefaultToolkit().createImage(ip);
+    }
+  
+  private static BufferedImage imageToBufferedImage(Image image) {
+
+        BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = bufferedImage.createGraphics();
+        g2.drawImage(image, 0, 0, null);
+        g2.dispose();
+
+        return bufferedImage;
+
+    }
+  
+  public BufferedImage makeBackgroundTransparent(BufferedImage image) {
+    
+    Image pic;
+    //if it is a shell
+    if (cWidth == 10 && cHeight == 10) {
+      pic = makeColorTransparent(image, Color.BLACK);
+    } 
+    //if it is a tank
+    else {
+    pic = makeColorTransparent(image, Color.GREEN);
+    }
+    return imageToBufferedImage(pic);
+  }
+  
+  public void loadFramesFromFolder(String file) {
+    
+    File dir = new File(file);
+
+    EXTENSIONS = new String[]{
+        "gif", "png", "jpg"
+    };
+    
+    IMAGE_FILTER = new FilenameFilter() {
+
+        @Override
+        public boolean accept(final File dir, final String name) {
+            for (final String ext : EXTENSIONS) {
+                if (name.endsWith("." + ext)) {
+                    return (true);
+                }
+            }
+            return (false);
+        }
+    };
+    
+    //frames rotating 45 degrees counter clockwise
+    frames = new BufferedImage[60];
+    int count = 0;
+    
+    if (dir.isDirectory())
+    { 
+      for (final File f : dir.listFiles(IMAGE_FILTER))
+      {
+        try {
+          BufferedImage image = ImageIO.read(f);
+          image = makeBackgroundTransparent(image);
+          
+          frames[count++] = image;
+
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    }
   }
   
   public int getX() {

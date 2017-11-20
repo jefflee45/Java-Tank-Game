@@ -20,9 +20,6 @@ import java.util.ArrayList;
 public class Player extends GameObject {
 
   //For removing green background
-  private File dir;
-  private String[] EXTENSIONS;
-  private FilenameFilter IMAGE_FILTER;
   
   private int player;
   public final static int FIRST_PLAYER = 1;
@@ -40,7 +37,6 @@ public class Player extends GameObject {
   private long flinchTimer;
   
   //animation
-  private BufferedImage[] frames;
   private BufferedImage[] movingDirection;
   
   public Player(BlockMap blockMap, int player)
@@ -83,92 +79,12 @@ public class Player extends GameObject {
     collisionBox = rect;
   }
   
-  public static Image makeColorTransparent(BufferedImage im, final Color color) {
-        ImageFilter filter = new RGBImageFilter() {
-
-            // the color we are looking for... Alpha bits are set to opaque
-            public int markerRGB = color.getRGB() | 0xFF000000;
-
-            public final int filterRGB(int x, int y, int rgb) {
-                if ((rgb | 0xFF000000) == markerRGB) {
-                    // Mark the alpha bits as zero - transparent
-                    return 0x00FFFFFF & rgb;
-                } else {
-                    // nothing to do
-                    return rgb;
-                }
-            }
-        };
-
-        ImageProducer ip = new FilteredImageSource(im.getSource(), filter);
-        return Toolkit.getDefaultToolkit().createImage(ip);
-    }
-  
-  private static BufferedImage imageToBufferedImage(Image image) {
-
-        BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2 = bufferedImage.createGraphics();
-        g2.drawImage(image, 0, 0, null);
-        g2.dispose();
-
-        return bufferedImage;
-
-    }
-  
-  public static BufferedImage makeBackgroundTransparent(BufferedImage image) {
-    
-    Image pic = makeColorTransparent(image, Color.GREEN);
-    return imageToBufferedImage(pic);
-  }
-  
   private void loadSprites() {
     if (player == 1) {
       loadFramesFromFolder("Resources/t1an64pxl");
     }
     if (player == 2) {
       loadFramesFromFolder("Resources/t2an64pxl");
-    }
-  }
-  
-  public void loadFramesFromFolder(String file) {
-    
-    File dir = new File(file);
-
-    EXTENSIONS = new String[]{
-        "gif", "png", "jpg"
-    };
-    
-    IMAGE_FILTER = new FilenameFilter() {
-
-        @Override
-        public boolean accept(final File dir, final String name) {
-            for (final String ext : EXTENSIONS) {
-                if (name.endsWith("." + ext)) {
-                    return (true);
-                }
-            }
-            return (false);
-        }
-    };
-    
-    //frames rotating 45 degrees counter clockwise
-    frames = new BufferedImage[60];
-    int count = 0;
-    
-    if (dir.isDirectory())
-    { 
-      for (final File f : dir.listFiles(IMAGE_FILTER))
-      {
-        try {
-          BufferedImage image = ImageIO.read(f);
-          image = makeBackgroundTransparent(image);
-          
-          frames[count++] = image;
-
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
     }
   }
   
