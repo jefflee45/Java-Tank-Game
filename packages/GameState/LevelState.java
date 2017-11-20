@@ -43,7 +43,7 @@ public class LevelState extends GameState
      catch (Exception e) {
        e.printStackTrace();
      }
-    
+
     hud = new HUD("Resources/Desert-Camo.jpg");
     collisionDetector = new CollisionDetector();
     blockMap = new BlockMap();
@@ -51,7 +51,7 @@ public class LevelState extends GameState
     blockMap.setTween(1);
     p1 = new Player(blockMap, Player.FIRST_PLAYER);
     p2 = new Player(blockMap, Player.SECOND_PLAYER);
-    p1.setPosition(184, 434);
+    p1.setPosition(190, 434);
     p2.setPosition(300, 480);
     canFireP1 = true;
     canFireP2 = true;
@@ -66,15 +66,17 @@ public class LevelState extends GameState
   }
   
   public void updatePlayer1() {
+
     p1.setBlockMapArray(blockMap.getBlockMapArray());
     p1.setOtherPlayer(p2);
     p1.update();
-    
+
     blockMap.setBlockMapArray(p1.getBlockMapArray());
 
     p1.setBlockMapPosition(GamePanel.WIDTH/2 - p1.getX(),
         GamePanel.HEIGHT/2 - p1.getY());
     p1Bg.setPosition(p1.getBlockMapObject().getX(), p1.getBlockMapObject().getY());
+
   }
   
   public void updatePlayer2() {
@@ -94,8 +96,6 @@ public class LevelState extends GameState
       if(p1.getBulletList().get(i).getShow()) {
         p1.getBulletList().get(i).setOtherPlayer(p2);
         p1.getBulletList().get(i).update();
-        
-        
       }
       else {
         p1.getBulletList().remove(i);
@@ -129,13 +129,14 @@ public class LevelState extends GameState
     for(int i = 0; i < p1.getBulletList().size(); i++) {
       p1.getBulletList().get(i).draw(gRightScreen);
     }
-
     p1.setBlockMapPosition(GamePanel.WIDTH / 2 - p1.getX(), 
         GamePanel.HEIGHT / 2 - p1.getY());
+    
     p1Bg.draw(gLeftScreen);
     p1.getBlockMapObject().draw(gLeftScreen);
     p1.draw(gLeftScreen);
     p2.draw(gLeftScreen);
+
     for(int i = 0; i < p1.getBulletList().size(); i++) {
       p1.getBulletList().get(i).draw(gLeftScreen);
     }

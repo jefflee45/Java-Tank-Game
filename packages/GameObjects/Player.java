@@ -79,7 +79,7 @@ public class Player extends GameObject {
     bulletList = new ArrayList<Bullet>();
     
     movingDirection = new BufferedImage[8];
-    rect = new Rectangle(0, 0, cWidth-4, cHeight);
+    rect = new Rectangle((int)x, (int)y, cWidth-4, cHeight);
     collisionBox = rect;
   }
   
