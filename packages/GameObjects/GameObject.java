@@ -45,6 +45,8 @@ public abstract class GameObject
   protected int curRow, curCol;
   protected double xDest, yDest, xTemp, yTemp;
   protected boolean topLeft, topRight, bottomLeft, bottomRight;
+  protected boolean tLShield1, tRShield1, bLShield1, bRShield1;
+  protected boolean tLShield2, tRShield2, bLShield2, bRShield2;
   
   protected int currentAction, prevAction;
   
@@ -78,60 +80,84 @@ public abstract class GameObject
     collisionBox = at.createTransformedShape(rect);
   }
   
-  public void calculateCorners(double x, double y) {
-    
+  public void calculateCorners(double x, double y)
+  {
+
     //surrounding tiles for 64pxl
-    int leftTile = (int)(x - cWidth/2) / blockSize;
-    int rightTile = (int)(x + cWidth/2 - 1) / blockSize;
-    int topTile = (int)(y - cHeight/2) / blockSize;
-    int bottomTile = (int)(y + cHeight/2 - 1) / blockSize;
-    
+    int leftTile = (int) (x - cWidth / 2) / blockSize;
+    int rightTile = (int) (x + cWidth / 2 - 1) / blockSize;
+    int topTile = (int) (y - cHeight / 2) / blockSize;
+    int bottomTile = (int) (y + cHeight / 2 - 1) / blockSize;
+
     //four corners for 64pxl
     int tL = blockMap.getType(topTile, leftTile);
     int tR = blockMap.getType(topTile, rightTile);
     int bL = blockMap.getType(bottomTile, leftTile);
     int bR = blockMap.getType(bottomTile, rightTile);
-   
-   //handles objects larger than 32pxl
-    if (cWidth > 32 && height > 32) { 
-    int cWidthX = 32;
-    int cHeightX = 32;
-    int xBuffer = 10;
-    int leftTileX = (int)(x - xBuffer - blockSize + cWidthX/2) / blockSize;
-    int rightTileX = (int)(x + xBuffer + cWidthX/2 - 1) / blockSize;
-    int topTileX = (int)(y - cHeightX/2) / blockSize;
-    int bottomTileX = (int)(y + cHeightX/2 - 1) / blockSize;
-    int tLX = blockMap.getType(topTileX, leftTileX);
-    int tRX = blockMap.getType(topTileX, rightTileX);
-    int bLX = blockMap.getType(bottomTileX, leftTileX);
-    int bRX = blockMap.getType(bottomTileX, rightTileX);
-    
-    int cWidthY = 32;
-    int cHeightY = 44;
-    int yBuffer = 10;
-    int leftTileY = (int)(x - yBuffer + cWidthY/2) / blockSize;
-    int rightTileY = (int)(x + yBuffer + cWidthY/2 - 1) / blockSize;
-    int topTileY = (int)(y - cHeightY/2) / blockSize;
-    int bottomTileY = (int)(y + cHeightY/2 - 1) / blockSize;
-    int tLY = blockMap.getType(topTileY, leftTileY);
-    int tRY = blockMap.getType(topTileY, rightTileY);
-    int bLY = blockMap.getType(bottomTileY, leftTileY);
-    int bRY = blockMap.getType(bottomTileY, rightTileY);
-    
-    
-    //set booleans
-    topLeft = (tL != Block.EMPTY_TILE) || (tLX != Block.EMPTY_TILE) || (tLY != Block.EMPTY_TILE);
-    topRight = (tR != Block.EMPTY_TILE) || (tRX != Block.EMPTY_TILE) || (tRY != Block.EMPTY_TILE);
-    bottomLeft = (bL != Block.EMPTY_TILE) || (bLX != Block.EMPTY_TILE) || (bLY != Block.EMPTY_TILE);
-    bottomRight = (bR != Block.EMPTY_TILE) || (bRX != Block.EMPTY_TILE) || (bRY != Block.EMPTY_TILE);
+
+    //handles objects larger than 32pxl
+    if (cWidth > 32 && height > 32)
+    {
+      int cWidthX = 32;
+      int cHeightX = 32;
+      int xBuffer = 10;
+      int leftTileX = (int) (x - xBuffer - blockSize + cWidthX / 2) / blockSize;
+      int rightTileX = (int) (x + xBuffer + cWidthX / 2 - 1) / blockSize;
+      int topTileX = (int) (y - cHeightX / 2) / blockSize;
+      int bottomTileX = (int) (y + cHeightX / 2 - 1) / blockSize;
+      int tLX = blockMap.getType(topTileX, leftTileX);
+      int tRX = blockMap.getType(topTileX, rightTileX);
+      int bLX = blockMap.getType(bottomTileX, leftTileX);
+      int bRX = blockMap.getType(bottomTileX, rightTileX);
+
+      int cWidthY = 32;
+      int cHeightY = 44;
+      int yBuffer = 10;
+      int leftTileY = (int) (x - yBuffer + cWidthY / 2) / blockSize;
+      int rightTileY = (int) (x + yBuffer + cWidthY / 2 - 1) / blockSize;
+      int topTileY = (int) (y - cHeightY / 2) / blockSize;
+      int bottomTileY = (int) (y + cHeightY / 2 - 1) / blockSize;
+      int tLY = blockMap.getType(topTileY, leftTileY);
+      int tRY = blockMap.getType(topTileY, rightTileY);
+      int bLY = blockMap.getType(bottomTileY, leftTileY);
+      int bRY = blockMap.getType(bottomTileY, rightTileY);
+
+      //set boolean blocks
+      topLeft = (tL != Block.EMPTY_TILE) || (tLX != Block.EMPTY_TILE) || (tLY != Block.EMPTY_TILE);
+      topRight = (tR != Block.EMPTY_TILE) || (tRX != Block.EMPTY_TILE) || (tRY != Block.EMPTY_TILE);
+      bottomLeft = (bL != Block.EMPTY_TILE) || (bLX != Block.EMPTY_TILE) || (bLY != Block.EMPTY_TILE);
+      bottomRight = (bR != Block.EMPTY_TILE) || (bRX != Block.EMPTY_TILE) || (bRY != Block.EMPTY_TILE);
+
+      //set PowerUps
+      //player 1
+      tLShield1 = (tL == PowerUp.P1_SHIELD) || (tLX == PowerUp.P1_SHIELD) || (tLY == PowerUp.P1_SHIELD);
+      tRShield1 = (tR == PowerUp.P1_SHIELD) || (tRX == PowerUp.P1_SHIELD) || (tRY == PowerUp.P1_SHIELD);
+      bLShield1 = (bL == PowerUp.P1_SHIELD) || (bLX == PowerUp.P1_SHIELD) || (bLY == PowerUp.P1_SHIELD);
+      bRShield1 = (bR == PowerUp.P1_SHIELD) || (bRX == PowerUp.P1_SHIELD) || (bRY == PowerUp.P1_SHIELD);
+      //player 2
+      tLShield2 = (tL == PowerUp.P2_SHIELD) || (tLX == PowerUp.P2_SHIELD) || (tLY == PowerUp.P2_SHIELD);
+      tRShield2 = (tR == PowerUp.P2_SHIELD) || (tRX == PowerUp.P2_SHIELD) || (tRY == PowerUp.P2_SHIELD);
+      bLShield2 = (bL == PowerUp.P2_SHIELD) || (bLX == PowerUp.P2_SHIELD) || (bLY == PowerUp.P2_SHIELD);
+      bRShield2 = (bR == PowerUp.P2_SHIELD) || (bRX == PowerUp.P2_SHIELD) || (bRY == PowerUp.P2_SHIELD);
     }
     else {
-    topLeft = (tL != Block.EMPTY_TILE);
-    topRight = (tR != Block.EMPTY_TILE);
-    bottomLeft = (bL != Block.EMPTY_TILE);
-    bottomRight = (bR != Block.EMPTY_TILE);
+      topLeft = (tL != Block.EMPTY_TILE);
+      topRight = (tR != Block.EMPTY_TILE);
+      bottomLeft = (bL != Block.EMPTY_TILE);
+      bottomRight = (bR != Block.EMPTY_TILE);
+
+      //power ups
+      //player 1
+      tLShield1 = (tL == PowerUp.P1_SHIELD);
+      tRShield1 = (tR == PowerUp.P1_SHIELD);
+      bLShield1 = (bL == PowerUp.P1_SHIELD);
+      bRShield1 = (bR == PowerUp.P1_SHIELD);
+      //player 2
+      tLShield2 = (tL == PowerUp.P2_SHIELD);
+      tRShield2 = (tR == PowerUp.P2_SHIELD);
+      bLShield2 = (bL == PowerUp.P2_SHIELD);
+      bRShield2 = (bR == PowerUp.P2_SHIELD);
     }
-  
   }
   
   /*
@@ -213,6 +239,13 @@ public abstract class GameObject
     xTemp = x;
     yTemp = y;
     
+    int player;
+    if (otherPlayer.getPlayerNumber() == 1) {
+      player = 2;
+    } else {
+      player = 1;
+    }
+    
     //y direction movement
     calculateCorners(x, yDest);
     
@@ -227,8 +260,17 @@ public abstract class GameObject
 //          System.out.println("1. top and left");
         } else if (rightInter && angle > 270) {
 //          System.out.println("1. top and right");
-
-        } else {
+         //handles shield
+        } else if ((player == 1 && tRShield1) || (player == 1 && tLShield1) ||
+                   (player == 2 && tRShield2) || (player == 2 && tLShield2)) {
+          if (!speedBoosted)
+          {
+            xTemp += speed * Math.sin(Math.toRadians(angle));
+            yTemp += speed * Math.cos(Math.toRadians(angle));
+            speedBoosted = true;
+          }
+          //handle the shield
+        }else {
         speed = 0;
         yTemp = curRow * blockSize + cHeight/2 + 1;
         }
@@ -239,6 +281,16 @@ public abstract class GameObject
 //          System.out.println("1. bot and left");
         } else if (rightInter && (angle > 180 && angle < 270)) {
 //          System.out.println("1. bot and right");
+        //handles the shield
+        } else if ((player == 1 && bRShield1) || (player == 1 && bLShield1) ||
+                   (player == 2 && bRShield2) || (player == 2 && bLShield2)) {
+          //handle the shield
+          if (!speedBoosted)
+          {
+            xTemp += speed * Math.sin(Math.toRadians(angle));
+            yTemp += speed * Math.cos(Math.toRadians(angle));
+            speedBoosted = true;
+          }
         } else {
         speed = 0;
         yTemp = (curRow + 1) * blockSize - cHeight/2;
@@ -260,7 +312,17 @@ public abstract class GameObject
 //          System.out.println("2. bot and left");
         } else if (rightInter && (angle > 180 && angle < 270)) {
 //          System.out.println("2. bot and right");
-        } else {
+        //handles the shield
+        } else if ((player == 1 && bRShield1) || (player == 1 && bLShield1) ||
+                   (player == 2 && bRShield2) || (player == 2 && bLShield2)) {
+          //handle the shield
+          if (!speedBoosted)
+          {
+            xTemp += speed * Math.sin(Math.toRadians(angle));
+            yTemp += speed * Math.cos(Math.toRadians(angle));
+            speedBoosted = true;
+          }
+        }else {
         speed = 0;
         yTemp = (curRow + 1) * blockSize - cHeight/2;
         }
@@ -271,6 +333,16 @@ public abstract class GameObject
 //          System.out.println("2. top and left");
         } else if (rightInter && angle > 270) {
 //          System.out.println("2. top and right");
+        //handles the shield
+        } else if ((player == 1 && tRShield1) || (player == 1 && tLShield1) ||
+                   (player == 2 && tRShield2) || (player == 2 && tLShield2)) {
+          //handle the shield
+          if (!speedBoosted)
+          {
+            xTemp += speed * Math.sin(Math.toRadians(angle));
+            yTemp += speed * Math.cos(Math.toRadians(angle));
+            speedBoosted = true;
+          }
         } else {
         speed = 0;
         yTemp = curRow * blockSize + cHeight/2 + 1;
@@ -294,8 +366,19 @@ public abstract class GameObject
         
         if (topInter && (angle > 0 && angle < 90)) {
 //          System.out.println("3. left and top");
-        } else if (botInter && (angle > 90 && angle < 180)) {
+        } 
+        else if (botInter && (angle > 90 && angle < 180)) {
 //          System.out.println("3. left and bot");
+        //handles the shields
+        } else if ((player == 1 && tLShield1) || (player == 1 && bLShield1) ||
+                   (player == 2 && tLShield2) || (player == 2 && bLShield2)) {
+          //handle the shield
+          if (!speedBoosted)
+          {
+            xTemp += speed * Math.sin(Math.toRadians(angle));
+            yTemp += speed * Math.cos(Math.toRadians(angle));
+            speedBoosted = true;
+          }
         } else {
         speed = 0;
         xTemp = curCol * blockSize + cWidth/2;
@@ -307,6 +390,16 @@ public abstract class GameObject
 //          System.out.println("3. right and top");
         } else if (botInter && (angle > 180 && angle < 270)) {
 //          System.out.println("3. right and bot");
+         //handles the shields
+        } else if ((player == 1 && tRShield1) || (player == 1 && bRShield1) ||
+                   (player == 2 && tRShield2) || (player == 2 && bRShield2)) {
+          //handle the shield
+          if (!speedBoosted)
+          {
+            xTemp += speed * Math.sin(Math.toRadians(angle));
+            yTemp += speed * Math.cos(Math.toRadians(angle));
+            speedBoosted = true;
+          }
         } else {
         speed = 0;
         xTemp = (curCol + 1) * blockSize - cWidth/2;
@@ -329,6 +422,16 @@ public abstract class GameObject
 //          System.out.println("4. right and top");
         } else if (botInter && (angle > 180 && angle < 270)) {
 //          System.out.println("4. right and bot");
+        //handles the shields
+        } else if ((player == 1 && tRShield1) || (player == 1 && bRShield1) ||
+                   (player == 2 && tRShield2) || (player == 2 && bRShield2)) {
+          //handle the shield
+          if (!speedBoosted)
+          {
+            xTemp += speed * Math.sin(Math.toRadians(angle));
+            yTemp += speed * Math.cos(Math.toRadians(angle));
+            speedBoosted = true;
+          }
         } else {
         speed = 0;
         xTemp = (curCol + 1) * blockSize - cWidth/2;
@@ -340,6 +443,16 @@ public abstract class GameObject
 //          System.out.println("4. left and top");
         } else if (botInter && (angle > 90 && angle < 180)) {
 //          System.out.println("4. left and bot");
+        //handles the shields
+        } else if ((player == 1 && tLShield1) || (player == 1 && bLShield1) ||
+                   (player == 2 && tLShield2) || (player == 2 && bLShield2)) {
+          //handle the shield
+          if (!speedBoosted)
+          {
+            xTemp += speed * Math.sin(Math.toRadians(angle));
+            yTemp += speed * Math.cos(Math.toRadians(angle));
+            speedBoosted = true;
+          }
         } else {
         speed = 0;
         xTemp = curCol * blockSize + cWidth/2;
