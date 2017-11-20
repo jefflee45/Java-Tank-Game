@@ -15,10 +15,12 @@ public class Bullet extends GameObject{
   public Bullet(BlockMap blockMap, double angle, double x, double y) {
     super(blockMap);
     //add offset so shoots from front of tank, needs fine tuning
-    this.x = x - 26 * Math.sin(Math.toRadians(angle));
-    this.y = y - 22 * Math.cos(Math.toRadians(angle));
+    this.x = (x-16) - 26 * Math.sin(Math.toRadians(angle));
+    this.y = (y-16) - 22 * Math.cos(Math.toRadians(angle));
     
     //collision
+    height = 24;
+    width = 24;
     cWidth = 10;
     cHeight  = 10;
     
@@ -90,7 +92,7 @@ public class Bullet extends GameObject{
   }
   
   private void loadSprites() {
-    loadFramesFromFolder("Resources/Shell10x10");
+    loadFramesFromFolder("Resources/Shell24x24");
   }
   
   public boolean getShow() {
@@ -99,10 +101,7 @@ public class Bullet extends GameObject{
   
   public void draw(Graphics2D g) {
     setMapPosition();
-//    g.setColor(Color.black);
-//    g.fillOval((int) (this.x + xMap),//xMap and yMap offsets
-//             (int) (this.y + yMap),
-//             10, 10);//bullet of 10 x 10 size
+
   if (angle  < 0) {
       angle += 360;
     }
@@ -115,7 +114,7 @@ public class Bullet extends GameObject{
     
     //accounts for the frame displacement in regards to the moving direction
     frame = (frame + 15) % 59;
-    
+
     g.drawImage(frames[frame],
         (int)(x + xMap - width / 2),
         (int)(y + yMap - height / 2),

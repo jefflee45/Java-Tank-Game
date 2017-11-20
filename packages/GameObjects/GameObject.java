@@ -527,7 +527,7 @@ public abstract class GameObject
     
     Image pic;
     //if it is a shell
-    if (cWidth == 10 && cHeight == 10) {
+    if (width == 24 && height == 24) {
       pic = makeColorTransparent(image, Color.BLACK);
     } 
     //if it is a tank
