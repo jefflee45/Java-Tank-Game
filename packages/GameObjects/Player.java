@@ -73,7 +73,8 @@ public class Player extends GameObject {
     stopSpeed = 0.5;
     flinchTimer = 100000;
     
-    health = maxHealth = 5;
+    health = 3;
+    maxHealth = 5;
     bulletDamage = 1;
     bulletList = new ArrayList<Bullet>();
     
@@ -294,12 +295,22 @@ public class Player extends GameObject {
     return !turnLeft && !turnRight;
   }
   
+  private void checkPowerUp() {
+    if (useShield) {
+      health += 1;
+      if (maxHealth < health) {
+        health = maxHealth;
+      }
+    }
+    setUseShield(false);
+  }
+  
   public void update() {
     getNextPosition();
 
     checkObjectCollision();
     checkBlockMapCollision();
-
+    checkPowerUp();
     setPosition(xTemp, yTemp);
     setTransformation((int)xTemp, (int)yTemp);
   }

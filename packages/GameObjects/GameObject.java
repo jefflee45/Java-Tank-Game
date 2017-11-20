@@ -271,11 +271,6 @@ public abstract class GameObject
             speedBoosted = true;
           }
           blockMap.setBlockType(Block.EMPTY_TILE,  (int)yTemp/blockSize-1, (int)xTemp/blockSize);
-          blockMap.printBlockMap();
-
-//          System.out.println("After:");
-//          blockMap.printBlockMap();
-          
           useShield = true;
         }else {
         speed = 0;
