@@ -122,7 +122,12 @@ public class Player extends GameObject {
   }
   
   private void loadSprites() {
-    loadFramesFromFolder("Resources/t1an64pxl");
+    if (player == 1) {
+      loadFramesFromFolder("Resources/t1an64pxl");
+    }
+    if (player == 2) {
+      loadFramesFromFolder("Resources/t2an64pxl");
+    }
   }
   
   public void loadFramesFromFolder(String file) {
