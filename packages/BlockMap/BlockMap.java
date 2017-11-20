@@ -1,5 +1,6 @@
 package BlockMap;
 
+import GameObjects.PowerUp;
 import Main.GamePanel;
 import java.awt.*;
 import java.io.*;
@@ -64,7 +65,7 @@ public class BlockMap
       for (int i = 0; i < rows; i++) {
         line = br.readLine();
         for (int j = 0; j < columns; j++) {
-          if (line.charAt(j) != '.') {
+          if (line.charAt(j) == '1' || line.charAt(j) == '2') {
             try {
               blockMap[i][j] = new Block(Integer.parseInt(Character.toString(line.charAt(j))),
                                         xBlock, yBlock, blockSize, blockSize);
@@ -72,7 +73,16 @@ public class BlockMap
             catch (Exception e) {
               e.printStackTrace();
             } 
-          } else {
+          } else if (line.charAt(j) == '3' || line.charAt(j) == '4') {
+            try {
+              blockMap[i][j] = new PowerUp(Integer.parseInt(Character.toString(line.charAt(j))),
+                                        xBlock, yBlock, blockSize, blockSize);
+            }
+            catch (Exception e) {
+              e.printStackTrace();
+            } 
+          }
+          else {
             blockMap[i][j] = new Block(Block.EMPTY_TILE,
                                       xBlock, yBlock, blockSize, blockSize);
           }

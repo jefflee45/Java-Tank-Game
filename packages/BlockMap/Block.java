@@ -7,9 +7,9 @@ import javax.imageio.ImageIO;
 
 public class Block{
   
-  private BufferedImage image;
-  private Rectangle rect;
-  private int type;
+  protected BufferedImage image;
+  protected Rectangle rect;
+  protected int type;
   
   public static final int EMPTY_TILE = 0;
   public static final int BREAKABLE = 1;
@@ -29,12 +29,12 @@ public class Block{
   {
     try
     {
-      if (type == Block.BREAKABLE)
+      if (type == BREAKABLE)
       {
         image = ImageIO.read(new File("Resources/Wall2.gif"));
       }
 
-      if (type == Block.UNBREAKABLE)
+      if (type == UNBREAKABLE)
       {
         image = ImageIO.read(new File("Resources/Wall1.gif"));
 

@@ -224,9 +224,9 @@ public abstract class GameObject
       if (topLeft || topRight || topInter) {
         
         if (leftInter && (angle > 0 && angle < 90)) {
-          System.out.println("1. top and left");
+//          System.out.println("1. top and left");
         } else if (rightInter && angle > 270) {
-          System.out.println("1. top and right");
+//          System.out.println("1. top and right");
 
         } else {
         speed = 0;
@@ -236,9 +236,9 @@ public abstract class GameObject
       else if (bottomLeft || bottomRight || botInter) {
         
         if (leftInter && (angle > 90 && angle < 180)) {
-          System.out.println("1. bot and left");
+//          System.out.println("1. bot and left");
         } else if (rightInter && (angle > 180 && angle < 270)) {
-          System.out.println("1. bot and right");
+//          System.out.println("1. bot and right");
         } else {
         speed = 0;
         yTemp = (curRow + 1) * blockSize - cHeight/2;
@@ -257,9 +257,9 @@ public abstract class GameObject
       if (bottomLeft || bottomRight || botInter) {
         
         if (leftInter && (angle > 90 && angle < 180)) {
-          System.out.println("2. bot and left");
+//          System.out.println("2. bot and left");
         } else if (rightInter && (angle > 180 && angle < 270)) {
-          System.out.println("2. bot and right");
+//          System.out.println("2. bot and right");
         } else {
         speed = 0;
         yTemp = (curRow + 1) * blockSize - cHeight/2;
@@ -268,9 +268,9 @@ public abstract class GameObject
       else if (topLeft || topRight || topInter) {
         
         if (leftInter && (angle > 0 && angle < 90)) {
-          System.out.println("2. top and left");
+//          System.out.println("2. top and left");
         } else if (rightInter && angle > 270) {
-          System.out.println("2. top and right");
+//          System.out.println("2. top and right");
         } else {
         speed = 0;
         yTemp = curRow * blockSize + cHeight/2 + 1;
@@ -293,9 +293,9 @@ public abstract class GameObject
       if (topLeft || bottomLeft || leftInter) {
         
         if (topInter && (angle > 0 && angle < 90)) {
-          System.out.println("3. left and top");
+//          System.out.println("3. left and top");
         } else if (botInter && (angle > 90 && angle < 180)) {
-          System.out.println("3. left and bot");
+//          System.out.println("3. left and bot");
         } else {
         speed = 0;
         xTemp = curCol * blockSize + cWidth/2;
@@ -304,9 +304,9 @@ public abstract class GameObject
       else if (topRight || bottomRight || rightInter) {
         
         if (topInter && angle > 270) {
-          System.out.println("3. right and top");
+//          System.out.println("3. right and top");
         } else if (botInter && (angle > 180 && angle < 270)) {
-          System.out.println("3. right and bot");
+//          System.out.println("3. right and bot");
         } else {
         speed = 0;
         xTemp = (curCol + 1) * blockSize - cWidth/2;
@@ -326,9 +326,9 @@ public abstract class GameObject
       if (topRight || bottomRight || rightInter) {
         
         if (topInter && angle > 270) {
-          System.out.println("4. right and top");
+//          System.out.println("4. right and top");
         } else if (botInter && (angle > 180 && angle < 270)) {
-          System.out.println("4. right and bot");
+//          System.out.println("4. right and bot");
         } else {
         speed = 0;
         xTemp = (curCol + 1) * blockSize - cWidth/2;
@@ -337,9 +337,9 @@ public abstract class GameObject
       else if (topLeft || bottomLeft || leftInter) {
         
         if (topInter && (angle > 0 && angle < 90)) {
-          System.out.println("4. left and top");
+//          System.out.println("4. left and top");
         } else if (botInter && (angle > 90 && angle < 180)) {
-          System.out.println("4. left and bot");
+//          System.out.println("4. left and bot");
         } else {
         speed = 0;
         xTemp = curCol * blockSize + cWidth/2;

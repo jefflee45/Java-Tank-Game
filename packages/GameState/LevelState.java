@@ -4,11 +4,12 @@ import Main.GamePanel;
 import TankGame.Background;
 import BlockMap.BlockMap;
 import GameObjects.Player;
+import GameObjects.PowerUp;
 import TankGame.CollisionDetector;
 import TankGame.HUD;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class LevelState extends GameState
 {
@@ -25,6 +26,7 @@ public class LevelState extends GameState
   private HUD hud;
   
   private BlockMap blockMap;
+  private ArrayList<PowerUp> powerUpList;
   
   public LevelState(GameStateManager gsm) {
     this.gsm = gsm;
