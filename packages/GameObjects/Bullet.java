@@ -1,5 +1,6 @@
 package GameObjects;
 
+import BlockMap.Block;
 import BlockMap.BlockMap;
 import java.awt.*;
 
@@ -23,9 +24,8 @@ public class Bullet extends GameObject{
     
     show = true;
     speed = 5;
-    this.angle = angle;
+    this.angle = angle - 3;
     bounceCounter = 0;
-    
   }
   
   public void update() {
@@ -38,19 +38,37 @@ public class Bullet extends GameObject{
         }
       
       if(topLeft || topRight || bottomLeft || bottomRight) {//if bullet hits wall
-        if(bounceCounter < BULLET_BOUNCE) {
+        rect = getRectangle();
+        
+        if(bounceCounter <= BULLET_BOUNCE) {
           bounceCounter++;
           
           if(topLeft && topRight) {
+              if (blockMap.getBlock((int)y/blockSize-1, (int)x/blockSize).getType() == Block.BREAKABLE) {
+              blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize - 1, (int) x / blockSize);
+              show = false;
+            }
             angle = 180 - angle; 
           }
           else if(bottomLeft && bottomRight) {
+            if (blockMap.getBlock((int)y/blockSize + 1, (int)x/blockSize).getType() == Block.BREAKABLE) {
+              blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize + 1, (int) x / blockSize);
+              show = false;
+            }
             angle = 180 - angle;
           }
           else if(topLeft && bottomLeft) {
+            if (blockMap.getBlock((int)y/blockSize, (int)x/blockSize - 1).getType() == Block.BREAKABLE) {
+              blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize, (int) x / blockSize - 1);
+              show = false;
+            }
               angle = 360 - angle;
           }
           else if(topRight && bottomRight) {
+            if (blockMap.getBlock((int)y/blockSize, (int)x/blockSize + 1).getType() == Block.BREAKABLE) {
+              blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize, (int) x / blockSize + 1);
+              show = false;
+            }
             angle = 360 - angle;
           }
           

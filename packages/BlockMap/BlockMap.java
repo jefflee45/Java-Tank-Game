@@ -64,6 +64,7 @@ public class BlockMap
       //for loop to load the blocks into blockMap
       for (int i = 0; i < rows; i++) {
         line = br.readLine();
+        xBlock = 0;
         for (int j = 0; j < columns; j++) {
           if (line.charAt(j) == '1' || line.charAt(j) == '2') {
             try {
@@ -86,9 +87,9 @@ public class BlockMap
             blockMap[i][j] = new Block(Block.EMPTY_TILE,
                                       xBlock, yBlock, blockSize, blockSize);
           }
-          yBlock += blockSize;
+          xBlock += blockSize;
         }
-        xBlock += blockSize;
+        yBlock += blockSize;
       }
     }
     catch (Exception e) {
@@ -142,6 +143,10 @@ public class BlockMap
         System.out.print(blockMap[i][j].getType());
       }
     }
+  }
+  
+  public Block getBlock(int row, int col) {
+    return blockMap[row][col];
   }
   
   public void setBlock(Block block, int row, int col) {
