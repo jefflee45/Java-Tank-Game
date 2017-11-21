@@ -68,6 +68,8 @@ public class LevelState extends GameState
         else {
             reset = true;
             gsm.setState(gsm.ENDSTATE);
+            gsm.setWinner(Player.SECOND_PLAYER);
+
         }
         if(!p2.getDead()) {
           updatePlayer2();
@@ -75,6 +77,8 @@ public class LevelState extends GameState
         else {
             reset = true;
             gsm.setState(gsm.ENDSTATE);
+            gsm.setWinner(Player.FIRST_PLAYER);
+
         }
 
     updateBulletList();
@@ -172,10 +176,6 @@ public class LevelState extends GameState
       p1.getBulletList().get(i).draw(gRightScreen);
     }
     
-    for (int i = 0; i < explosions.size(); i++) {
-      explosions.get(i).draw(gRightScreen);
-    }
-    
     p1.setBlockMapPosition(GamePanel.WIDTH / 2 - p1.getX(), 
         GamePanel.HEIGHT / 2 - p1.getY());
     
@@ -193,7 +193,7 @@ public class LevelState extends GameState
     }
     
     for (int i = 0; i < explosions.size(); i++) {
-      explosions.get(i).draw(gLeftScreen);
+      explosions.get(i).draw(gRightScreen, gLeftScreen);
     }
     
     //player health

@@ -584,7 +584,15 @@ public abstract class GameObject
   }
   
   public int getY() {
-    return (int)y;
+    return (int) y;
+  }
+  
+  public int getXMap() {
+    return (int) xMap;
+  }
+  
+  public int getYMap() {
+    return (int) yMap;
   }
   
   public int getWidth() {

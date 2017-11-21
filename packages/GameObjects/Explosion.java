@@ -25,7 +25,7 @@ public class Explosion{
   
   private int type;
   private int width, height;
-  private int x, y;
+  private int p1x, p1y, p2x, p2y;
   
   private BufferedImage[] frames;
   private int currentFrame;
@@ -33,10 +33,12 @@ public class Explosion{
   private long delay;
   private boolean playedOnce;
 
-  public Explosion(int type, int x, int y) {
+  public Explosion(int type, int p1x, int p1y, int p2x, int p2y) {
     this.type = type;
-    this.x = x;
-    this.y = y;
+    this.p1x = p1x;
+    this.p2x = p2x;
+    this.p1y = p1y;
+    this.p2y = p2y;
     init();
     loadSprites();
   }
@@ -71,12 +73,12 @@ public class Explosion{
 		}
   }
   
-  public int getX() {
-    return x;
+  public int getp1X() {
+    return p1x;
   }
   
-  public int getY() {
-    return y;
+  public int getp1Y() {
+    return p1y;
   }
   
   public int getFrame() {
@@ -105,12 +107,16 @@ public class Explosion{
     }
   }
   
-  public void draw(Graphics2D g) {
+  public void draw(Graphics2D gRightScreen, Graphics2D gLeftScreen) {
     
     if (!playedOnce) {
-      g.drawImage(frames[currentFrame], 
-          x, 
-          y,
+      gLeftScreen.drawImage(frames[currentFrame], 
+          p1x, 
+          p1y,
+          null);
+      gRightScreen.drawImage(frames[currentFrame], 
+          p2x, 
+          p2y,
           null);
       update();
     }
