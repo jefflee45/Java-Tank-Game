@@ -6,18 +6,21 @@ import BlockMap.BlockMap;
 import java.awt.*;
 
 public class Bullet extends GameObject{
-  private final int BULLET_BOUNCE = 1;
+  private final int BULLET_BOUNCE = 2;
   
+  private Player myPlayer;
   private double angle;
   private boolean show;
+  private boolean hitOther;
+  private boolean hitSelf;
   private int bounceCounter;
   private Explosion explosion;
   
   public Bullet(BlockMap blockMap, double angle, double x, double y) {
     super(blockMap);
     //add offset so shoots from front of tank, needs fine tuning
-    this.x = (x - blockSize/2) - 26 * Math.sin(Math.toRadians(angle));
-    this.y = (y - blockSize/2) - 22 * Math.cos(Math.toRadians(angle));
+    this.x = (x - blockSize/2) - 30 * Math.sin(Math.toRadians(angle));
+    this.y = (y - blockSize/2) - 25 * Math.cos(Math.toRadians(angle));
     
     //collision
     height = 24;
@@ -30,6 +33,8 @@ public class Bullet extends GameObject{
     explosion.setPlayedOnce(true);
     
     show = true;
+    hitOther = false;
+    hitSelf = false;
     speed = 5;
     this.angle = angle - 3;
     bounceCounter = 0;
@@ -43,6 +48,12 @@ public class Bullet extends GameObject{
       calculateCorners(x, y);
       if (bulletIntersects(otherPlayer)) {
           show = false;
+          hitOther = true;
+        }
+      
+      if (bulletIntersects(myPlayer) && bounceCounter > 0) {//if bullet hits self
+          show = false;
+          hitSelf = true;
         }
       
       if(topLeft || topRight || bottomLeft || bottomRight) {//if bullet hits wall
@@ -159,6 +170,26 @@ public class Bullet extends GameObject{
   
   public boolean getShow() {
     return this.show;
+  }
+  
+  public void setMyPlayer(Player mp) {
+      myPlayer = mp;
+  }
+  
+  public boolean getHitOther() {
+      return hitOther;
+  }
+  
+  public void setHitOther(boolean b) {
+      hitOther = b;
+  }
+  
+  public boolean getHitSelf() {
+      return hitSelf;
+  }
+  
+  public void setHitSelf(boolean b) {
+      hitSelf = b;
   }
   
   public void draw(Graphics2D g) {

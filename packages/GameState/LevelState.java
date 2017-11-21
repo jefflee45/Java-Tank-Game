@@ -16,7 +16,6 @@ public class LevelState extends GameState
   private Background p1Bg;
   private Background p2Bg;
   
-  private CollisionDetector collisionDetector;
   private Player p1;
   private Player p2;
   
@@ -26,7 +25,8 @@ public class LevelState extends GameState
   private HUD hud;
   
   private BlockMap blockMap;
-  private ArrayList<PowerUp> powerUpList;
+  
+  private boolean reset;
   
   public LevelState(GameStateManager gsm) {
     this.gsm = gsm;
@@ -45,7 +45,6 @@ public class LevelState extends GameState
      }
 
     hud = new HUD("Resources/Desert-Camo.jpg");
-    collisionDetector = new CollisionDetector();
     blockMap = new BlockMap();
     blockMap.setPosition(0, 0);
     blockMap.setTween(1);
@@ -55,13 +54,30 @@ public class LevelState extends GameState
     p2.setPosition(300, 480);
     canFireP1 = true;
     canFireP2 = true;
+    reset = true;
   } 
 
   @Override
   public void update()
   {
-    updatePlayer1();
-    updatePlayer2();
+     if(reset) {
+            init();
+        }
+        if(!p1.getDead()) {
+          updatePlayer1();
+        }
+        else {
+            reset = true;
+            gsm.setState(gsm.ENDSTATE);
+        }
+        if(!p2.getDead()) {
+          updatePlayer2();
+        }
+        else {
+            reset = true;
+            gsm.setState(gsm.ENDSTATE);
+        }
+        
     updateBulletList();
   }
   
@@ -76,7 +92,6 @@ public class LevelState extends GameState
     p1.setBlockMapPosition(GamePanel.WIDTH/2 - p1.getX(),
         GamePanel.HEIGHT/2 - p1.getY());
     p1Bg.setPosition(p1.getBlockMapObject().getX(), p1.getBlockMapObject().getY());
-
   }
   
   public void updatePlayer2() {
@@ -90,29 +105,52 @@ public class LevelState extends GameState
     p2Bg.setPosition(p2.getBlockMapObject().getX(), p2.getBlockMapObject().getY());
   }
   
-  public void updateBulletList() {
-    //Player 1 Bullets
-    for(int i = 0; i < p1.getBulletList().size(); i++) {
-      if(p1.getBulletList().get(i).getShow()) {
-        p1.getBulletList().get(i).setOtherPlayer(p2);
-        p1.getBulletList().get(i).update();
-      }
-      else {
-        p1.getBulletList().remove(i);
-      }
+   public void updateBulletList() {
+        //Player 1 Bullets
+        for (int i = 0; i < p1.getBulletList().size(); i++) {
+            if (p1.getBulletList().get(i).getShow()) {
+                p1.getBulletList().get(i).setMyPlayer(p1);
+                p1.getBulletList().get(i).setOtherPlayer(p2);
+                p1.getBulletList().get(i).update();
+                if(p1.getBulletList().get(i).getHitOther()) {//P1 hits P2
+                    p2.setHealth(p2.getHealth() - p1.getBulletDamage());
+                    p1.getBulletList().get(i).setHitOther(false);
+                    System.out.println("Player 2: Health" + p2.getHealth());
+                }
+                if(p1.getBulletList().get(i).getHitSelf()) {//P1 hits self
+                    p1.setHealth(p1.getHealth() - p1.getBulletDamage());
+                    p1.getBulletList().get(i).setHitSelf(false);
+                    System.out.println("Player 1 Health: " + p1.getHealth());
+                }
+
+            } 
+            else {
+                p1.getBulletList().remove(i);
+            }
+        }
+
+        //Player 2 Bullets
+        for (int i = 0; i < p2.getBulletList().size(); i++) {
+            if (p2.getBulletList().get(i).getShow()) {
+                p2.getBulletList().get(i).setMyPlayer(p2);
+                p2.getBulletList().get(i).setOtherPlayer(p1);
+                p2.getBulletList().get(i).update();
+                if(p2.getBulletList().get(i).getHitOther()) {//P2 hits P1
+                    p1.setHealth(p1.getHealth() - p2.getBulletDamage());
+                    p2.getBulletList().get(i).setHitOther(false);
+                    System.out.println("Player 1 Health: " + p1.getHealth());
+                }
+                if(p2.getBulletList().get(i).getHitSelf()) {//P2 hits self
+                    p2.setHealth(p2.getHealth() - p2.getBulletDamage());
+                    p2.getBulletList().get(i).setHitSelf(false);
+                    System.out.println("Player 2 Health: " + p2.getHealth());
+                }
+            }
+            else {
+                p2.getBulletList().remove(i);
+            }
+        }
     }
-    
-    //Player 2 Bullets
-    for(int i = 0; i < p2.getBulletList().size(); i++) {
-      if(p2.getBulletList().get(i).getShow()) {
-        p2.getBulletList().get(i).setOtherPlayer(p1);
-        p2.getBulletList().get(i).update();
-      }
-      else {
-        p2.getBulletList().remove(i);
-      }
-    }
-  }
 
   @Override
   public void draw(Graphics2D gLeftScreen, Graphics2D gRightScreen, Graphics2D gHUDScreen)
@@ -144,6 +182,9 @@ public class LevelState extends GameState
     for(int i = 0; i < p2.getBulletList().size(); i++) {
       p2.getBulletList().get(i).draw(gLeftScreen);
     }
+    
+//    p1.playerHealth(gHUDScreen, 150, 990);
+//    p2.playerHealth(gHUDScreen, 650, 990);
   }
 
   @Override

@@ -4,10 +4,6 @@ import TankGame.Background;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-/**
- *
- * @author jeffreylee
- */
 public class ControlState extends GameState {
 
     private Background bg;
@@ -71,7 +67,6 @@ public class ControlState extends GameState {
 
     @Override
     public void keyReleased(int k) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

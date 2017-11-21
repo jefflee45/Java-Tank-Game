@@ -6,7 +6,6 @@ public abstract class GameState
 {
   protected GameStateManager gsm;
  
-   
    protected abstract void init();
    
    public abstract void update();

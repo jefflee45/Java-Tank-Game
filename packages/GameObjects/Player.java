@@ -25,7 +25,8 @@ public class Player extends GameObject {
   public final static int FIRST_PLAYER = 1;
   public final static int SECOND_PLAYER = 2;
   
-  private int health, maxHealth;
+  private final static int MAX_HEALTH = 200;
+  private int health;
   private int score;
   private boolean dead;
     
@@ -35,9 +36,6 @@ public class Player extends GameObject {
   private boolean flinching;
   private int bulletDamage;
   private long flinchTimer;
-  
-  //animation
-  private BufferedImage[] movingDirection;
   
   public Player(BlockMap blockMap, int player)
   {
@@ -69,12 +67,11 @@ public class Player extends GameObject {
     stopSpeed = 0.5;
     flinchTimer = 100000;
     
-    health = 3;
-    maxHealth = 5;
-    bulletDamage = 1;
+    health = 200;
+    bulletDamage = 20;
     bulletList = new ArrayList<Bullet>();
+    dead = false;
     
-    movingDirection = new BufferedImage[8];
     rect = new Rectangle((int)x, (int)y, cWidth-4, cHeight);
     collisionBox = rect;
   }
@@ -92,10 +89,15 @@ public class Player extends GameObject {
     return health;
   }
   
-  public int getMaxHealth() {
-    return maxHealth;
-  }
+  public void setHealth(int k) {
+        health = k;
+    }
   
+  public int getBulletDamage() {
+        return bulletDamage;
+    }
+  
+  //probably can remove
   public void setFiring() {
     firing = true;
   }
@@ -218,9 +220,9 @@ public class Player extends GameObject {
   
   private void checkPowerUp() {
     if (useShield) {
-      health += 1;
-      if (maxHealth < health) {
-        health = maxHealth;
+      health += 20;
+      if (MAX_HEALTH < health) {
+        health = MAX_HEALTH;
       }
     }
     setUseShield(false);
@@ -228,12 +230,15 @@ public class Player extends GameObject {
   
   public void update() {
     getNextPosition();
-
     checkObjectCollision();
     checkBlockMapCollision();
     checkPowerUp();
     setPosition(xTemp, yTemp);
     setTransformation((int)xTemp, (int)yTemp);
+    
+    if(getHealth() <= 0) {
+            setDead(true);
+        }
   }
   
   public void setBlockMapPosition(double x, double y) {
@@ -258,6 +263,14 @@ public class Player extends GameObject {
   
   public int getPlayerNumber() {
     return player;
+  }
+  
+  public void setDead(boolean d) {
+      dead = d;
+  }
+
+  public boolean getDead() {
+      return dead;
   }
   
   public void draw(Graphics2D g) {
@@ -298,4 +311,18 @@ public class Player extends GameObject {
   public ArrayList<Bullet> getBulletList() {
     return bulletList;
   }
+  
+  public void playerHealth(Graphics2D hp, int x, int y) {
+            hp.setColor(Color.GREEN);
+            hp.fillRect(x, y, 200, 50);//(x, y, HP bar length, HP bar height)
+            
+            hp.setColor(Color.RED);
+            hp.fillRect(x,
+                    y,
+                    getHealth(),
+                    50);
+            hp.setColor(Color.WHITE);
+            hp.drawRect(x, y, 200, 50);
+        
+    }
 }
