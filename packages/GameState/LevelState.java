@@ -54,7 +54,7 @@ public class LevelState extends GameState
     p2.setPosition(300, 480);
     canFireP1 = true;
     canFireP2 = true;
-    reset = true;
+    reset = false;
   } 
 
   @Override
@@ -77,7 +77,7 @@ public class LevelState extends GameState
             reset = true;
             gsm.setState(gsm.ENDSTATE);
         }
-        
+
     updateBulletList();
   }
   
@@ -183,8 +183,8 @@ public class LevelState extends GameState
       p2.getBulletList().get(i).draw(gLeftScreen);
     }
     
-//    p1.playerHealth(gHUDScreen, 150, 990);
-//    p2.playerHealth(gHUDScreen, 650, 990);
+    p1.playerHealth(gHUDScreen, 150, 990);
+    p2.playerHealth(gHUDScreen, 650, 990);
   }
 
   @Override
