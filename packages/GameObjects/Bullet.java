@@ -76,8 +76,6 @@ public class Bullet extends GameObject{
               explosion = new Explosion(Explosion.SMALL_EXPLOSION,
               (int)(x + xMap - width / 2), 
               (int)(y + yMap - height / 2));
-                            System.out.println("top: " + explosion.hasPlayedOnce());
-
               show = false;
             }
             angle = 180 - angle; 
@@ -90,8 +88,6 @@ public class Bullet extends GameObject{
               explosion = new Explosion(Explosion.SMALL_EXPLOSION,
               (int)(x + xMap - width / 2), 
               (int)(y + yMap - height / 2));
-                            System.out.println("bot: " + explosion.hasPlayedOnce());
-
               show = false;
             }
             angle = 180 - angle;
@@ -104,8 +100,6 @@ public class Bullet extends GameObject{
               explosion = new Explosion(Explosion.SMALL_EXPLOSION,
               (int)(x + xMap - width / 2), 
               (int)(y + yMap - height / 2));
-                            System.out.println("left: " + explosion.hasPlayedOnce());
-
               show = false;
             }
               angle = 360 - angle;
@@ -118,8 +112,6 @@ public class Bullet extends GameObject{
               explosion = new Explosion(Explosion.SMALL_EXPLOSION,
               (int)(x + xMap - width / 2), 
               (int)(y + yMap - height / 2));
-                            System.out.println("right: " + explosion.hasPlayedOnce());
-
               show = false;
             }
             angle = 360 - angle;
@@ -132,8 +124,6 @@ public class Bullet extends GameObject{
               explosion = new Explosion(Explosion.SMALL_EXPLOSION,
               (int)(x + xMap - width / 2), 
               (int)(y + yMap - height / 2));
-                            System.out.println("tL: " + explosion.hasPlayedOnce());
-
               show = false;
             }
           }
@@ -145,8 +135,6 @@ public class Bullet extends GameObject{
               explosion = new Explosion(Explosion.SMALL_EXPLOSION,
               (int)(x + xMap - width / 2), 
               (int)(y + yMap - height / 2));
-                            System.out.println("tR: " + explosion.hasPlayedOnce());
-
               show = false;
             }
           }
@@ -158,8 +146,6 @@ public class Bullet extends GameObject{
               explosion = new Explosion(Explosion.SMALL_EXPLOSION,
               (int)(x + xMap - width / 2), 
               (int)(y + yMap - height / 2));
-                            System.out.println("bL: " + explosion.hasPlayedOnce());
-
               show = false;
             }
           }
@@ -171,16 +157,11 @@ public class Bullet extends GameObject{
               explosion = new Explosion(Explosion.SMALL_EXPLOSION,
               (int)(x + xMap - width / 2), 
               (int)(y + yMap - height / 2));
-              System.out.println("bR: " + explosion.hasPlayedOnce());
               show = false;
             }
           } 
         }
         else {
-        System.out.println("tl: " + topLeft);
-        System.out.println("tr: " + topRight);
-        System.out.println("bl: " + bottomLeft);
-        System.out.println("br: " + bottomRight);
         explosion = new Explosion(Explosion.SMALL_EXPLOSION,
               (int)(x + xMap - width / 2), 
               (int)(y + yMap - height / 2));
@@ -241,14 +222,5 @@ public class Bullet extends GameObject{
         (int)(x + xMap - width / 2),
         (int)(y + yMap - height / 2),
         null);
-    
-//    if (!explosion.hasPlayedOnce()) {
-//      System.out.println("current Frame: " + explosion.getFrame());
-//      g.drawImage(explosion.getImage(), 
-//          (int)(x + xMap - width / 2), 
-//          (int)(y + yMap - height / 2),
-//          null);
-//      explosion.update();
-//    }
   }
 }

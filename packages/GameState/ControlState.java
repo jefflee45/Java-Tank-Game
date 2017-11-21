@@ -35,6 +35,7 @@ public class ControlState extends GameState {
 
     @Override
     public void draw(Graphics2D gControlScreen, Graphics2D nullValue, Graphics2D nullValue2) {
+//    public void draw(Graphics2D gControlScreen, Graphics2D nullValue, Graphics2D nullValue2, Graphics2D nullValue3) {
         bg.draw(gControlScreen);
         gControlScreen.setColor(Color.WHITE);
         gControlScreen.drawString("Player 1", 125, 65);

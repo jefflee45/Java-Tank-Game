@@ -7,11 +7,11 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 
-public class HUD
+public class LSBackground
 { 
   private BufferedImage image;
   
-  public HUD(String s) {
+  public LSBackground(String s) {
     try {
       image = ImageIO.read(new File(s));
     } 

@@ -313,10 +313,10 @@ public class Player extends GameObject {
   }
   
   public void playerHealth(Graphics2D hp, int x, int y) {
-            hp.setColor(Color.GREEN);
+            hp.setColor(Color.RED);
             hp.fillRect(x, y, 200, 50);//(x, y, HP bar length, HP bar height)
             
-            hp.setColor(Color.RED);
+            hp.setColor(Color.GREEN);
             hp.fillRect(x,
                     y,
                     getHealth(),

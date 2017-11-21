@@ -7,10 +7,11 @@ import GameObjects.Player;
 import BlockMap.PowerUp;
 import GameObjects.Explosion;
 import TankGame.CollisionDetector;
-import TankGame.HUD;
+import TankGame.LSBackground;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import javafx.scene.paint.Color;
 
 public class LevelState extends GameState
 {
@@ -22,9 +23,7 @@ public class LevelState extends GameState
   
   private boolean canFireP1;
   private boolean canFireP2;
-  
-  private HUD hud;
-  
+    
   private BlockMap blockMap;
   
   private boolean reset;
@@ -46,7 +45,6 @@ public class LevelState extends GameState
        e.printStackTrace();
      }
 
-    hud = new HUD("Resources/Desert-Camo.jpg");
     blockMap = new BlockMap();
     explosions = new ArrayList();
     blockMap.setPosition(0, 0);
@@ -134,7 +132,7 @@ public class LevelState extends GameState
 
         //Player 2 Bullets
         for (int i = 0; i < p2.getBulletList().size(); i++) {
-          explosions.add(p1.getBulletList().get(i).getExplosion());
+          explosions.add(p2.getBulletList().get(i).getExplosion());
             if (p2.getBulletList().get(i).getShow()) {
                 p2.getBulletList().get(i).setMyPlayer(p2);
                 p2.getBulletList().get(i).setOtherPlayer(p1);
@@ -162,10 +160,8 @@ public class LevelState extends GameState
     }
    }
 
-  @Override
   public void draw(Graphics2D gLeftScreen, Graphics2D gRightScreen, Graphics2D gHUDScreen)
   {
-    hud.draw(gHUDScreen);
     p2Bg.draw(gRightScreen);
     p2.getBlockMapObject().draw(gRightScreen);
     p1.draw(gRightScreen);
@@ -202,8 +198,8 @@ public class LevelState extends GameState
       explosions.get(i).draw(gLeftScreen);
     }
     
-    p1.playerHealth(gHUDScreen, 150, 990);
-    p2.playerHealth(gHUDScreen, 650, 990);
+    p1.playerHealth(gHUDScreen, 150, 100);
+    p2.playerHealth(gHUDScreen, 650, 100);
   }
 
   @Override
@@ -293,5 +289,6 @@ public class LevelState extends GameState
         break;
     }
   }
+
   
 }

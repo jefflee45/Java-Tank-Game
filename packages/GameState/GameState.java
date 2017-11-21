@@ -10,7 +10,8 @@ public abstract class GameState
    
    public abstract void update();
    
-   public abstract void draw(Graphics2D gLeftScreen, Graphics2D gRightScreen, Graphics2D gHUDScreen);
+//   public abstract void draw(Graphics2D gLeftScreen, Graphics2D gRightScreen, Graphics2D gBackgroundScreen, Graphics2D gHUDScreen);
+   public abstract void draw(Graphics2D gLeftScreen, Graphics2D gRightScreen, Graphics2D gBackgroundScreen);
    
    public abstract void keyPressed(int k);
    

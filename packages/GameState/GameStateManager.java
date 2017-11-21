@@ -18,11 +18,14 @@ public class GameStateManager
   
   public GameStateManager() {
     
-    gameStates = new ArrayList<GameState>();
+    gameStates = new ArrayList();
     
     currentState = MENUSTATE;
-    
+try {
     gameStates.add(new MenuState(this));
+} catch (Exception e) {
+  e.printStackTrace();
+}
     gameStates.add(new LevelState(this));
     gameStates.add(new ControlState(this));
     gameStates.add(new EndState(this));
@@ -39,8 +42,12 @@ public class GameStateManager
     gameStates.get(currentState).update();
   }
   
-  public void draw(Graphics2D gLeftScreen, Graphics2D gRightScreen, Graphics2D gHUDScreen) {
-    gameStates.get(currentState).draw(gLeftScreen, gRightScreen, gHUDScreen);
+//  public void draw(Graphics2D gLeftScreen, Graphics2D gRightScreen, Graphics2D gBackgroundScreen, Graphics2D gHUDScreen) {
+//    gameStates.get(currentState).draw(gLeftScreen, gRightScreen, gBackgroundScreen, gHUDScreen);
+//  }
+  
+  public void draw(Graphics2D gLeftScreen, Graphics2D gRightScreen, Graphics2D gBackgroundScreen) {
+    gameStates.get(currentState).draw(gLeftScreen, gRightScreen, gBackgroundScreen);
   }
   
   public void keyPressed(int k) {
