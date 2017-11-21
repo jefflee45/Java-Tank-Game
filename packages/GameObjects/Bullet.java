@@ -11,12 +11,13 @@ public class Bullet extends GameObject{
   private double angle;
   private boolean show;
   private int bounceCounter;
+  private Explosion explosion;
   
   public Bullet(BlockMap blockMap, double angle, double x, double y) {
     super(blockMap);
     //add offset so shoots from front of tank, needs fine tuning
-    this.x = (x-16) - 26 * Math.sin(Math.toRadians(angle));
-    this.y = (y-16) - 22 * Math.cos(Math.toRadians(angle));
+    this.x = (x - blockSize/2) - 26 * Math.sin(Math.toRadians(angle));
+    this.y = (y - blockSize/2) - 22 * Math.cos(Math.toRadians(angle));
     
     //collision
     height = 24;
@@ -24,6 +25,9 @@ public class Bullet extends GameObject{
     cWidth = 10;
     cHeight  = 10;
     
+    //initialize explosion
+    explosion = new Explosion(Explosion.SMALL_EXPLOSION);
+    explosion.setPlayedOnce(true);
     
     show = true;
     speed = 5;
@@ -52,6 +56,9 @@ public class Bullet extends GameObject{
                   blockMap.getBlock((int)y/blockSize-1, (int)x/blockSize).getType() == PowerUp.P1_SHIELD ||
                   blockMap.getBlock((int)y/blockSize-1, (int)x/blockSize).getType() == PowerUp.P2_SHIELD) {
               blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize - 1, (int) x / blockSize);
+              explosion = new Explosion(Explosion.SMALL_EXPLOSION);
+                            System.out.println("top: " + explosion.hasPlayedOnce());
+
               show = false;
             }
             angle = 180 - angle; 
@@ -61,6 +68,9 @@ public class Bullet extends GameObject{
                 blockMap.getBlock((int)y/blockSize + 1, (int)x/blockSize).getType() == PowerUp.P1_SHIELD ||
                 blockMap.getBlock((int)y/blockSize + 1, (int)x/blockSize).getType() == PowerUp.P2_SHIELD) {
               blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize + 1, (int) x / blockSize);
+              explosion = new Explosion(Explosion.SMALL_EXPLOSION);
+                            System.out.println("bot: " + explosion.hasPlayedOnce());
+
               show = false;
             }
             angle = 180 - angle;
@@ -70,6 +80,9 @@ public class Bullet extends GameObject{
                 blockMap.getBlock((int)y/blockSize, (int)x/blockSize - 1).getType() == PowerUp.P1_SHIELD ||
                 blockMap.getBlock((int)y/blockSize, (int)x/blockSize - 1).getType() == PowerUp.P2_SHIELD) {
               blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize, (int) x / blockSize - 1);
+              explosion = new Explosion(Explosion.SMALL_EXPLOSION);
+                            System.out.println("left: " + explosion.hasPlayedOnce());
+
               show = false;
             }
               angle = 360 - angle;
@@ -79,13 +92,62 @@ public class Bullet extends GameObject{
                 blockMap.getBlock((int)y/blockSize, (int)x/blockSize + 1).getType() == PowerUp.P1_SHIELD ||
                 blockMap.getBlock((int)y/blockSize, (int)x/blockSize + 1).getType() == PowerUp.P2_SHIELD) {
               blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize, (int) x / blockSize + 1);
+              explosion = new Explosion(Explosion.SMALL_EXPLOSION);
+                            System.out.println("right: " + explosion.hasPlayedOnce());
+
               show = false;
             }
             angle = 360 - angle;
           }
-          
+          else if(topLeft) {
+            if (blockMap.getBlock((int)y/blockSize-1, (int)x/blockSize-1).getType() == Block.BREAKABLE ||
+                  blockMap.getBlock((int)y/blockSize-1, (int)x/blockSize-1).getType() == PowerUp.P1_SHIELD ||
+                  blockMap.getBlock((int)y/blockSize-1, (int)x/blockSize-1).getType() == PowerUp.P2_SHIELD) {
+              blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize - 1, (int) x / blockSize -1);
+              explosion = new Explosion(Explosion.SMALL_EXPLOSION);
+                            System.out.println("tL: " + explosion.hasPlayedOnce());
+
+              show = false;
+            }
+          }
+          else if(topRight) {
+            if (blockMap.getBlock((int)y/blockSize-1, (int)x/blockSize+1).getType() == Block.BREAKABLE ||
+                  blockMap.getBlock((int)y/blockSize-1, (int)x/blockSize+1).getType() == PowerUp.P1_SHIELD ||
+                  blockMap.getBlock((int)y/blockSize-1, (int)x/blockSize+1).getType() == PowerUp.P2_SHIELD) {
+              blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize - 1, (int) x / blockSize + 1);
+              explosion = new Explosion(Explosion.SMALL_EXPLOSION);
+                            System.out.println("tR: " + explosion.hasPlayedOnce());
+
+              show = false;
+            }
+          }
+          else if(bottomLeft) {
+            if (blockMap.getBlock((int)y/blockSize+1, (int)x/blockSize-1).getType() == Block.BREAKABLE ||
+                  blockMap.getBlock((int)y/blockSize+1, (int)x/blockSize-1).getType() == PowerUp.P1_SHIELD ||
+                  blockMap.getBlock((int)y/blockSize+1, (int)x/blockSize-1).getType() == PowerUp.P2_SHIELD) {
+              blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize + 1, (int) x / blockSize - 1);
+              explosion = new Explosion(Explosion.SMALL_EXPLOSION);
+                            System.out.println("bL: " + explosion.hasPlayedOnce());
+
+              show = false;
+            }
+          }
+          else if(bottomRight) {
+            if (blockMap.getBlock((int)y/blockSize+1, (int)x/blockSize+1).getType() == Block.BREAKABLE ||
+                  blockMap.getBlock((int)y/blockSize+1, (int)x/blockSize+1).getType() == PowerUp.P1_SHIELD ||
+                  blockMap.getBlock((int)y/blockSize+1, (int)x/blockSize+1).getType() == PowerUp.P2_SHIELD) {
+              blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize + 1, (int) x / blockSize + 1);
+              explosion = new Explosion(Explosion.SMALL_EXPLOSION);
+              System.out.println("bR: " + explosion.hasPlayedOnce());
+              show = false;
+            }
+          } 
         }
         else {
+        System.out.println("tl: " + topLeft);
+        System.out.println("tr: " + topRight);
+        System.out.println("bl: " + bottomLeft);
+        System.out.println("br: " + bottomRight);
         show = false;
       }
     }
@@ -119,5 +181,14 @@ public class Bullet extends GameObject{
         (int)(x + xMap - width / 2),
         (int)(y + yMap - height / 2),
         null);
+    
+    if (!explosion.hasPlayedOnce()) {
+      System.out.println("EXPLODE");
+      g.drawImage(explosion.getImage(), 
+          (int)(x + xMap - width / 2), 
+          (int)(y + yMap - height / 2),
+          null);
+      explosion.update();
+    }
   }
 }
