@@ -21,9 +21,11 @@ public class Explosion{
 
   public final static int SMALL_EXPLOSION = 0;
   public final static int LARGE_EXPLOSION = 1;
+  public final static int NO_EXPLOSION = -1;
   
   private int type;
   private int width, height;
+  private int x, y;
   
   private BufferedImage[] frames;
   private int currentFrame;
@@ -31,8 +33,10 @@ public class Explosion{
   private long delay;
   private boolean playedOnce;
 
-  public Explosion(int type) {
+  public Explosion(int type, int x, int y) {
     this.type = type;
+    this.x = x;
+    this.y = y;
     init();
     loadSprites();
   }
@@ -51,7 +55,8 @@ public class Explosion{
     delay = 10;
     startTime = System.nanoTime();
     currentFrame = 0;
-    playedOnce = false;
+    
+    playedOnce = type == NO_EXPLOSION;
   }
   
   public void update() {
@@ -64,6 +69,14 @@ public class Explosion{
 			currentFrame = 0;
 			playedOnce = true;
 		}
+  }
+  
+  public int getX() {
+    return x;
+  }
+  
+  public int getY() {
+    return y;
   }
   
   public int getFrame() {
@@ -89,6 +102,17 @@ public class Explosion{
     
     if (type == LARGE_EXPLOSION) {
       loadFramesFromFolder("Resources/ExplosionLarge64x64");
+    }
+  }
+  
+  public void draw(Graphics2D g) {
+    
+    if (!playedOnce) {
+      g.drawImage(frames[currentFrame], 
+          x, 
+          y,
+          null);
+      update();
     }
   }
   

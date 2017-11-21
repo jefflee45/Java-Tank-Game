@@ -5,6 +5,7 @@ import TankGame.Background;
 import BlockMap.BlockMap;
 import GameObjects.Player;
 import BlockMap.PowerUp;
+import GameObjects.Explosion;
 import TankGame.CollisionDetector;
 import TankGame.HUD;
 import java.awt.Graphics2D;
@@ -27,6 +28,7 @@ public class LevelState extends GameState
   private BlockMap blockMap;
   
   private boolean reset;
+  private ArrayList<Explosion> explosions;
   
   public LevelState(GameStateManager gsm) {
     this.gsm = gsm;
@@ -46,6 +48,7 @@ public class LevelState extends GameState
 
     hud = new HUD("Resources/Desert-Camo.jpg");
     blockMap = new BlockMap();
+    explosions = new ArrayList();
     blockMap.setPosition(0, 0);
     blockMap.setTween(1);
     p1 = new Player(blockMap, Player.FIRST_PLAYER);
@@ -79,6 +82,7 @@ public class LevelState extends GameState
         }
 
     updateBulletList();
+    updateExplosionsList();
   }
   
   public void updatePlayer1() {
@@ -108,6 +112,7 @@ public class LevelState extends GameState
    public void updateBulletList() {
         //Player 1 Bullets
         for (int i = 0; i < p1.getBulletList().size(); i++) {
+          explosions.add(p1.getBulletList().get(i).getExplosion());
             if (p1.getBulletList().get(i).getShow()) {
                 p1.getBulletList().get(i).setMyPlayer(p1);
                 p1.getBulletList().get(i).setOtherPlayer(p2);
@@ -115,12 +120,10 @@ public class LevelState extends GameState
                 if(p1.getBulletList().get(i).getHitOther()) {//P1 hits P2
                     p2.setHealth(p2.getHealth() - p1.getBulletDamage());
                     p1.getBulletList().get(i).setHitOther(false);
-                    System.out.println("Player 2: Health" + p2.getHealth());
                 }
                 if(p1.getBulletList().get(i).getHitSelf()) {//P1 hits self
                     p1.setHealth(p1.getHealth() - p1.getBulletDamage());
                     p1.getBulletList().get(i).setHitSelf(false);
-                    System.out.println("Player 1 Health: " + p1.getHealth());
                 }
 
             } 
@@ -131,6 +134,7 @@ public class LevelState extends GameState
 
         //Player 2 Bullets
         for (int i = 0; i < p2.getBulletList().size(); i++) {
+          explosions.add(p1.getBulletList().get(i).getExplosion());
             if (p2.getBulletList().get(i).getShow()) {
                 p2.getBulletList().get(i).setMyPlayer(p2);
                 p2.getBulletList().get(i).setOtherPlayer(p1);
@@ -138,12 +142,10 @@ public class LevelState extends GameState
                 if(p2.getBulletList().get(i).getHitOther()) {//P2 hits P1
                     p1.setHealth(p1.getHealth() - p2.getBulletDamage());
                     p2.getBulletList().get(i).setHitOther(false);
-                    System.out.println("Player 1 Health: " + p1.getHealth());
                 }
                 if(p2.getBulletList().get(i).getHitSelf()) {//P2 hits self
                     p2.setHealth(p2.getHealth() - p2.getBulletDamage());
                     p2.getBulletList().get(i).setHitSelf(false);
-                    System.out.println("Player 2 Health: " + p2.getHealth());
                 }
             }
             else {
@@ -151,6 +153,14 @@ public class LevelState extends GameState
             }
         }
     }
+   
+   private void updateExplosionsList() {
+    for (int i = 0; i < explosions.size(); i++) {
+      if (explosions.get(i).hasPlayedOnce()) {
+        explosions.remove(i);
+      }
+    }
+   }
 
   @Override
   public void draw(Graphics2D gLeftScreen, Graphics2D gRightScreen, Graphics2D gHUDScreen)
@@ -167,6 +177,11 @@ public class LevelState extends GameState
     for(int i = 0; i < p1.getBulletList().size(); i++) {
       p1.getBulletList().get(i).draw(gRightScreen);
     }
+    
+    for (int i = 0; i < explosions.size(); i++) {
+      explosions.get(i).draw(gRightScreen);
+    }
+    
     p1.setBlockMapPosition(GamePanel.WIDTH / 2 - p1.getX(), 
         GamePanel.HEIGHT / 2 - p1.getY());
     
@@ -181,6 +196,10 @@ public class LevelState extends GameState
     
     for(int i = 0; i < p2.getBulletList().size(); i++) {
       p2.getBulletList().get(i).draw(gLeftScreen);
+    }
+    
+    for (int i = 0; i < explosions.size(); i++) {
+      explosions.get(i).draw(gLeftScreen);
     }
     
     p1.playerHealth(gHUDScreen, 150, 990);
