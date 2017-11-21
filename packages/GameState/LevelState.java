@@ -4,14 +4,10 @@ import Main.GamePanel;
 import TankGame.Background;
 import BlockMap.BlockMap;
 import GameObjects.Player;
-import BlockMap.PowerUp;
 import GameObjects.Explosion;
-import TankGame.CollisionDetector;
-import TankGame.LSBackground;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import javafx.scene.paint.Color;
 
 public class LevelState extends GameState
 {
@@ -51,8 +47,10 @@ public class LevelState extends GameState
     blockMap.setTween(1);
     p1 = new Player(blockMap, Player.FIRST_PLAYER);
     p2 = new Player(blockMap, Player.SECOND_PLAYER);
-    p1.setPosition(190, 434);
-    p2.setPosition(300, 480);
+    p1.setPosition(115, 460);
+    p1.setAngle(186);
+    p2.setPosition(1170, 500);
+    p2.setAngle(0);
     canFireP1 = true;
     canFireP2 = true;
     reset = false;
@@ -198,6 +196,7 @@ public class LevelState extends GameState
       explosions.get(i).draw(gLeftScreen);
     }
     
+    //player health
     p1.playerHealth(gHUDScreen, 150, 100);
     p2.playerHealth(gHUDScreen, 650, 100);
   }

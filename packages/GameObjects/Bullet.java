@@ -19,8 +19,8 @@ public class Bullet extends GameObject{
   public Bullet(BlockMap blockMap, double angle, double x, double y) {
     super(blockMap);
     //add offset so shoots from front of tank, needs fine tuning
-    this.x = (x - blockSize/2) - 30 * Math.sin(Math.toRadians(angle));
-    this.y = (y - blockSize/2) - 25 * Math.cos(Math.toRadians(angle));
+    this.x = x - 30 * Math.sin(Math.toRadians(angle));
+    this.y = y - 25 * Math.cos(Math.toRadians(angle));
     
     //collision
     height = 24;

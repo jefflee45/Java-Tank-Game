@@ -621,6 +621,10 @@ public abstract class GameObject
     this.ySpeed = ySpeed;
   }
   
+  public void setAngle(int a) {
+    angle = a;
+  }
+  
   public void setMapPosition() {
     xMap = blockMap.getX();
     yMap = blockMap.getY();
