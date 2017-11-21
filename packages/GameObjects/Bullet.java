@@ -47,7 +47,7 @@ public class Bullet extends GameObject{
       calculateCorners(x, y);
       
       if (bulletIntersects(otherPlayer)) {
-          explosion = new Explosion(Explosion.SMALL_EXPLOSION,
+          explosion = new Explosion(Explosion.LARGE_EXPLOSION,
           (int)(x + xMap - width / 2), 
           (int)(y + yMap - height / 2));
           show = false;
@@ -55,7 +55,7 @@ public class Bullet extends GameObject{
         }
       
       if (bulletIntersects(myPlayer) && bounceCounter > 0) {//if bullet hits self
-          explosion = new Explosion(Explosion.SMALL_EXPLOSION,
+          explosion = new Explosion(Explosion.LARGE_EXPLOSION,
           (int)(x + xMap - width / 2), 
           (int)(y + yMap - height / 2));
           show = false;

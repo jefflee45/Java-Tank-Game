@@ -145,6 +145,12 @@ public class BlockMap
   }
   
   public Block getBlock(int row, int col) {
+    if (row >= rows) {
+      row = rows - 1;
+    }
+    if (col >= columns) {
+      col = columns - 1;
+    }
     return blockMap[row][col];
   }
   
