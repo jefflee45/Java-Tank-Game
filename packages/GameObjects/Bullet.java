@@ -4,6 +4,7 @@ import BlockMap.PowerUp;
 import BlockMap.Block;
 import BlockMap.BlockMap;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Bullet extends GameObject{
   private final int BULLET_BOUNCE = 2;
@@ -14,6 +15,9 @@ public class Bullet extends GameObject{
   private boolean hitOther;
   private boolean hitSelf;
   private int bounceCounter;
+  //TODO make explosions array, because the new explosions are
+  //cutting the old ones off early
+  private ArrayList<Explosion> explosions;
   private Explosion explosion;
   
   public Bullet(BlockMap blockMap, double angle, double x, double y) {
@@ -47,11 +51,13 @@ public class Bullet extends GameObject{
       
       calculateCorners(x, y);
       if (bulletIntersects(otherPlayer)) {
+          explosion = new Explosion(Explosion.SMALL_EXPLOSION);
           show = false;
           hitOther = true;
         }
       
       if (bulletIntersects(myPlayer) && bounceCounter > 0) {//if bullet hits self
+          explosion = new Explosion(Explosion.SMALL_EXPLOSION);
           show = false;
           hitSelf = true;
         }
@@ -159,6 +165,7 @@ public class Bullet extends GameObject{
         System.out.println("tr: " + topRight);
         System.out.println("bl: " + bottomLeft);
         System.out.println("br: " + bottomRight);
+        explosion = new Explosion(Explosion.SMALL_EXPLOSION);
         show = false;
       }
     }

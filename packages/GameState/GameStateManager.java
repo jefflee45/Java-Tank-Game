@@ -30,6 +30,9 @@ public class GameStateManager
   
   public void setState(int state) {
     currentState = state;
+    if (currentState == MENUSTATE) {
+      gameStates.get(currentState).init();
+    }
   }
   
   public void update() {

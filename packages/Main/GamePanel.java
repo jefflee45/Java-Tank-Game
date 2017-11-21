@@ -31,11 +31,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
   private BufferedImage menuScreen;
   private BufferedImage controlScreen;
   private BufferedImage HUDScreen;
+  private BufferedImage endScreen;
   private Graphics2D gLeftScreen;
   private Graphics2D gRightScreen;
   private Graphics2D gMenuScreen;
   private Graphics2D gControlScreen;
   private Graphics2D gHUDScreen;
+  private Graphics2D gEndScreen;
   
   private HUD hud;
   private boolean alreadyDrawnBackground;
@@ -69,11 +71,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     menuScreen = new BufferedImage (FULL_WIDTH, FULL_HEIGHT, BufferedImage.TYPE_INT_RGB);
     controlScreen = new BufferedImage (FULL_WIDTH, FULL_HEIGHT, BufferedImage.TYPE_INT_RGB);
     HUDScreen = new BufferedImage (FULL_WIDTH, (int)(FULL_HEIGHT * HEIGHT_SCALE), BufferedImage.TYPE_INT_RGB);
+    endScreen = new BufferedImage (FULL_WIDTH, FULL_HEIGHT, BufferedImage.TYPE_INT_RGB);
+    
     gLeftScreen = (Graphics2D) leftScreen.getGraphics();
     gRightScreen = (Graphics2D) rightScreen.getGraphics();
     gMenuScreen = (Graphics2D) menuScreen.getGraphics();
     gControlScreen = (Graphics2D) controlScreen.getGraphics();
     gHUDScreen = (Graphics2D) HUDScreen.getGraphics();
+    gEndScreen = (Graphics2D) endScreen.getGraphics();
     
     alreadyDrawnBackground = false;
     running = true;
@@ -114,6 +119,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
   
   private void update() {
     gsm.update();
+    if (gsm.getCurrentState() == GameStateManager.MENUSTATE) {
+      alreadyDrawnBackground = false;
+    }
   }
   
   private void draw() {
@@ -125,6 +133,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     } 
     else if (gsm.getCurrentState() == GameStateManager.CONTROLSTATE) {
       gsm.draw(gControlScreen, null, null);
+    }
+    else if(gsm.getCurrentState() == GameStateManager.ENDSTATE) {
+        gsm.draw(gEndScreen, null, null);
     }
   }
   
@@ -145,6 +156,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     } 
     else if (gsm.getCurrentState() == GameStateManager.CONTROLSTATE) {
       g2.drawImage(controlScreen, 0, 0, FULL_WIDTH * WIDTH_SCALE, (int)(FULL_HEIGHT * HEIGHT_SCALE), null);
+    }
+    else if(gsm.getCurrentState() == GameStateManager.ENDSTATE) {
+        g2.drawImage(endScreen, 0, 0, FULL_WIDTH * WIDTH_SCALE, (int) (FULL_HEIGHT * HEIGHT_SCALE), null);
     }
     g2.dispose();
 
