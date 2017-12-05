@@ -44,9 +44,9 @@ public class GameWorld extends JApplet implements Runnable{
     window.setVisible(true);
     
     MusicPlayer player = new MusicPlayer("Music.mid");
-    pool.runTask(game);
+    //pool.runTask(game);
     pool.runTask(player);
-    pool.join();
+    //pool.join();
   }
 
   @Override
