@@ -1,5 +1,6 @@
 package Main;
 
+import TankGame.MusicPlayer;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -10,6 +11,7 @@ public class GameWorld extends JApplet implements Runnable{
   
   public static void main(String[] args)
   {
+
 //    JFrame window = new JFrame("Tank Game");
 //    //window.setContentPane(new GamePanel());
 //    window.setLocation(100, 100);
@@ -30,13 +32,21 @@ public class GameWorld extends JApplet implements Runnable{
 //    window.setResizable(false);
 //    window.pack();
 //    window.setVisible(true);
-    
+      
+      GamePanel game = new GamePanel();
+      ThreadPool pool = new ThreadPool(2);
     JFrame window = new JFrame("Tank Game");
-    window.setContentPane(new GamePanel());
+    //window.setContentPane(new GamePanel());
+    window.add(game);
     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     window.setResizable(false);
     window.pack();
     window.setVisible(true);
+    
+    MusicPlayer player = new MusicPlayer("Music.mid");
+    pool.runTask(game);
+    pool.runTask(player);
+    pool.join();
   }
 
   @Override
