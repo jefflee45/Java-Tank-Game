@@ -1,6 +1,7 @@
 
 package GameState;
 
+import GameObjects.Player;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -28,7 +29,14 @@ public class EndState extends GameState{
     public void draw(Graphics2D gEndScreen, Graphics2D nullValue, Graphics2D nullValue2) {
 //    public void draw(Graphics2D gEndScreen, Graphics2D nullValue, Graphics2D nullValue2, Graphics2D nullValue3) {
        gEndScreen.setFont(font);
-       gEndScreen.drawString("Game Over!", 300, 100);
+
+       if (winner == Player.FIRST_PLAYER) {
+        gEndScreen.drawString("Player 1 Wins!", 400, 200);
+       } else if (winner == Player.SECOND_PLAYER) {
+        gEndScreen.drawString("Player 2 Wins!", 400, 200);
+       } else {
+        gEndScreen.drawString("Nobody Wins!", 400, 200);
+       }
        gEndScreen.drawString("Press Escape to go back to the menu", 200, 300);
     }
 

@@ -41,11 +41,7 @@ try {
   public void update() {
     gameStates.get(currentState).update();
   }
-  
-//  public void draw(Graphics2D gLeftScreen, Graphics2D gRightScreen, Graphics2D gBackgroundScreen, Graphics2D gHUDScreen) {
-//    gameStates.get(currentState).draw(gLeftScreen, gRightScreen, gBackgroundScreen, gHUDScreen);
-//  }
-  
+
   public void draw(Graphics2D gLeftScreen, Graphics2D gRightScreen, Graphics2D gBackgroundScreen) {
     gameStates.get(currentState).draw(gLeftScreen, gRightScreen, gBackgroundScreen);
   }
@@ -64,5 +60,9 @@ try {
   
   public ArrayList getGameState() {
       return gameStates;
+  }
+  
+  public void setWinner(int k) {
+    gameStates.get(currentState).setWinner(k);
   }
 }

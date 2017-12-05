@@ -584,7 +584,15 @@ public abstract class GameObject
   }
   
   public int getY() {
-    return (int)y;
+    return (int) y;
+  }
+  
+  public int getXMap() {
+    return (int) xMap;
+  }
+  
+  public int getYMap() {
+    return (int) yMap;
   }
   
   public int getWidth() {
@@ -619,6 +627,10 @@ public abstract class GameObject
   public void setSpeeds(double xSpeed, double ySpeed) {
     this.xSpeed = xSpeed;
     this.ySpeed = ySpeed;
+  }
+  
+  public void setAngle(int a) {
+    angle = a;
   }
   
   public void setMapPosition() {

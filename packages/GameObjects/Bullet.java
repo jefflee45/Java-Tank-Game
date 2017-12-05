@@ -12,6 +12,7 @@ public class Bullet extends GameObject{
   private boolean show;
   private boolean hitOther;
   private boolean hitSelf;
+  private boolean isPlayerOne;
   private int bounceCounter;
 
   private Explosion explosion;
@@ -19,8 +20,8 @@ public class Bullet extends GameObject{
   public Bullet(BlockMap blockMap, double angle, double x, double y) {
     super(blockMap);
     //add offset so shoots from front of tank, needs fine tuning
-    this.x = (x - blockSize/2) - 30 * Math.sin(Math.toRadians(angle));
-    this.y = (y - blockSize/2) - 25 * Math.cos(Math.toRadians(angle));
+    this.x = x - 30 * Math.sin(Math.toRadians(angle));
+    this.y = y - 25 * Math.cos(Math.toRadians(angle));
     
     //collision
     height = 24;
@@ -29,35 +30,81 @@ public class Bullet extends GameObject{
     cHeight  = 10;
     
     //initialize explosion
-    explosion = new Explosion(Explosion.NO_EXPLOSION, 0 ,0);
+    explosion = new Explosion(Explosion.NO_EXPLOSION, 0 , 0, 0, 0);
     
     show = true;
     hitOther = false;
     hitSelf = false;
+    isPlayerOne = false;
     speed = 5;
     this.angle = angle - 3;
     bounceCounter = 0;
     loadSprites();
   }
   
+  public void setThisP1SmallExplosion() {
+    explosion = new Explosion(Explosion.SMALL_EXPLOSION,
+          (int)(x + xMap - width / 2), 
+          (int)(y + yMap - height / 2),
+          (int)(x + otherPlayer.getXMap() - width / 2), 
+          (int)(y + otherPlayer.getYMap() - height / 2));
+  }
+  
+  public void setThisP2SmallExplosion() {
+    explosion = new Explosion(Explosion.SMALL_EXPLOSION,
+          (int)(x + otherPlayer.getXMap() - width / 2), 
+          (int)(y + otherPlayer.getYMap() - height / 2),
+          (int)(x + xMap - width / 2), 
+          (int)(y + yMap - height / 2));
+  }
+  
+  public void setThisP1LargeExplosion() {
+    explosion = new Explosion(Explosion.LARGE_EXPLOSION,
+          (int)(x + xMap - width / 2), 
+          (int)(y + yMap - height / 2),
+          (int)(x + otherPlayer.getXMap() - width / 2), 
+          (int)(y + otherPlayer.getYMap() - height / 2));
+  }
+  
+  public void setThisP2LargeExplosion() {
+    explosion = new Explosion(Explosion.LARGE_EXPLOSION,
+          (int)(x + otherPlayer.getXMap() - width / 2), 
+          (int)(y + otherPlayer.getYMap() - height/ 2),
+          (int)(x + xMap - width / 2), 
+          (int)(y + yMap - height / 2));
+  }
+  
   public void update() {
+    Player one;
+    Player two;
+    
+      if (otherPlayer.getPlayerNumber() == 2) {
+        isPlayerOne = true;
+      } else {
+        isPlayerOne = false;
+      }
+      
       this.x -= speed * Math.sin(Math.toRadians(angle));
       this.y -= speed * Math.cos(Math.toRadians(angle));
       
       calculateCorners(x, y);
       
       if (bulletIntersects(otherPlayer)) {
-          explosion = new Explosion(Explosion.LARGE_EXPLOSION,
-          (int)(x + xMap - width / 2), 
-          (int)(y + yMap - height / 2));
+          if (isPlayerOne) {
+            setThisP1LargeExplosion();
+          } else {
+            setThisP2LargeExplosion();
+          }
           show = false;
           hitOther = true;
         }
       
       if (bulletIntersects(myPlayer) && bounceCounter > 0) {//if bullet hits self
-          explosion = new Explosion(Explosion.LARGE_EXPLOSION,
-          (int)(x + xMap - width / 2), 
-          (int)(y + yMap - height / 2));
+          if (isPlayerOne) {
+            setThisP1LargeExplosion();
+          } else {
+            setThisP2LargeExplosion();
+          }
           show = false;
           hitSelf = true;
         }
@@ -73,9 +120,11 @@ public class Bullet extends GameObject{
                   blockMap.getBlock((int)y/blockSize-1, (int)x/blockSize).getType() == PowerUp.P1_SHIELD ||
                   blockMap.getBlock((int)y/blockSize-1, (int)x/blockSize).getType() == PowerUp.P2_SHIELD) {
               blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize - 1, (int) x / blockSize);
-              explosion = new Explosion(Explosion.SMALL_EXPLOSION,
-              (int)(x + xMap - width / 2), 
-              (int)(y + yMap - height / 2));
+              if (isPlayerOne) {
+                setThisP1SmallExplosion();
+              } else {
+                setThisP2SmallExplosion();
+              }
               show = false;
             }
             angle = 180 - angle; 
@@ -85,9 +134,11 @@ public class Bullet extends GameObject{
                 blockMap.getBlock((int)y/blockSize + 1, (int)x/blockSize).getType() == PowerUp.P1_SHIELD ||
                 blockMap.getBlock((int)y/blockSize + 1, (int)x/blockSize).getType() == PowerUp.P2_SHIELD) {
               blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize + 1, (int) x / blockSize);
-              explosion = new Explosion(Explosion.SMALL_EXPLOSION,
-              (int)(x + xMap - width / 2), 
-              (int)(y + yMap - height / 2));
+              if (isPlayerOne) {
+                setThisP1SmallExplosion();
+              } else {
+                setThisP2SmallExplosion();
+              }
               show = false;
             }
             angle = 180 - angle;
@@ -97,9 +148,11 @@ public class Bullet extends GameObject{
                 blockMap.getBlock((int)y/blockSize, (int)x/blockSize - 1).getType() == PowerUp.P1_SHIELD ||
                 blockMap.getBlock((int)y/blockSize, (int)x/blockSize - 1).getType() == PowerUp.P2_SHIELD) {
               blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize, (int) x / blockSize - 1);
-              explosion = new Explosion(Explosion.SMALL_EXPLOSION,
-              (int)(x + xMap - width / 2), 
-              (int)(y + yMap - height / 2));
+              if (isPlayerOne) {
+                setThisP1SmallExplosion();
+              } else {
+                setThisP2SmallExplosion();
+              }
               show = false;
             }
               angle = 360 - angle;
@@ -109,9 +162,11 @@ public class Bullet extends GameObject{
                 blockMap.getBlock((int)y/blockSize, (int)x/blockSize + 1).getType() == PowerUp.P1_SHIELD ||
                 blockMap.getBlock((int)y/blockSize, (int)x/blockSize + 1).getType() == PowerUp.P2_SHIELD) {
               blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize, (int) x / blockSize + 1);
-              explosion = new Explosion(Explosion.SMALL_EXPLOSION,
-              (int)(x + xMap - width / 2), 
-              (int)(y + yMap - height / 2));
+              if (isPlayerOne) {
+                setThisP1SmallExplosion();
+              } else {
+                setThisP2SmallExplosion();
+              }
               show = false;
             }
             angle = 360 - angle;
@@ -121,9 +176,11 @@ public class Bullet extends GameObject{
                   blockMap.getBlock((int)y/blockSize-1, (int)x/blockSize-1).getType() == PowerUp.P1_SHIELD ||
                   blockMap.getBlock((int)y/blockSize-1, (int)x/blockSize-1).getType() == PowerUp.P2_SHIELD) {
               blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize - 1, (int) x / blockSize -1);
-              explosion = new Explosion(Explosion.SMALL_EXPLOSION,
-              (int)(x + xMap - width / 2), 
-              (int)(y + yMap - height / 2));
+              if (isPlayerOne) {
+                setThisP1SmallExplosion();
+              } else {
+                setThisP2SmallExplosion();
+              }
               show = false;
             }
           }
@@ -132,9 +189,11 @@ public class Bullet extends GameObject{
                   blockMap.getBlock((int)y/blockSize-1, (int)x/blockSize+1).getType() == PowerUp.P1_SHIELD ||
                   blockMap.getBlock((int)y/blockSize-1, (int)x/blockSize+1).getType() == PowerUp.P2_SHIELD) {
               blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize - 1, (int) x / blockSize + 1);
-              explosion = new Explosion(Explosion.SMALL_EXPLOSION,
-              (int)(x + xMap - width / 2), 
-              (int)(y + yMap - height / 2));
+              if (isPlayerOne) {
+                setThisP1SmallExplosion();
+              } else {
+                setThisP2SmallExplosion();
+              }
               show = false;
             }
           }
@@ -143,9 +202,11 @@ public class Bullet extends GameObject{
                   blockMap.getBlock((int)y/blockSize+1, (int)x/blockSize-1).getType() == PowerUp.P1_SHIELD ||
                   blockMap.getBlock((int)y/blockSize+1, (int)x/blockSize-1).getType() == PowerUp.P2_SHIELD) {
               blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize + 1, (int) x / blockSize - 1);
-              explosion = new Explosion(Explosion.SMALL_EXPLOSION,
-              (int)(x + xMap - width / 2), 
-              (int)(y + yMap - height / 2));
+              if (isPlayerOne) {
+                setThisP1SmallExplosion();
+              } else {
+                setThisP2SmallExplosion();
+              }
               show = false;
             }
           }
@@ -154,17 +215,21 @@ public class Bullet extends GameObject{
                   blockMap.getBlock((int)y/blockSize+1, (int)x/blockSize+1).getType() == PowerUp.P1_SHIELD ||
                   blockMap.getBlock((int)y/blockSize+1, (int)x/blockSize+1).getType() == PowerUp.P2_SHIELD) {
               blockMap.setBlockType(Block.EMPTY_TILE, (int) y / blockSize + 1, (int) x / blockSize + 1);
-              explosion = new Explosion(Explosion.SMALL_EXPLOSION,
-              (int)(x + xMap - width / 2), 
-              (int)(y + yMap - height / 2));
+              if (isPlayerOne) {
+                setThisP1SmallExplosion();
+              } else {
+                setThisP2SmallExplosion();
+              }
               show = false;
             }
           } 
         }
         else {
-        explosion = new Explosion(Explosion.SMALL_EXPLOSION,
-              (int)(x + xMap - width / 2), 
-              (int)(y + yMap - height / 2));
+        if (isPlayerOne) {
+                setThisP1SmallExplosion();
+              } else {
+                setThisP2SmallExplosion();
+              }
         show = false;
       }
     }
