@@ -26,7 +26,7 @@ public class EndState extends GameState{
     }
 
     @Override
-    public void draw(Graphics2D gEndScreen, Graphics2D nullValue, Graphics2D nullValue2) {
+    public synchronized void draw(Graphics2D gEndScreen, Graphics2D nullValue, Graphics2D nullValue2) {
 //    public void draw(Graphics2D gEndScreen, Graphics2D nullValue, Graphics2D nullValue2, Graphics2D nullValue3) {
        gEndScreen.setFont(font);
 

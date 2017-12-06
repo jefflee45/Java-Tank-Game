@@ -267,7 +267,7 @@ public class Bullet extends GameObject{
       hitSelf = b;
   }
   
-  public void draw(Graphics2D g) {
+  public synchronized void draw(Graphics2D g) {
     setMapPosition();
 
   if (angle  < 0) {

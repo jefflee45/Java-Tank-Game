@@ -228,7 +228,7 @@ public class Player extends GameObject {
     setUseShield(false);
   }
   
-  public void update() {
+  public synchronized void update() {
     getNextPosition();
     checkObjectCollision();
     checkBlockMapCollision();
@@ -273,7 +273,7 @@ public class Player extends GameObject {
       return dead;
   }
   
-  public void draw(Graphics2D g) {
+  public synchronized void draw(Graphics2D g) {
     setMapPosition();
     
     //draw player

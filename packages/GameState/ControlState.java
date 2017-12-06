@@ -34,7 +34,7 @@ public class ControlState extends GameState {
     }
 
     @Override
-    public void draw(Graphics2D gControlScreen, Graphics2D nullValue, Graphics2D nullValue2) {
+    public synchronized void draw(Graphics2D gControlScreen, Graphics2D nullValue, Graphics2D nullValue2) {
 //    public void draw(Graphics2D gControlScreen, Graphics2D nullValue, Graphics2D nullValue2, Graphics2D nullValue3) {
         bg.draw(gControlScreen);
         gControlScreen.setColor(Color.WHITE);
@@ -55,7 +55,7 @@ public class ControlState extends GameState {
 
         gControlScreen.setFont(font);
         gControlScreen.setColor(Color.RED);
-        gControlScreen.drawString("Back", 320, 300);
+        gControlScreen.drawString("Back", 345, 300);
         
     }
 

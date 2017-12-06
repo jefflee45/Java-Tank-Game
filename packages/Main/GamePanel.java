@@ -60,7 +60,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
   }
   
   @Override
-  public void addNotify() {
+  public synchronized void addNotify() {
     super.addNotify();
     
     if(thread == null) {
@@ -97,7 +97,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
   
   //game loop
   @Override
-  public void run() {
+  public synchronized void run() {
     init();
     
     long start;
@@ -126,14 +126,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
   }
   
-  private void update() {
+  private synchronized void update() {
     gsm.update();
     if (gsm.getCurrentState() == GameStateManager.MENUSTATE) {
       alreadyDrawnBackground = false;
     }
   }
   
-  private void draw() {
+  private synchronized void draw() {
     if (gsm.getCurrentState() == GameStateManager.LEVELSTATE) {
       gsm.draw(gLeftScreen, gRightScreen, gHUDScreen);
     } 
@@ -148,7 +148,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
   }
   
-  private void drawToScreen() {
+  private synchronized void drawToScreen() {
     Graphics g2 = getGraphics();
 
     if (gsm.getCurrentState() == GameStateManager.LEVELSTATE) {

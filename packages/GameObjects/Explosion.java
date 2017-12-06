@@ -61,7 +61,7 @@ public class Explosion{
     playedOnce = type == NO_EXPLOSION;
   }
   
-  public void update() {
+  public synchronized void update() {
     long elapsed = (System.nanoTime() - startTime) / 1000000;
 		if(elapsed > delay) {
 			currentFrame++;
@@ -107,7 +107,7 @@ public class Explosion{
     }
   }
   
-  public void draw(Graphics2D gRightScreen, Graphics2D gLeftScreen) {
+  public synchronized void draw(Graphics2D gRightScreen, Graphics2D gLeftScreen) {
     
     if (!playedOnce) {
       gLeftScreen.drawImage(frames[currentFrame], 

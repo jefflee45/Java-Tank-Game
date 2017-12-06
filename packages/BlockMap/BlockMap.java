@@ -96,7 +96,7 @@ public class BlockMap
     }
   }
  
-  public void draw(Graphics2D g) {
+  public synchronized void draw(Graphics2D g) {
     try {
       
       //for loop to draw the blocks
