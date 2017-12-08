@@ -74,6 +74,7 @@ public class Player extends GameObject {
     
     rect = new Rectangle((int)x, (int)y, cWidth-4, cHeight);
     collisionBox = rect;
+    
   }
   
   private void loadSprites() {
