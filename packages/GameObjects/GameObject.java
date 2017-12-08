@@ -370,13 +370,13 @@ public abstract class GameObject {
 
         if ((topInter && angle > 270) || (botInter && (angle > 180 && angle <= 270))) { //tank facing right, moving right
 //          System.out.println("3. right and top");
-          xTemp = (curCol) * blockSize - cWidth / 2;
+          xTemp = (curCol + 1) * blockSize - cWidth / 2;
         } else if ((player == 1 && tRShield1) || (player == 1 && bRShield1)
             || (player == 2 && tRShield2) || (player == 2 && bRShield2)) {
           if (!speedBoosted) {
             xTemp += speed * Math.sin(Math.toRadians(angle));
             yTemp += speed * Math.cos(Math.toRadians(angle));
-            speedBoosted = true;
+            speedBoosted = true; 
           }
           blockMap.setBlockType(Block.EMPTY_TILE, (int) yTemp / blockSize, (int) xTemp / blockSize + 1);
           useShield = true;
@@ -399,7 +399,7 @@ public abstract class GameObject {
 
         if ((topInter && angle > 270) || (botInter && (angle > 180 && angle <= 270))) {//tank facing left, moving right
 //          System.out.println("4. right and top");
-          xTemp = (curCol) * blockSize - cWidth / 2;
+          xTemp = (curCol + 1) * blockSize - cWidth / 2;
         } else if ((player == 1 && tRShield1) || (player == 1 && bRShield1)
             || (player == 2 && tRShield2) || (player == 2 && bRShield2)) {
           if (!speedBoosted) {

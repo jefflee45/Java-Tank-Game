@@ -129,6 +129,8 @@ public class LevelState extends GameState
             } 
             else {
                 p1.getBulletList().remove(i);
+                p1.setNumBullets(-1);
+                
             }
         }
 
@@ -150,6 +152,7 @@ public class LevelState extends GameState
             }
             else {
                 p2.getBulletList().remove(i);
+                p2.setNumBullets(-1);
             }
         }
     }
@@ -220,7 +223,7 @@ public class LevelState extends GameState
         p2.setBackwards(true);
         break;
       case KeyEvent.VK_ENTER:
-        if(canFireP2) {
+        if(canFireP2 && p2.getNumBullets() < p2.MAX_BULLETS) {
           p2.fire(); 
           canFireP2 = false;
         }
@@ -240,7 +243,7 @@ public class LevelState extends GameState
         p1.setBackwards(true);
         break;
       case KeyEvent.VK_SPACE:
-        if(canFireP1) {
+        if(canFireP1 && p1.getNumBullets() < p1.MAX_BULLETS) {
           p1.fire();
           canFireP1 = false;
         }

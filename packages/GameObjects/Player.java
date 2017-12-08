@@ -31,8 +31,9 @@ public class Player extends GameObject {
   private boolean dead;
     
   //attacking
+  public final static int MAX_BULLETS = 5;
   private ArrayList<Bullet> bulletList;
-  private boolean firing;
+  private int numBullets;
   private boolean flinching;
   private int bulletDamage;
   private long flinchTimer;
@@ -69,6 +70,7 @@ public class Player extends GameObject {
     
     health = 200;
     bulletDamage = 20;
+    numBullets = 0;
     bulletList = new ArrayList<Bullet>();
     dead = false;
     
@@ -97,11 +99,6 @@ public class Player extends GameObject {
   public int getBulletDamage() {
         return bulletDamage;
     }
-  
-  //probably can remove
-  public void setFiring() {
-    firing = true;
-  }
   
   private void getNextPosition() {
     //moving in positive x direction
@@ -306,7 +303,18 @@ public class Player extends GameObject {
   public void fire() {
       Bullet b = new Bullet(blockMap, angle, x, y);
       bulletList.add(b);
+        setNumBullets(1);
       
+
+      
+  }
+  
+  public int getNumBullets() {
+    return numBullets;
+  }
+  
+  public void setNumBullets(int i) {
+    numBullets += i;
   }
   
   public ArrayList<Bullet> getBulletList() {
