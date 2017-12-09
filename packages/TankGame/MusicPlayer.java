@@ -25,7 +25,12 @@ public class MusicPlayer implements Runnable{
     public MusicPlayer(String... files) {
         musicFiles = new ArrayList<String>();
         for(String file: files) {
-            musicFiles.add("Resources/" + file);
+            try {
+              musicFiles.add("Resources/" + file);
+            }
+            catch(Exception e) {
+              e.printStackTrace();
+            }
         }
     }
     
@@ -39,6 +44,7 @@ public class MusicPlayer implements Runnable{
             clip.open(audioFile);
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN); //sets volume
             gainControl.setValue(-10);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
             clip.start();
         }
         catch(Exception e) {

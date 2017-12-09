@@ -33,6 +33,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
   private BufferedImage backgroundScreen;
   private BufferedImage HUDScreen;
   private BufferedImage endScreen;
+  private BufferedImage miniMapScreen;
   private Graphics2D gLeftScreen;
   private Graphics2D gRightScreen;
   private Graphics2D gMenuScreen;
@@ -40,6 +41,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
   private Graphics2D gBackgroundScreen;
   private Graphics2D gHUDScreen;
   private Graphics2D gEndScreen;
+  private Graphics2D gMiniMapScreen;
   
   private LSBackground hud;
   private boolean alreadyDrawnBackground;
@@ -78,6 +80,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     backgroundScreen = new BufferedImage (FULL_WIDTH, (int)(FULL_HEIGHT * HEIGHT_SCALE), BufferedImage.TYPE_INT_RGB);
     HUDScreen = new BufferedImage (FULL_WIDTH, (int)(FULL_HEIGHT * (.5)), BufferedImage.TYPE_INT_ARGB);
     endScreen = new BufferedImage (FULL_WIDTH, FULL_HEIGHT, BufferedImage.TYPE_INT_RGB);
+    miniMapScreen = new BufferedImage(FULL_WIDTH, (int) (FULL_HEIGHT * 0.5), BufferedImage.TYPE_INT_RGB);
     
     gLeftScreen = (Graphics2D) leftScreen.getGraphics();
     gRightScreen = (Graphics2D) rightScreen.getGraphics();
@@ -86,6 +89,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     gBackgroundScreen = (Graphics2D) backgroundScreen.getGraphics();
     gHUDScreen = (Graphics2D) HUDScreen.getGraphics();
     gEndScreen = (Graphics2D) endScreen.getGraphics();
+    gMiniMapScreen = (Graphics2D) miniMapScreen.getGraphics();
     
     alreadyDrawnBackground = false;
     running = true;

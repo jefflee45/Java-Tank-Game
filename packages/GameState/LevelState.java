@@ -5,6 +5,7 @@ import TankGame.Background;
 import BlockMap.BlockMap;
 import GameObjects.Player;
 import GameObjects.Explosion;
+import TankGame.MiniMap;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ public class LevelState extends GameState
   
   private boolean reset;
   private ArrayList<Explosion> explosions;
+  
+  private MiniMap miniMap;
   
   public LevelState(GameStateManager gsm) {
     this.gsm = gsm;
@@ -49,11 +52,12 @@ public class LevelState extends GameState
     p2 = new Player(blockMap, Player.SECOND_PLAYER);
     p1.setPosition(115, 460);
     p1.setAngle(186);
-    p2.setPosition(1170, 500);
+    p2.setPosition(400, 600);
     p2.setAngle(0);
     canFireP1 = true;
     canFireP2 = true;
     reset = false;
+    miniMap = new MiniMap(p1,p2);
   } 
 
   @Override
@@ -202,6 +206,8 @@ public class LevelState extends GameState
     //player health
     p1.playerHealth(gHUDScreen, 150, 100);
     p2.playerHealth(gHUDScreen, 650, 100);
+    
+    
   }
 
   @Override

@@ -59,6 +59,7 @@ public abstract class GameObject {
   protected boolean topLeft, topRight, bottomLeft, bottomRight;
   protected boolean tLShield1, tRShield1, bLShield1, bRShield1;
   protected boolean tLShield2, tRShield2, bLShield2, bRShield2;
+  private double xDif, yDif;
 
   protected int currentAction, prevAction;
 
@@ -83,13 +84,13 @@ public abstract class GameObject {
   }
 
   public Rectangle getRectangle() {
-    return new Rectangle((int) x - cWidth, (int) y - cHeight, cWidth, cHeight);
+    return new Rectangle((int) x - cWidth/2, (int) y - cHeight/2, cWidth, cHeight);
   }
 
   public void setTransformation(int x, int y) {
     AffineTransform at = new AffineTransform();
     rect.setBounds(x - cWidth / 2, y - cHeight / 2, cWidth, cHeight);
-    at.rotate(Math.toRadians(-angle + 6), rect.getCenterX(), rect.getCenterY());
+    at.rotate(Math.toRadians(-angle), rect.getCenterX(), rect.getCenterY());
     collisionBox = at.createTransformedShape(rect);
   }
 
@@ -179,8 +180,8 @@ public abstract class GameObject {
   public void checkObjectCollision() {
 
     if (intersects(otherPlayer)) {
-      double xDif = getX() - otherPlayer.getX();
-      double yDif = getY() - otherPlayer.getY();
+      xDif = getX() - otherPlayer.getX();
+      yDif = getY() - otherPlayer.getY();
 
       //locate sides of intersection
       //moving forward
@@ -254,8 +255,10 @@ public abstract class GameObject {
 
       if (topLeft || topRight || topInter) {
 
-        if ((leftInter && (angle >= 0 && angle <= 90)) || (rightInter && angle > 270) ) { //tank facing up, moving up
-          yTemp = (curRow) * blockSize + cHeight / 2;
+        if ((leftInter || rightInter) && ((angle >= 0 && angle <= 90) || (angle > 270))) { //tank facing up, moving up
+          //yTemp = (curRow + 1) * blockSize + cHeight / 2;
+          speed = 0;
+          yTemp++;
         } else if ((player == 1 && tRShield1) || (player == 1 && tLShield1)
             || (player == 2 && tRShield2) || (player == 2 && tLShield2)) {
           if (!speedBoosted) {
@@ -271,9 +274,11 @@ public abstract class GameObject {
         }
       } else if (bottomLeft || bottomRight || botInter) {
 
-        if ((leftInter && (angle > 90 && angle <= 180)) || (rightInter && (angle > 180 && angle <= 270))) { //tank facing down, moving down
+        if ((leftInter && rightInter) && (angle > 90 && angle <= 270)) { //tank facing down, moving down
 //          System.out.println("1. bot and left");
-          yTemp = (curRow) * blockSize - cHeight / 2;
+          //yTemp = (curRow) * blockSize - cHeight / 2;
+          speed = 0;
+          yTemp--;
         } else if ((player == 1 && bRShield1) || (player == 1 && bLShield1)
             || (player == 2 && bRShield2) || (player == 2 && bLShield2)) {
           if (!speedBoosted) {
@@ -299,9 +304,11 @@ public abstract class GameObject {
     if (speed > 0) {
       if (bottomLeft || bottomRight || botInter) {
 
-        if ((leftInter && (angle > 90 && angle <= 180)) || (rightInter && (angle > 180 && angle <= 270))) {//tank facing up, moving down
+        if (((leftInter || rightInter) && (angle > 90 && angle <= 270))) {//tank facing up, moving down
 //          System.out.println("2. bot and left");
-          yTemp = (curRow) * blockSize - cHeight / 2;
+         // yTemp = (curRow) * blockSize - cHeight / 2;
+          speed = 0;
+          yTemp--;
         } else if ((player == 1 && bRShield1) || (player == 1 && bLShield1)
             || (player == 2 && bRShield2) || (player == 2 && bLShield2)) {
           if (!speedBoosted) {
@@ -317,9 +324,11 @@ public abstract class GameObject {
         }
       } else if (topLeft || topRight || topInter) {
 
-        if ((leftInter && (angle >= 0 && angle <= 90)) || (rightInter && angle > 270)) {//tank facing down, moving up
+        if (((leftInter || rightInter) && ((angle >= 0 && angle <= 90) || (angle > 270)))) {//tank facing down, moving up
 //          System.out.println("2. top and left");
-          yTemp = (curRow) * blockSize + cHeight / 2;
+         // yTemp = (curRow) * blockSize + cHeight / 2;
+          speed = 0;
+          yTemp++;
         } else if ((player == 1 && tRShield1) || (player == 1 && tLShield1)
             || (player == 2 && tRShield2) || (player == 2 && tLShield2)) {
           if (!speedBoosted) {
@@ -350,9 +359,10 @@ public abstract class GameObject {
     if (speed < 0) {
       if (topLeft || bottomLeft || leftInter) {
 
-        if ((topInter && (angle >= 0 && angle <= 90)) || (botInter && (angle > 90 && angle <= 180))) {//tank facing left, moving left
+        if (((topInter || botInter) && (angle >= 0 && angle <= 180))) {//tank facing left, moving left
 //        System.out.println("3. left and top");
-          xTemp = (curCol) * blockSize + cWidth / 2;
+         // xTemp = (curCol) * blockSize + cWidth / 2;
+          xTemp++;
         } else if ((player == 1 && tLShield1) || (player == 1 && bLShield1)
             || (player == 2 && tLShield2) || (player == 2 && bLShield2)) {
           if (!speedBoosted) {
@@ -368,9 +378,10 @@ public abstract class GameObject {
         }
       } else if (topRight || bottomRight || rightInter) {
 
-        if ((topInter && angle > 270) || (botInter && (angle > 180 && angle <= 270))) { //tank facing right, moving right
+        if (((topInter || botInter) && angle > 180)) { //tank facing right, moving right
 //          System.out.println("3. right and top");
-          xTemp = (curCol + 1) * blockSize - cWidth / 2;
+          //xTemp = (curCol) * blockSize - cWidth / 2;
+          xTemp--;
         } else if ((player == 1 && tRShield1) || (player == 1 && bRShield1)
             || (player == 2 && tRShield2) || (player == 2 && bRShield2)) {
           if (!speedBoosted) {
@@ -397,9 +408,10 @@ public abstract class GameObject {
     if (speed > 0) {
       if (topRight || bottomRight || rightInter) {
 
-        if ((topInter && angle > 270) || (botInter && (angle > 180 && angle <= 270))) {//tank facing left, moving right
+        if (((topInter || botInter) && angle > 180)) {//tank facing left, moving right
 //          System.out.println("4. right and top");
-          xTemp = (curCol + 1) * blockSize - cWidth / 2;
+          //xTemp = (curCol) * blockSize - cWidth / 2;
+          xTemp--;
         } else if ((player == 1 && tRShield1) || (player == 1 && bRShield1)
             || (player == 2 && tRShield2) || (player == 2 && bRShield2)) {
           if (!speedBoosted) {
@@ -415,9 +427,10 @@ public abstract class GameObject {
         }
       } else if (topLeft || bottomLeft || leftInter) {
 
-        if ((topInter && (angle >= 0 && angle < 90)) || (botInter && (angle > 90 && angle < 180))) {//tank facing right, moving left
+        if (((topInter || botInter) && (angle >= 0 && angle <= 180))) {//tank facing right, moving left
 //          System.out.println("4. left and top");
-          xTemp = (curCol) * blockSize + cWidth/2;
+          //xTemp = (curCol) * blockSize + cWidth/2;
+          xTemp++;
         } else if ((player == 1 && tLShield1) || (player == 1 && bLShield1)
             || (player == 2 && tLShield2) || (player == 2 && bLShield2)) {
           if (!speedBoosted) {

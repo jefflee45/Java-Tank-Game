@@ -74,7 +74,7 @@ public class Player extends GameObject {
     bulletList = new ArrayList<Bullet>();
     dead = false;
     
-    rect = new Rectangle((int)x, (int)y, cWidth-4, cHeight);
+    rect = new Rectangle((int)x - cWidth / 2, (int)y - cHeight / 2, cWidth, cHeight);
     collisionBox = rect;
     
   }
