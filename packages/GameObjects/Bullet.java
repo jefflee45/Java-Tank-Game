@@ -3,9 +3,10 @@ package GameObjects;
 import BlockMap.PowerUp;
 import BlockMap.Block;
 import BlockMap.BlockMap;
+import Main.GamePanel;
 import java.awt.*;
 public class Bullet extends GameObject{
-  private final int BULLET_BOUNCE = 2;
+  private final int BULLET_BOUNCE = 1;
   
   private Player myPlayer;
   private double angle;
@@ -16,6 +17,11 @@ public class Bullet extends GameObject{
   private int bounceCounter;
 
   private Explosion explosion;
+  private int p1XOffset;
+  private int p1YOffset;
+  private int p2XOffset;
+  private int p2YOffset;
+  
   
   public Bullet(BlockMap blockMap, double angle, double x, double y) {
     super(blockMap);
@@ -46,32 +52,32 @@ public class Bullet extends GameObject{
     explosion = new Explosion(Explosion.SMALL_EXPLOSION,
           (int)(x + xMap - width / 2), 
           (int)(y + yMap - height / 2),
-          (int)(x + otherPlayer.getXMap() - width / 2), 
-          (int)(y + otherPlayer.getYMap() - height / 2));
+          (int)(x - width / 2 + p2XOffset), 
+          (int)(y - height / 2) + p2YOffset);
   }
   
   public void setThisP2SmallExplosion() {
     explosion = new Explosion(Explosion.SMALL_EXPLOSION,
           (int)(x + otherPlayer.getXMap() - width / 2), 
           (int)(y + otherPlayer.getYMap() - height / 2),
-          (int)(x + xMap - width / 2), 
-          (int)(y + yMap - height / 2));
+          (int)(x - width / 2 + p1XOffset), 
+          (int)(y - height / 2 + p1YOffset));
   }
   
   public void setThisP1LargeExplosion() {
     explosion = new Explosion(Explosion.LARGE_EXPLOSION,
           (int)(x + xMap - width / 2), 
           (int)(y + yMap - height / 2),
-          (int)(x + otherPlayer.getXMap() - width / 2), 
-          (int)(y + otherPlayer.getYMap() - height / 2));
+          (int)(x - width / 2 + p2XOffset), 
+          (int)(y - height / 2 + p2YOffset));
   }
   
   public void setThisP2LargeExplosion() {
     explosion = new Explosion(Explosion.LARGE_EXPLOSION,
           (int)(x + otherPlayer.getXMap() - width / 2), 
           (int)(y + otherPlayer.getYMap() - height/ 2),
-          (int)(x + xMap - width / 2), 
-          (int)(y + yMap - height / 2));
+          (int)(x - width / 2 + p1XOffset), 
+          (int)(y - height / 2 + p1XOffset));
   }
   
   public void update() {
@@ -233,6 +239,9 @@ public class Bullet extends GameObject{
         show = false;
       }
     }
+      
+    calculateExplosionOffset();
+
   }
   
   private void loadSprites() {
@@ -250,6 +259,7 @@ public class Bullet extends GameObject{
   public void setMyPlayer(Player mp) {
       myPlayer = mp;
   }
+
   
   public boolean getHitOther() {
       return hitOther;
@@ -287,5 +297,24 @@ public class Bullet extends GameObject{
         (int)(x + xMap - width / 2),
         (int)(y + yMap - height / 2),
         null);
+  }
+  
+  public void calculateExplosionOffset() {
+          
+    if(myPlayer.getX() > GamePanel.WIDTH/2) {//calculates offset for explosion
+      p1XOffset = GamePanel.WIDTH/2 - myPlayer.getX();
+    }
+    
+    if(myPlayer.getY() > GamePanel.HEIGHT/2) {//calculates offset for explosion
+      p1YOffset = GamePanel.HEIGHT/2 - myPlayer.getY();
+    }
+    
+    if(otherPlayer.getX() > GamePanel.WIDTH/2) {//calculates offset for explosion
+      p2XOffset = GamePanel.WIDTH/2 - otherPlayer.getX();
+    }
+    
+    if(otherPlayer.getY() > GamePanel.HEIGHT/2) {//calculates offset for explosion
+      p2YOffset = GamePanel.HEIGHT/2 - otherPlayer.getY();
+    }
   }
 }

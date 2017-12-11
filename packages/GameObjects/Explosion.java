@@ -13,6 +13,7 @@ import java.awt.image.RGBImageFilter;
 import java.io.File;
 import java.io.FilenameFilter;
 import javax.imageio.ImageIO;
+import BlockMap.BlockMap;
 
 public class Explosion{
   protected File dir;
@@ -23,9 +24,11 @@ public class Explosion{
   public final static int LARGE_EXPLOSION = 1;
   public final static int NO_EXPLOSION = -1;
   
+  private BlockMap blockMap;
   private int type;
   private int width, height;
   private int p1x, p1y, p2x, p2y;
+  
   
   private BufferedImage[] frames;
   private int currentFrame;
