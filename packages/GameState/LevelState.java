@@ -65,6 +65,7 @@ public class LevelState extends GameState
   {
      if(reset) {
             init();
+            
         }
         if(!p1.getDead()) {
           updatePlayer1();
@@ -87,6 +88,7 @@ public class LevelState extends GameState
 
     updateBulletList();
     updateExplosionsList();
+    miniMap.updatePlayers(p1, p2);
   }
   
   public void updatePlayer1() {
@@ -171,6 +173,7 @@ public class LevelState extends GameState
 
   public void draw(Graphics2D gLeftScreen, Graphics2D gRightScreen, Graphics2D gHUDScreen)
   {
+    
     p2Bg.draw(gRightScreen);
     p2.getBlockMapObject().draw(gRightScreen);
     p1.draw(gRightScreen);
@@ -207,7 +210,7 @@ public class LevelState extends GameState
     p1.playerHealth(gHUDScreen, 150, 100);
     p2.playerHealth(gHUDScreen, 650, 100);
     
-    
+    miniMap.draw(gHUDScreen);//updates minimap
   }
 
   @Override

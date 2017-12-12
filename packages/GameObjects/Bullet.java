@@ -77,7 +77,7 @@ public class Bullet extends GameObject{
           (int)(x + otherPlayer.getXMap() - width / 2), 
           (int)(y + otherPlayer.getYMap() - height/ 2),
           (int)(x - width / 2 + p1XOffset), 
-          (int)(y - height / 2 + p1XOffset));
+          (int)(y - height / 2 + p1YOffset));
   }
   
   public void update() {
