@@ -176,6 +176,14 @@ public class BlockMap
     return y;
   }
   
+  public int getRows() {
+    return rows;
+  }
+  
+  public int getColumns() {
+    return columns;
+  }
+  
   public int getWidth() {
     return width;
   }

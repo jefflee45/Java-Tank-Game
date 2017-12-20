@@ -29,35 +29,60 @@ public class MiniMap {
     this.p1 = p1;
     this.p2 = p2;
     
-    width = 250;
-    height = 150;
+    width = 240;
+    height = 180;
     
     blockMap = new BlockMap();
-    
-    
     
     miniMapRatioHeight = height / (blockMap.getHeight());
     miniMapRatioWidth = width / (blockMap.getWidth());
     
   }
   
-  public void updatePlayers(Player p1, Player p2) {
+  public void updatePlayers(Player p1, Player p2, BlockMap bm) {
     this.p1 = p1;
     this.p2 = p2;
+    this.blockMap = bm;
   }
   
   public void draw(Graphics2D m) {
     m.setColor(Color.BLACK);
     m.fillRect(375, 10, (int) width, (int) height); //(x-pos, y-pos, width, height)
-
+    
+    for(int i = 0; i < blockMap.getRows(); i++) {
+      for(int j = 0; j < blockMap.getColumns(); j++) {
+        if(blockMap.getType(i, j) == BREAKABLE) {
+          //paint breakable block
+          m.setColor(Color.RED);
+          m.fillRect(
+              (int)(375 + j * width/blockMap.getColumns()),
+              (int)(10 + i * height/blockMap.getRows()),
+              (int)(width/blockMap.getColumns()),
+              (int)(height/blockMap.getRows()));
+          
+        }
+        else if(blockMap.getType(i, j) == UNBREAKABLE) {
+          //paint unbreakable block
+          m.setColor(Color.ORANGE);
+          m.fillRect(
+              (int)(375 + j * width/blockMap.getColumns()),
+              (int)(10 + i * height/blockMap.getRows()),
+              (int)(width/blockMap.getColumns()),
+              (int)(height/blockMap.getRows()));
+        }
+        
+        
+        //paint power-ups
+        
+      }
+    }
+    
     
     m.setColor(Color.RED); //p1 color
-    m.fillOval((int)(375 + p1.getX() * miniMapRatioWidth),(int)(10 + p1.getY() * miniMapRatioHeight), 10, 10);
+    m.fillOval((int)(370 + p1.getX() * miniMapRatioWidth),(int)(5 + p1.getY() * miniMapRatioHeight), 8, 8);
     
     m.setColor(Color.BLUE); //p1 color
-    m.fillOval((int)(375 + p2.getX() * miniMapRatioWidth),(int)(10 + p2.getY() * miniMapRatioHeight), 10, 10);
-    System.out.println(p1.getX());
-    System.out.println(p2.getY());
+    m.fillOval((int)(370 + p2.getX() * miniMapRatioWidth),(int)(5 + p2.getY() * miniMapRatioHeight), 8, 8);
     
   }
   

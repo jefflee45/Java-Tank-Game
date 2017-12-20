@@ -88,7 +88,7 @@ public class LevelState extends GameState
 
     updateBulletList();
     updateExplosionsList();
-    miniMap.updatePlayers(p1, p2);
+    miniMap.updatePlayers(p1, p2, blockMap);
   }
   
   public void updatePlayer1() {
