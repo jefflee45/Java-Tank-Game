@@ -47,7 +47,7 @@ public class MiniMap {
   
   public void draw(Graphics2D m) {
     m.setColor(Color.BLACK);
-    m.fillRect(375, 10, (int) width, (int) height); //(x-pos, y-pos, width, height)
+    m.fillRect(375, 100, (int) width, (int) height); //(x-pos, y-pos, width, height)
     
     for(int i = 0; i < blockMap.getRows(); i++) {
       for(int j = 0; j < blockMap.getColumns(); j++) {
@@ -56,7 +56,7 @@ public class MiniMap {
           m.setColor(Color.RED);
           m.fillRect(
               (int)(375 + j * width/blockMap.getColumns()),
-              (int)(10 + i * height/blockMap.getRows()),
+              (int)(100 + i * height/blockMap.getRows()),
               (int)(width/blockMap.getColumns()),
               (int)(height/blockMap.getRows()));
           
@@ -66,23 +66,25 @@ public class MiniMap {
           m.setColor(Color.ORANGE);
           m.fillRect(
               (int)(375 + j * width/blockMap.getColumns()),
-              (int)(10 + i * height/blockMap.getRows()),
+              (int)(100 + i * height/blockMap.getRows()),
               (int)(width/blockMap.getColumns()),
               (int)(height/blockMap.getRows()));
         }
         
         
+        
         //paint power-ups
+        
         
       }
     }
     
     
     m.setColor(Color.RED); //p1 color
-    m.fillOval((int)(370 + p1.getX() * miniMapRatioWidth),(int)(5 + p1.getY() * miniMapRatioHeight), 8, 8);
+    m.fillOval((int)(370 + p1.getX() * miniMapRatioWidth),(int)(95 + p1.getY() * miniMapRatioHeight), 8, 8);
     
     m.setColor(Color.BLUE); //p1 color
-    m.fillOval((int)(370 + p2.getX() * miniMapRatioWidth),(int)(5 + p2.getY() * miniMapRatioHeight), 8, 8);
+    m.fillOval((int)(370 + p2.getX() * miniMapRatioWidth),(int)(95 + p2.getY() * miniMapRatioHeight), 8, 8);
     
   }
   
