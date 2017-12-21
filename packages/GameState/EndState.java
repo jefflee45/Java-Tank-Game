@@ -1,6 +1,7 @@
 package GameState;
 
 import GameObjects.Player;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -26,7 +27,6 @@ public class EndState extends GameState{
 
     @Override
     public synchronized void draw(Graphics2D gEndScreen, Graphics2D nullValue, Graphics2D nullValue2) {
-//    public void draw(Graphics2D gEndScreen, Graphics2D nullValue, Graphics2D nullValue2, Graphics2D nullValue3) {
        gEndScreen.setFont(font);
 
        if (winner == Player.FIRST_PLAYER) {

@@ -23,12 +23,13 @@ public class GameStateManager
     currentState = MENUSTATE;
 try {
     gameStates.add(new MenuState(this));
-} catch (Exception e) {
-  e.printStackTrace();
-}
     gameStates.add(new LevelState(this));
     gameStates.add(new ControlState(this));
     gameStates.add(new EndState(this));
+} catch (Exception e) {
+  e.printStackTrace();
+}
+
   }
   
   public void setState(int state) {

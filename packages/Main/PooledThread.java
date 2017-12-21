@@ -8,10 +8,7 @@ package Main;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Jeffrey
- */
+
 public class PooledThread extends Thread{
     private ThreadID threadID = new ThreadID(1);
     private ThreadPool pool;

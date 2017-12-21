@@ -21,13 +21,12 @@ public class Player extends GameObject {
 
   //For removing green background
   
-  private int player;
+  private final int player;
   public final static int FIRST_PLAYER = 1;
   public final static int SECOND_PLAYER = 2;
   
   private final static int MAX_HEALTH = 200;
   private int health;
-  private int score;
   private boolean dead;
     
   //attacking
@@ -71,7 +70,7 @@ public class Player extends GameObject {
     health = 200;
     bulletDamage = 20;
     numBullets = 0;
-    bulletList = new ArrayList<Bullet>();
+    bulletList = new ArrayList<>();
     dead = false;
     
     rect = new Rectangle((int)x - cWidth / 2, (int)y - cHeight / 2, cWidth, cHeight);

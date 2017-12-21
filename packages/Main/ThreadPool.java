@@ -1,18 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Main;
 
 import java.util.LinkedList;
 import java.util.List;
 
 
-/**
- *
- * @author Jeffrey
- */
 public class ThreadPool extends ThreadGroup{
     private static ThreadID threadID = new ThreadID(1);
     private boolean alive;

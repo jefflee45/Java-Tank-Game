@@ -7,10 +7,7 @@ import GameObjects.Player;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-/**
- *
- * @author Jeffrey
- */
+
 public class MiniMap {
   private Player p1;
   private Player p2;
@@ -29,8 +26,8 @@ public class MiniMap {
     this.p1 = p1;
     this.p2 = p2;
     
-    width = 240;
-    height = 180;
+    width = 200;
+    height = 150;
     
     blockMap = new BlockMap();
     

@@ -81,8 +81,6 @@ public class Bullet extends GameObject{
   }
   
   public void update() {
-    Player one;
-    Player two;
     
       if (otherPlayer.getPlayerNumber() == 2) {
         isPlayerOne = true;
@@ -115,7 +113,7 @@ public class Bullet extends GameObject{
           hitSelf = true;
         }
       
-      if(topLeft || topRight || bottomLeft || bottomRight) {//if bullet hits wall
+      if(topLeft || topRight || bottomLeft || bottomRight) {//if bullet hits wall or power-up
         rect = getRectangle();
         
         if(bounceCounter < BULLET_BOUNCE) {
