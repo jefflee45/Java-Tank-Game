@@ -3,18 +3,7 @@ package GameObjects;
 import BlockMap.*;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.Toolkit;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.awt.image.FilteredImageSource;
-import java.awt.image.ImageFilter;
-import java.awt.image.ImageProducer;
-import java.awt.image.RGBImageFilter;
-import java.io.File;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
 
 public class Player extends GameObject {

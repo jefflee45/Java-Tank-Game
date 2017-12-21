@@ -1,7 +1,6 @@
 
 package TankGame;
 
-import BlockMap.Block;
 import BlockMap.BlockMap;
 import GameObjects.Player;
 import java.awt.Color;
@@ -67,12 +66,7 @@ public class MiniMap {
               (int)(width/blockMap.getColumns()),
               (int)(height/blockMap.getRows()));
         }
-        
-        
-        
         //paint power-ups
-        
-        
       }
     }
     

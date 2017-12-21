@@ -40,9 +40,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
   private Graphics2D gBackgroundScreen;
   private Graphics2D gHUDScreen;
   private Graphics2D gEndScreen;
-  private Graphics2D gMiniMapScreen;
   
-  private LSBackground hud;
   private boolean alreadyDrawnBackground;
   
   //game state manager
@@ -85,7 +83,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     gBackgroundScreen = (Graphics2D) backgroundScreen.getGraphics();
     gHUDScreen = (Graphics2D) HUDScreen.getGraphics();
     gEndScreen = (Graphics2D) endScreen.getGraphics();
-    gMiniMapScreen = (Graphics2D) miniMapScreen.getGraphics();
     
     alreadyDrawnBackground = false;
     running = true;
@@ -112,7 +109,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
       drawToScreen();
       
       elapsed = System.nanoTime() - start;
-      //TODO add targetTime
       wait = targetTime - elapsed/1000000;
       
       try {

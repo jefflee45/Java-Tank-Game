@@ -1,9 +1,6 @@
 package Main;
 
 import TankGame.MusicPlayer;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
 import javax.swing.*;
 import javax.swing.JFrame;
 

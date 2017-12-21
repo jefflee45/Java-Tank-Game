@@ -103,7 +103,8 @@ public class Bullet extends GameObject{
           hitOther = true;
         }
       
-      if (bulletIntersects(myPlayer) && bounceCounter > 0) {//if bullet hits self
+      //if bullet hits self
+      if (bulletIntersects(myPlayer) && bounceCounter > 0) {
           if (isPlayerOne) {
             setThisP1LargeExplosion();
           } else {
@@ -113,7 +114,8 @@ public class Bullet extends GameObject{
           hitSelf = true;
         }
       
-      if(topLeft || topRight || bottomLeft || bottomRight) {//if bullet hits wall or power-up
+      //if bullet hits wall or power-up
+      if(topLeft || topRight || bottomLeft || bottomRight) {
         rect = getRectangle();
         
         if(bounceCounter < BULLET_BOUNCE) {
