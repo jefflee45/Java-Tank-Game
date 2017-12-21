@@ -1,7 +1,6 @@
 package Main;
 
 import GameState.GameStateManager;
-import TankGame.GameEvents;
 import TankGame.LSBackground;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -50,9 +49,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
   private GameStateManager gsm;
   
   private LSBackground lsBg;
-
-  
-  GameEvents gameEvent1, gameEvent2;
 
   public GamePanel() {
     super();

@@ -1,7 +1,6 @@
 package GameObjects;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -28,7 +27,6 @@ public class Explosion{
   private int type;
   private int width, height;
   private int p1x, p1y, p2x, p2y;
-  
   
   private BufferedImage[] frames;
   private int currentFrame;
