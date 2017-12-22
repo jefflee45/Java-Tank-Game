@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="Users.Jeffrey.Documents.NetBeansProjects.csc413-tankgame-teamNN-jefflee45.packages.GameObjects">
+  <ClassDiagramComponents>
+    <Class name="Bullet" package="GameObjects" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Fields>
+        <Field name="BULLET_BOUNCE" type="int" visibility="private" isFinal="true"/>
+        <Field name="myPlayer" type="Player" visibility="private"/>
+        <Field name="angle" type="double" visibility="private"/>
+        <Field name="show" type="boolean" visibility="private"/>
+        <Field name="hitOther" type="boolean" visibility="private"/>
+        <Field name="hitSelf" type="boolean" visibility="private"/>
+        <Field name="isPlayerOne" type="boolean" visibility="private"/>
+        <Field name="bounceCounter" type="int" visibility="private"/>
+        <Field name="explosion" type="Explosion" visibility="private"/>
+        <Field name="p1XOffset" type="int" visibility="private"/>
+        <Field name="p1YOffset" type="int" visibility="private"/>
+        <Field name="p2XOffset" type="int" visibility="private"/>
+        <Field name="p2YOffset" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="BlockMap" name="blockMap"/>
+          <Argument type="double" name="angle"/>
+          <Argument type="double" name="x"/>
+          <Argument type="double" name="y"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="setThisP1SmallExplosion" returnType="void" visibility="public"/>
+        <Method name="setThisP2SmallExplosion" returnType="void" visibility="public"/>
+        <Method name="setThisP1LargeExplosion" returnType="void" visibility="public"/>
+        <Method name="setThisP2LargeExplosion" returnType="void" visibility="public"/>
+        <Method name="update" returnType="void" visibility="public"/>
+        <Method name="loadSprites" returnType="void" visibility="private"/>
+        <Method name="getShow" returnType="boolean" visibility="public"/>
+        <Method name="getExplosion" returnType="Explosion" visibility="public"/>
+        <Method name="setMyPlayer" returnType="void" visibility="public">
+          <Argument type="Player" name="mp"/>
+        </Method>
+        <Method name="getHitOther" returnType="boolean" visibility="public"/>
+        <Method name="setHitOther" returnType="void" visibility="public">
+          <Argument type="boolean" name="b"/>
+        </Method>
+        <Method name="getHitSelf" returnType="boolean" visibility="public"/>
+        <Method name="setHitSelf" returnType="void" visibility="public">
+          <Argument type="boolean" name="b"/>
+        </Method>
+        <Method name="draw" returnType="void" visibility="public" isSynchronized="true">
+          <Argument type="Graphics2D" name="g"/>
+        </Method>
+        <Method name="calculateExplosionOffset" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Explosion" package="GameObjects" visibility="public" xPosition="320.0" yPosition="20.0">
+      <Fields>
+        <Field name="dir" type="File" visibility="protected"/>
+        <Field name="EXTENSIONS" type="String[]" visibility="protected"/>
+        <Field name="IMAGE_FILTER" type="FilenameFilter" visibility="protected"/>
+        <Field name="SMALL_EXPLOSION" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="LARGE_EXPLOSION" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="NO_EXPLOSION" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="type" type="int" visibility="private"/>
+        <Field name="p1x" type="int" visibility="private"/>
+        <Field name="frames" type="BufferedImage[]" visibility="private"/>
+        <Field name="currentFrame" type="int" visibility="private"/>
+        <Field name="startTime" type="long" visibility="private"/>
+        <Field name="delay" type="long" visibility="private"/>
+        <Field name="playedOnce" type="boolean" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="type"/>
+          <Argument type="int" name="p1x"/>
+          <Argument type="int" name="p1y"/>
+          <Argument type="int" name="p2x"/>
+          <Argument type="int" name="p2y"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="init" returnType="void" visibility="private"/>
+        <Method name="update" returnType="void" visibility="public" isSynchronized="true"/>
+        <Method name="getp1X" returnType="int" visibility="public"/>
+        <Method name="getp1Y" returnType="int" visibility="public"/>
+        <Method name="getFrame" returnType="int" visibility="public"/>
+        <Method name="getImage" returnType="BufferedImage" visibility="public"/>
+        <Method name="hasPlayedOnce" returnType="boolean" visibility="public"/>
+        <Method name="setPlayedOnce" returnType="void" visibility="public">
+          <Argument type="boolean" name="b"/>
+        </Method>
+        <Method name="loadSprites" returnType="void" visibility="private"/>
+        <Method name="draw" returnType="void" visibility="public" isSynchronized="true">
+          <Argument type="Graphics2D" name="gRightScreen"/>
+          <Argument type="Graphics2D" name="gLeftScreen"/>
+        </Method>
+        <Method name="makeColorTransparent" returnType="Image" visibility="public" isStatic="true">
+          <Argument type="BufferedImage" name="im"/>
+          <Argument type="Color" name="color"/>
+        </Method>
+        <Method name="imageToBufferedImage" returnType="BufferedImage" visibility="private" isStatic="true">
+          <Argument type="Image" name="image"/>
+        </Method>
+        <Method name="makeBackgroundTransparent" returnType="BufferedImage" visibility="public">
+          <Argument type="BufferedImage" name="image"/>
+        </Method>
+        <Method name="loadFramesFromFolder" returnType="void" visibility="public">
+          <Argument type="String" name="file"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="GameObject" package="GameObjects" visibility="public" isAbstract="true" xPosition="620.0" yPosition="20.0">
+      <Fields>
+        <Field name="dir" type="File" visibility="protected"/>
+        <Field name="EXTENSIONS" type="String[]" visibility="protected"/>
+        <Field name="IMAGE_FILTER" type="FilenameFilter" visibility="protected"/>
+        <Field name="image" type="Image" visibility="protected"/>
+        <Field name="blockMap" type="BlockMap" visibility="protected"/>
+        <Field name="rect" type="Rectangle" visibility="protected"/>
+        <Field name="collisionBox" type="Shape" visibility="protected"/>
+        <Field name="otherPlayer" type="Player" visibility="protected"/>
+        <Field name="blockSize" type="int" visibility="protected"/>
+        <Field name="intersected" type="boolean" visibility="protected"/>
+        <Field name="topInter" type="boolean" visibility="protected"/>
+        <Field name="useShield" type="boolean" visibility="protected"/>
+        <Field name="width" type="int" visibility="protected"/>
+        <Field name="x" type="double" visibility="protected"/>
+        <Field name="xMap" type="double" visibility="protected"/>
+        <Field name="xSpeed" type="double" visibility="protected"/>
+        <Field name="cWidth" type="int" visibility="protected"/>
+        <Field name="angle" type="double" visibility="protected"/>
+        <Field name="angleMoveSpeed" type="double" visibility="protected"/>
+        <Field name="angleSpeed" type="double" visibility="protected"/>
+        <Field name="maxAngleSpeed" type="double" visibility="protected"/>
+        <Field name="speed" type="double" visibility="protected"/>
+        <Field name="curRow" type="int" visibility="protected"/>
+        <Field name="xDest" type="double" visibility="protected"/>
+        <Field name="topLeft" type="boolean" visibility="protected"/>
+        <Field name="tLShield1" type="boolean" visibility="protected"/>
+        <Field name="tLShield2" type="boolean" visibility="protected"/>
+        <Field name="xDif" type="double" visibility="private"/>
+        <Field name="currentAction" type="int" visibility="protected"/>
+        <Field name="forward" type="boolean" visibility="protected"/>
+        <Field name="moveSpeed" type="double" visibility="protected"/>
+        <Field name="frames" type="BufferedImage[]" visibility="protected"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="BlockMap" name="blockMap"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="bulletIntersects" returnType="boolean" visibility="public">
+          <Argument type="GameObject" name="obj"/>
+        </Method>
+        <Method name="intersects" returnType="boolean" visibility="public">
+          <Argument type="GameObject" name="obj"/>
+        </Method>
+        <Method name="getRectangle" returnType="Rectangle" visibility="public"/>
+        <Method name="setTransformation" returnType="void" visibility="public">
+          <Argument type="int" name="x"/>
+          <Argument type="int" name="y"/>
+        </Method>
+        <Method name="calculateCorners" returnType="void" visibility="public">
+          <Argument type="double" name="x"/>
+          <Argument type="double" name="y"/>
+        </Method>
+        <Method name="checkObjectCollision" returnType="void" visibility="public"/>
+        <Method name="checkBlockMapCollision" returnType="void" visibility="public"/>
+        <Method name="makeColorTransparent" returnType="Image" visibility="public" isStatic="true">
+          <Argument type="BufferedImage" name="im"/>
+          <Argument type="Color" name="color"/>
+        </Method>
+        <Method name="imageToBufferedImage" returnType="BufferedImage" visibility="private" isStatic="true">
+          <Argument type="Image" name="image"/>
+        </Method>
+        <Method name="makeBackgroundTransparent" returnType="BufferedImage" visibility="public">
+          <Argument type="BufferedImage" name="image"/>
+        </Method>
+        <Method name="loadFramesFromFolder" returnType="void" visibility="public">
+          <Argument type="String" name="file"/>
+        </Method>
+        <Method name="getX" returnType="int" visibility="public"/>
+        <Method name="getY" returnType="int" visibility="public"/>
+        <Method name="getXMap" returnType="int" visibility="public"/>
+        <Method name="getYMap" returnType="int" visibility="public"/>
+        <Method name="getWidth" returnType="int" visibility="public"/>
+        <Method name="getHeight" returnType="int" visibility="public"/>
+        <Method name="getCHeight" returnType="int" visibility="public"/>
+        <Method name="getCWidth" returnType="int" visibility="public"/>
+        <Method name="getCollisionBox" returnType="Shape" visibility="public"/>
+        <Method name="setOtherPlayer" returnType="void" visibility="public">
+          <Argument type="Player" name="otherPlayer"/>
+        </Method>
+        <Method name="setPosition" returnType="void" visibility="public">
+          <Argument type="double" name="x"/>
+          <Argument type="double" name="y"/>
+        </Method>
+        <Method name="setSpeeds" returnType="void" visibility="public">
+          <Argument type="double" name="xSpeed"/>
+          <Argument type="double" name="ySpeed"/>
+        </Method>
+        <Method name="setAngle" returnType="void" visibility="public">
+          <Argument type="int" name="a"/>
+        </Method>
+        <Method name="setMapPosition" returnType="void" visibility="public"/>
+        <Method name="notOnScreen" returnType="boolean" visibility="public"/>
+        <Method name="setTurnRight" returnType="void" visibility="public">
+          <Argument type="boolean" name="b"/>
+        </Method>
+        <Method name="setTurnLeft" returnType="void" visibility="public">
+          <Argument type="boolean" name="b"/>
+        </Method>
+        <Method name="setForward" returnType="void" visibility="public">
+          <Argument type="boolean" name="b"/>
+        </Method>
+        <Method name="setBackwards" returnType="void" visibility="public">
+          <Argument type="boolean" name="b"/>
+        </Method>
+        <Method name="setCurrentAction" returnType="void" visibility="public">
+          <Argument type="int" name="k"/>
+        </Method>
+        <Method name="setPrivousAction" returnType="void" visibility="public">
+          <Argument type="int" name="k"/>
+        </Method>
+        <Method name="setUseShield" returnType="void" visibility="public">
+          <Argument type="boolean" name="b"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Player" package="GameObjects" visibility="public" xPosition="920.0" yPosition="20.0">
+      <Fields>
+        <Field name="player" type="int" visibility="private" isFinal="true"/>
+        <Field name="FIRST_PLAYER" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="SECOND_PLAYER" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="MAX_HEALTH" type="int" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="health" type="int" visibility="private"/>
+        <Field name="dead" type="boolean" visibility="private"/>
+        <Field name="MAX_BULLETS" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="bulletList" type="ArrayList&lt;Bullet&gt;" visibility="private"/>
+        <Field name="numBullets" type="int" visibility="private"/>
+        <Field name="flinching" type="boolean" visibility="private"/>
+        <Field name="bulletDamage" type="int" visibility="private"/>
+        <Field name="flinchTimer" type="long" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="BlockMap" name="blockMap"/>
+          <Argument type="int" name="player"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="init" returnType="void" visibility="private"/>
+        <Method name="loadSprites" returnType="void" visibility="private"/>
+        <Method name="getHealth" returnType="int" visibility="public"/>
+        <Method name="setHealth" returnType="void" visibility="public">
+          <Argument type="int" name="k"/>
+        </Method>
+        <Method name="getBulletDamage" returnType="int" visibility="public"/>
+        <Method name="getNextPosition" returnType="void" visibility="private"/>
+        <Method name="isNotMoving" returnType="boolean" visibility="private"/>
+        <Method name="isNotTurning" returnType="boolean" visibility="private"/>
+        <Method name="checkPowerUp" returnType="void" visibility="private"/>
+        <Method name="update" returnType="void" visibility="public" isSynchronized="true"/>
+        <Method name="setBlockMapPosition" returnType="void" visibility="public">
+          <Argument type="double" name="x"/>
+          <Argument type="double" name="y"/>
+        </Method>
+        <Method name="setBlockMapArray" returnType="void" visibility="public">
+          <Argument type="Block[][]" name="bm"/>
+        </Method>
+        <Method name="getBlockMapArray" returnType="Block[][]" visibility="public"/>
+        <Method name="getBlockMapObject" returnType="BlockMap" visibility="public"/>
+        <Method name="setBlockMapObject" returnType="void" visibility="public">
+          <Argument type="BlockMap" name="bm"/>
+        </Method>
+        <Method name="getPlayerNumber" returnType="int" visibility="public"/>
+        <Method name="setDead" returnType="void" visibility="public">
+          <Argument type="boolean" name="d"/>
+        </Method>
+        <Method name="getDead" returnType="boolean" visibility="public"/>
+        <Method name="draw" returnType="void" visibility="public" isSynchronized="true">
+          <Argument type="Graphics2D" name="g"/>
+        </Method>
+        <Method name="fire" returnType="void" visibility="public"/>
+        <Method name="getNumBullets" returnType="int" visibility="public"/>
+        <Method name="setNumBullets" returnType="void" visibility="public">
+          <Argument type="int" name="i"/>
+        </Method>
+        <Method name="getBulletList" returnType="ArrayList&lt;Bullet&gt;" visibility="public"/>
+        <Method name="playerHealth" returnType="void" visibility="public">
+          <Argument type="Graphics2D" name="hp"/>
+          <Argument type="int" name="x"/>
+          <Argument type="int" name="y"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <UseRelation source="GameObjects.Bullet" target="GameObjects.Player" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="bulletList" source="GameObjects.Player" target="GameObjects.Bullet" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Bullet&gt;"/>
+    <UseRelation source="GameObjects.Bullet" target="GameObjects.Explosion" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="myPlayer" source="GameObjects.Bullet" target="GameObjects.Player" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="GameObjects.Player" target="GameObjects.Bullet" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="GameObjects.Bullet" target="GameObjects.GameObject"/>
+    <HasRelation name="otherPlayer" source="GameObjects.GameObject" target="GameObjects.Player" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="GameObjects.GameObject" target="GameObjects.Player" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="GameObjects.Player" target="GameObjects.GameObject"/>
+    <HasRelation name="explosion" source="GameObjects.Bullet" target="GameObjects.Explosion" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="GameObjects.GameObject" target="GameObjects.GameObject" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

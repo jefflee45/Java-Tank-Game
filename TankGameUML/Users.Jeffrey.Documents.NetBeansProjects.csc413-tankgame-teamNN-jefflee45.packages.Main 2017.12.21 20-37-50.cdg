@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="Users.Jeffrey.Documents.NetBeansProjects.csc413-tankgame-teamNN-jefflee45.packages.Main">
+  <ClassDiagramComponents>
+    <Class name="GamePanel" package="Main" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Fields>
+        <Field name="WIDTH" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="HEIGHT" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="WIDTH_SCALE" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="HEIGHT_SCALE" type="double" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="FULL_WIDTH" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="FULL_HEIGHT" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="thread" type="Thread" visibility="private"/>
+        <Field name="running" type="boolean" visibility="private"/>
+        <Field name="FPS" type="int" visibility="private" isFinal="true"/>
+        <Field name="targetTime" type="long" visibility="private" isFinal="true"/>
+        <Field name="leftScreen" type="BufferedImage" visibility="private"/>
+        <Field name="rightScreen" type="BufferedImage" visibility="private"/>
+        <Field name="menuScreen" type="BufferedImage" visibility="private"/>
+        <Field name="controlScreen" type="BufferedImage" visibility="private"/>
+        <Field name="backgroundScreen" type="BufferedImage" visibility="private"/>
+        <Field name="HUDScreen" type="BufferedImage" visibility="private"/>
+        <Field name="endScreen" type="BufferedImage" visibility="private"/>
+        <Field name="miniMapScreen" type="BufferedImage" visibility="private"/>
+        <Field name="gLeftScreen" type="Graphics2D" visibility="private"/>
+        <Field name="gRightScreen" type="Graphics2D" visibility="private"/>
+        <Field name="gMenuScreen" type="Graphics2D" visibility="private"/>
+        <Field name="gControlScreen" type="Graphics2D" visibility="private"/>
+        <Field name="gBackgroundScreen" type="Graphics2D" visibility="private"/>
+        <Field name="gHUDScreen" type="Graphics2D" visibility="private"/>
+        <Field name="gEndScreen" type="Graphics2D" visibility="private"/>
+        <Field name="alreadyDrawnBackground" type="boolean" visibility="private"/>
+        <Field name="gsm" type="GameStateManager" visibility="private"/>
+        <Field name="lsBg" type="LSBackground" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="addNotify" returnType="void" visibility="public" isSynchronized="true"/>
+        <Method name="init" returnType="void" visibility="private"/>
+        <Method name="run" returnType="void" visibility="public" isSynchronized="true"/>
+        <Method name="update" returnType="void" visibility="private" isSynchronized="true"/>
+        <Method name="draw" returnType="void" visibility="private" isSynchronized="true"/>
+        <Method name="drawToScreen" returnType="void" visibility="private" isSynchronized="true"/>
+        <Method name="keyTyped" returnType="void" visibility="public">
+          <Argument type="KeyEvent" name="key"/>
+        </Method>
+        <Method name="keyPressed" returnType="void" visibility="public">
+          <Argument type="KeyEvent" name="key"/>
+        </Method>
+        <Method name="keyReleased" returnType="void" visibility="public">
+          <Argument type="KeyEvent" name="key"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="GameWorld" package="Main" visibility="public" xPosition="320.0" yPosition="20.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+        <Method name="run" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="PooledThread" package="Main" visibility="public" xPosition="620.0" yPosition="20.0">
+      <Fields>
+        <Field name="threadID" type="ThreadID" visibility="private"/>
+        <Field name="pool" type="ThreadPool" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="ThreadPool" name="pool"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="run" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="ThreadID" package="Main" visibility="public" xPosition="920.0" yPosition="20.0">
+      <Fields>
+        <Field name="ID" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="id"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="next" returnType="int" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="ThreadPool" package="Main" visibility="public" xPosition="1220.0" yPosition="20.0">
+      <Fields>
+        <Field name="threadID" type="ThreadID" visibility="private" isStatic="true"/>
+        <Field name="alive" type="boolean" visibility="private"/>
+        <Field name="taskList" type="List&lt;Runnable&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="numThreads"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="runTask" returnType="void" visibility="public" isSynchronized="true">
+          <Argument type="Runnable" name="task"/>
+        </Method>
+        <Method name="closeTask" returnType="void" visibility="public" isSynchronized="true"/>
+        <Method name="join" returnType="void" visibility="public"/>
+        <Method name="getTask" returnType="Runnable" visibility="public" isSynchronized="true"/>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="threadID" source="Main.PooledThread" target="Main.ThreadID" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="threadID" source="Main.ThreadPool" target="Main.ThreadID" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="pool" source="Main.PooledThread" target="Main.ThreadPool" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="Users.Jeffrey.Documents.NetBeansProjects.csc413-tankgame-teamNN-jefflee45.packages.TankGame">
+  <ClassDiagramComponents>
+    <Class name="Background" package="TankGame" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Fields>
+        <Field name="image" type="BufferedImage" visibility="private"/>
+        <Field name="x" type="double" visibility="private"/>
+        <Field name="y" type="double" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="s"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="setPosition" returnType="void" visibility="public">
+          <Argument type="double" name="x"/>
+          <Argument type="double" name="y"/>
+        </Method>
+        <Method name="draw" returnType="void" visibility="public">
+          <Argument type="Graphics2D" name="g"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="LSBackground" package="TankGame" visibility="public" xPosition="320.0" yPosition="20.0">
+      <Fields>
+        <Field name="image" type="BufferedImage" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="s"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="draw" returnType="void" visibility="public">
+          <Argument type="Graphics2D" name="g"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="MiniMap" package="TankGame" visibility="public" xPosition="620.0" yPosition="20.0">
+      <Fields>
+        <Field name="p1" type="Player" visibility="private"/>
+        <Field name="p2" type="Player" visibility="private"/>
+        <Field name="blockMap" type="BlockMap" visibility="private"/>
+        <Field name="miniMapRatioHeight" type="double" visibility="private"/>
+        <Field name="miniMapRatioWidth" type="double" visibility="private"/>
+        <Field name="height" type="double" visibility="private"/>
+        <Field name="width" type="double" visibility="private"/>
+        <Field name="EMPTY_TILE" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="BREAKABLE" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="UNBREAKABLE" type="int" visibility="public" isStatic="true" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Player" name="p1"/>
+          <Argument type="Player" name="p2"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="updatePlayers" returnType="void" visibility="public">
+          <Argument type="Player" name="p1"/>
+          <Argument type="Player" name="p2"/>
+          <Argument type="BlockMap" name="bm"/>
+        </Method>
+        <Method name="draw" returnType="void" visibility="public">
+          <Argument type="Graphics2D" name="m"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="MusicPlayer" package="TankGame" visibility="public" xPosition="920.0" yPosition="20.0">
+      <Fields>
+        <Field name="musicFiles" type="ArrayList&lt;String&gt;" visibility="private"/>
+        <Field name="currentSongNum" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="files"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="play" returnType="void" visibility="private">
+          <Argument type="String" name="fileName"/>
+        </Method>
+        <Method name="run" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations/>
+</ClassDiagram>
