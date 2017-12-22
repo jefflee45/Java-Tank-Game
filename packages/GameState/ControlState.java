@@ -8,7 +8,7 @@ public class ControlState extends GameState {
 
     private Background bg;
     private Font font;
-    private String[] controls = {"Up", "Down", "Left", "Right", "Shoot"};
+    private String[] controls = {"Forward", "Backward", "Turn Left", "Turn Right", "Shoot"};
     private String[] player2Controls = {"Up Arrow Key", "Down Arrow Key", "Left Arrow Key", "Right Arrow Key", "Enter"};
     private String[] player1Controls = {"W Key", "S Key", "A Key", "D Key", "Space"};
 
@@ -44,10 +44,10 @@ public class ControlState extends GameState {
         //player one
         for (int i = 0; i < 5; i++) {
             gControlScreen.drawString(controls[i] + ": ", 100, 100 + i * 35);
-            gControlScreen.drawString(player2Controls[i], 170, 100 + i * 35);
+            gControlScreen.drawString(player2Controls[i], 200, 100 + i * 35);
             
             gControlScreen.drawString(controls[i] + ": ", 560, 100 + i * 35);
-            gControlScreen.drawString(player1Controls[i], 630, 100 + i * 35);
+            gControlScreen.drawString(player1Controls[i], 660, 100 + i * 35);
         }
         
         //back button settings
