@@ -50,10 +50,10 @@ public class LevelState extends GameState
     blockMap.setTween(1);
     p1 = new Player(blockMap, Player.FIRST_PLAYER);
     p2 = new Player(blockMap, Player.SECOND_PLAYER);
-    p1.setPosition(115, 460);
-    p1.setAngle(186);
-    p2.setPosition(400, 600);
-    p2.setAngle(0);
+    p1.setPosition(115, 220);
+    p1.setAngle(6);
+    p2.setPosition(1160, 740);
+    p2.setAngle(6);
     canFireP1 = true;
     canFireP2 = true;
     reset = false;
